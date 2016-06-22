@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>设计模式之策略模式 - 9avalon wiki</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+	<ol class="breadcrumb">	
+		<li><a href="/">Home</a></li><li><a href="/#博客文档">博客文档</a></li><li class="active">设计模式之策略模式</li>
+    </ol>
+	
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+            </ul>
+        </nav>
+        <h3 class="text-muted">设计模式之策略模式</h3>
+    </div>
+
+    <div class="row wiki-main">
+		<hr>
+		<h2 id="_1">什么是策略模式</h2>
+<p>定义了算法家族，分别封装起来，让他们之间可以相互替换，此模式让算法的变化，不会影响到使用算法的客户。
+但其实除了算法，策略模式还可以用来封装任何类型的规则，只要在分析过程中听到需要在不同时间应用不同的业务规则，就可以考虑使用策略模式处理这种变化的可能性。</p>
+<h2 id="uml">策略模式UML图</h2>
+<p><img alt="策略模式" src="http://7xt3lj.com2.z0.glb.clouddn.com/markdown%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F.png" /></p>
+<h2 id="_2">商城优惠例子</h2>
+<p>优惠算法的父类</p>
+<div class="hlcode"><pre><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">CrashSuper</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">float</span> <span class="nf">figure</span><span class="o">(</span><span class="kt">float</span> <span class="n">money</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>其中一个算法的实现，继承了优惠算法的父类，实现了算法。</p>
+<div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">NormalCrash</span> <span class="kd">extends</span> <span class="n">CrashSuper</span><span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">float</span> <span class="nf">figure</span><span class="o">(</span><span class="kt">float</span> <span class="n">money</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//do something here</span>
+        <span class="k">return</span> <span class="n">money</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>Context类，用来组装需要的算法，并且提供对外调用算法接口。</p>
+<div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CrashContext</span><span class="o">{</span>
+    <span class="kd">private</span> <span class="n">CrashSuper</span> <span class="n">crashSuper</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">CrashContext</span><span class="o">(</span><span class="n">CrashSuper</span> <span class="n">crashSuper</span><span class="o">){</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">crashSuper</span> <span class="o">=</span> <span class="n">crashSuper</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">float</span> <span class="nf">getFigureMoney</span><span class="o">(</span><span class="kt">float</span> <span class="n">money</span><span class="o">){</span>
+        <span class="k">return</span> <span class="n">crashSuper</span><span class="o">.</span><span class="na">figure</span><span class="o">(</span><span class="n">money</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<h2 id="_3">工厂模式和策略模式的区别</h2>
+<p>1、工厂模式是创建型模式、而策略模式是行为性模式。
+2、工厂模式是用来创建对象的，而策略模式是用来表示可替代的算法。</p>
+    </div>
+
+    <footer class="footer">
+        <p style="font-size: 12px">Copyright © 2016 . Powered by Simiki. Theme by 9avalon</p>
+    </footer>
+
+</div> <!-- /container -->
+
+</body>
+</html>
