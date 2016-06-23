@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>反转二叉树 - 9avalon wiki</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+	<link href="../static/css/tango.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+	<ol class="breadcrumb">	
+		<li><a href="/">Home</a></li><li><a href="/#算法">算法</a></li><li class="active">反转二叉树</li>
+    </ol>
+	
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+            </ul>
+        </nav>
+        <h3 class="text-muted">反转二叉树</h3>
+    </div>
+
+    <div class="row wiki-main">
+		<hr>
+		<p>前辈真是可怜。。
+有一个点需要注意，之前我认为null是不可以被赋值的，现在发现我错了，之前之所以会报错是因为node是空的话，他是没有left这个属性的，所以会点不出来~</p>
+<div class="hlcode"><pre>    <span class="kd">public</span> <span class="n">TreeNode</span> <span class="nf">invertTree</span><span class="o">(</span><span class="n">TreeNode</span> <span class="n">root</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">travel</span><span class="o">(</span><span class="n">root</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">root</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">travel</span><span class="o">(</span><span class="n">TreeNode</span> <span class="n">node</span><span class="o">){</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">node</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">){</span>
+            <span class="n">TreeNode</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="na">left</span><span class="o">;</span>
+            <span class="n">node</span><span class="o">.</span><span class="na">left</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="na">right</span><span class="o">;</span>
+            <span class="n">node</span><span class="o">.</span><span class="na">right</span> <span class="o">=</span> <span class="n">temp</span><span class="o">;</span>
+            <span class="n">travel</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">left</span><span class="o">);</span>
+            <span class="n">travel</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">right</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</pre></div>
+    </div>
+
+    <footer class="footer">
+        <p style="font-size: 12px">Copyright © 2016 . Powered by Simiki. Theme by 9avalon</p>
+    </footer>
+
+</div> <!-- /container -->
+
+</body>
+</html>

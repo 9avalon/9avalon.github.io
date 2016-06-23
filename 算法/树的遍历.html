@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>树的遍历 - 9avalon wiki</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+	<link href="../static/css/tango.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+	<ol class="breadcrumb">	
+		<li><a href="/">Home</a></li><li><a href="/#算法">算法</a></li><li class="active">树的遍历</li>
+    </ol>
+	
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+            </ul>
+        </nav>
+        <h3 class="text-muted">树的遍历</h3>
+    </div>
+
+    <div class="row wiki-main">
+		<hr>
+		<p>中序</p>
+<div class="hlcode"><pre>    <span class="c1">//中序遍历</span>
+    <span class="k">public</span> <span class="nf">void</span> <span class="nx">inorderTraveer</span><span class="p">(</span><span class="nx">TreeNode</span> <span class="nx">node</span><span class="p">,</span> <span class="nb">List</span><span class="o">&lt;</span><span class="kt">Integer</span><span class="o">&gt;</span> <span class="nx">inorderList</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">node</span> <span class="o">!=</span> <span class="kt">null</span> <span class="o">&amp;&amp;</span> <span class="nx">node.val</span> <span class="o">!=</span> <span class="s1">&#39;#&#39;</span><span class="p">){</span>
+            <span class="nx">inorderTraveer</span><span class="p">(</span><span class="nx">node.left</span><span class="p">,</span> <span class="nx">inorderList</span><span class="p">);</span>
+            <span class="nx">inorderList.add</span><span class="p">(</span><span class="nx">node.val</span><span class="p">);</span>
+            <span class="nx">inorderTraveer</span><span class="p">(</span><span class="nx">node.right</span><span class="p">,</span> <span class="nx">inorderList</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</pre></div>
+
+
+<p>类推：
+只要改变add的位置就可以实现前序和后序</p>
+    </div>
+
+    <footer class="footer">
+        <p style="font-size: 12px">Copyright © 2016 . Powered by Simiki. Theme by 9avalon</p>
+    </footer>
+
+</div> <!-- /container -->
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>树的Z形输出 - 9avalon wiki</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+	<link href="../static/css/tango.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+	<ol class="breadcrumb">	
+		<li><a href="/">Home</a></li><li><a href="/#算法">算法</a></li><li class="active">树的Z形输出</li>
+    </ol>
+	
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+            </ul>
+        </nav>
+        <h3 class="text-muted">树的Z形输出</h3>
+    </div>
+
+    <div class="row wiki-main">
+		<hr>
+		<p>使用队列来进行bfs搜索，再用一个数字来记录遍历的次数即可
+LinkedList可以方便的选择插入到最后面还是插入到最前面</p>
+<div class="hlcode"><pre>    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="nf">zigzagLevelOrder</span><span class="o">(</span><span class="n">TreeNode</span> <span class="n">root</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="n">resultList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">root</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="n">resultList</span> <span class="o">;</span>
+        <span class="n">Queue</span><span class="o">&lt;</span><span class="n">TreeNode</span><span class="o">&gt;</span> <span class="n">quene</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">&lt;</span><span class="n">TreeNode</span><span class="o">&gt;();</span>
+
+        <span class="kt">int</span> <span class="n">sign</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="c1">//1代表从左到右，-1代表从右到左</span>
+        <span class="kt">int</span> <span class="n">depSum</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="n">quene</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">root</span><span class="o">);</span> <span class="c1">//加入首节点</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">quene</span><span class="o">.</span><span class="na">size</span><span class="o">()!=</span><span class="mi">0</span><span class="o">){</span>
+            <span class="n">LinkedList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">tempList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;();</span>
+            <span class="c1">//临时存储，用于队列循环</span>
+            <span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">depSum</span><span class="o">;</span>
+            <span class="c1">//重置次数</span>
+            <span class="n">depSum</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="k">while</span> <span class="o">(</span><span class="n">temp</span><span class="o">&gt;</span><span class="mi">0</span><span class="o">){</span>
+                <span class="c1">//取出元素加入</span>
+                <span class="n">TreeNode</span> <span class="n">node</span> <span class="o">=</span> <span class="n">quene</span><span class="o">.</span><span class="na">poll</span><span class="o">();</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">left</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">quene</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">left</span><span class="o">);</span>
+                    <span class="n">depSum</span><span class="o">++;</span>
+                <span class="o">}</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">right</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">){</span>
+                    <span class="n">quene</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">right</span><span class="o">);</span>
+                    <span class="n">depSum</span><span class="o">++;</span>
+                <span class="o">}</span> 
+                <span class="k">if</span> <span class="o">(</span><span class="n">sign</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="n">tempList</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">val</span><span class="o">);</span>
+                <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">sign</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="n">tempList</span><span class="o">.</span><span class="na">addFirst</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">val</span><span class="o">);</span>
+                <span class="n">temp</span> <span class="o">--;</span>
+            <span class="o">}</span>
+            <span class="n">sign</span> <span class="o">=</span> <span class="o">-</span><span class="n">sign</span><span class="o">;</span>
+            <span class="n">resultList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">tempList</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">resultList</span><span class="o">;</span>
+    <span class="o">}</span>
+</pre></div>
+    </div>
+
+    <footer class="footer">
+        <p style="font-size: 12px">Copyright © 2016 . Powered by Simiki. Theme by 9avalon</p>
+    </footer>
+
+</div> <!-- /container -->
+
+</body>
+</html>
