@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>设计模式之观察者模式 - 9avalon wiki</title>
+    <title>观察者模式 - 9avalon wiki</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../static/css/bootstrap.min.css" rel="stylesheet">
@@ -22,7 +22,7 @@
 
 <div class="container">
 	<ol class="breadcrumb">	
-		<li><a href="/">Home</a></li><li><a href="/#博客文档">博客文档</a></li><li class="active">设计模式之观察者模式</li>
+		<li><a href="/">Home</a></li><li><a href="/#设计模式">设计模式</a></li><li class="active">观察者模式</li>
     </ol>
 	
     <div class="header clearfix">
@@ -30,7 +30,7 @@
             <ul class="nav nav-pills pull-right">
             </ul>
         </nav>
-        <h3 class="text-muted">设计模式之观察者模式</h3>
+        <h3 class="text-muted">观察者模式</h3>
     </div>
 
     <div class="row wiki-main">
@@ -43,7 +43,7 @@
 举个例子的话，就拿我们的Myeclipse来说，当我们在java和debug布局之间切换时，界面的组件也会发生相对应的变化。这就是观察者模式的一个典型实现。</p>
 <h2 id="_3">类图结构</h2>
 <p>图片截自《大话设计模式》
-<img alt="" src="http://7xt3lj.com2.z0.glb.clouddn.com/markdown%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F3.png" /></p>
+<img alt="" src="http://7xt3lj.com2.z0.glb.clouddn.com/markdown%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F3.png?imageView2/1/w/700/h/600" /></p>
 <h2 id="_4">代码实现</h2>
 <p>主题（通知类）抽象类，里面实现了增加和删除观察者，和通知所有观察者的方法。</p>
 <div class="hlcode"><pre><span class="cm">/**</span>
@@ -126,7 +126,7 @@
 
 
 <p>输出结果，可以看到员工A的确被通知到了，并且做出了对应的行动。
-<img alt="" src="http://7xt3lj.com2.z0.glb.clouddn.com/markdown%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%9C.png" /></p>
+<img alt="" src="http://7xt3lj.com2.z0.glb.clouddn.com/markdown%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%9C.png?imageView2/1/w/700/h/600" /></p>
     </div>
 
     <footer class="footer">
