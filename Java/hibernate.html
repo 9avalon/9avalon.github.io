@@ -49,17 +49,17 @@
 </ul>
 </div>
 <h3 id="hibernate">hibernate组成</h3>
-<p><strong>Session</strong>
-一个轻量级的非线程安全对象，这里的session并不是指的HttpSession，可以理解为JDBC的Session。
+<p><strong>Session</strong></p>
+<p>一个轻量级的非线程安全对象，这里的session并不是指的HttpSession，可以理解为JDBC的Session。
 SessionFactory负责创建session，而SessionFactory是线程安全的，多个并发线程可以同时访问一个SessionFactory并从中获取Session实例。
 而Session是线程不安全的，所以如果有多个线程同时对Session进行操作就会导致Session出错。因为创建的Session实例必须与线程相关。这里会用到ThreadLocal。
-<strong>SessionFactory</strong>
-负责初始化hibernate，可以创建Session，是线程安全的，一般而言SessionFactory会在Hibernate启动时创建一次，因为，为了便于利用，SessionFacctory应该用一个单例模式来实现。
-<strong>Transaction</strong>
-负责相关的事务操作
-<strong>Query</strong>
-负责执行各种数据库查询，一般都Session的createQuery方法创建。
-<strong>Configuration</strong>
+<strong>SessionFactory</strong></p>
+<p>负责初始化hibernate，可以创建Session，是线程安全的，一般而言SessionFactory会在Hibernate启动时创建一次，因为，为了便于利用，SessionFacctory应该用一个单例模式来实现。
+<strong>Transaction</strong></p>
+<p>负责相关的事务操作
+<strong>Query</strong></p>
+<p>负责执行各种数据库查询，一般都Session的createQuery方法创建。</p>
+<p><strong>Configuration</strong>
 用于读取hibernate配置文件，并生成SessionFactory对象</p>
 <h3 id="hibernate_1">Hibernate使用</h3>
 <p>1、应用程序通过Configuration读取配置文件并生成SessionFactory
