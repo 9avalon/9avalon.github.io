@@ -35,16 +35,23 @@
     </div>
 
     <div class="row wiki-main">
-		<h2 id="_1">什么是观察者模式</h2>
+		<div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#_1">什么是观察者模式</a></li>
+<li><a href="#_2">观察者模式常用场合。</a></li>
+<li><a href="#_3">类图结构</a></li>
+<li><a href="#_4">代码实现</a></li>
+</ul>
+</div>
+<h3 id="_1">什么是观察者模式</h3>
 <p>观察者模式又叫发布-订阅模式。
 观察者模式定义了一种一对多的关系，让多个观察者对象监听某一个主题对象。当这个主题对象状态发生变化的时候，会通知该主题对象所需要通知的观察者，使被通知到的观察者能够做出对应的改变</p>
-<h2 id="_2">观察者模式常用场合。</h2>
+<h3 id="_2">观察者模式常用场合。</h3>
 <p>概括来说，观察者模式适用于<strong>当一个对象的改变需要同时改变其他对象的时候</strong>。
 举个例子的话，就拿我们的Myeclipse来说，当我们在java和debug布局之间切换时，界面的组件也会发生相对应的变化。这就是观察者模式的一个典型实现。</p>
-<h2 id="_3">类图结构</h2>
+<h3 id="_3">类图结构</h3>
 <p>图片截自《大话设计模式》
 <img alt="" src="http://7xt3lj.com2.z0.glb.clouddn.com/markdown%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F3.png?imageView2/2/w/700" /></p>
-<h2 id="_4">代码实现</h2>
+<h3 id="_4">代码实现</h3>
 <p>主题（通知类）抽象类，里面实现了增加和删除观察者，和通知所有观察者的方法。</p>
 <div class="hlcode"><pre><span class="cm">/**</span>
 <span class="cm"> * 主题（通知者）的抽象类</span>
