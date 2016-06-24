@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../static/favicon.ico">
+
+    <title>spring - 9avalon wiki</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+	<link href="../static/css/tango.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+	<ol class="breadcrumb">	
+		<li><a href="/">Home</a></li><li><a href="/#Java">Java</a></li><li class="active">spring</li>
+    </ol>
+	
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+            </ul>
+        </nav>
+        <h3 class="text-muted">spring</h3>
+    </div>
+
+    <div class="row wiki-main">
+		<div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#spring">搭建Spring环境</a></li>
+<li><a href="#springhibernate">Spring整合Hibernate后事务的配置</a></li>
+<li><a href="#aop">AOP</a></li>
+</ul>
+</div>
+<h3 id="spring">搭建Spring环境</h3>
+<p>1、导入所有的Spring包
+2、配置web.xml</p>
+<div class="hlcode"><pre>  <span class="c">&lt;!-- Spring监听器 --&gt;</span>
+  <span class="nt">&lt;listener&gt;</span>
+    <span class="nt">&lt;listener-class&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="nt">&lt;/listener-class&gt;</span>
+  <span class="nt">&lt;/listener&gt;</span>
+  <span class="c">&lt;!-- 指定Spring Bean的配置文件所在目录 --&gt;</span>
+  <span class="nt">&lt;context-param&gt;</span>
+    <span class="nt">&lt;param-name&gt;</span>contextConfigLocation<span class="nt">&lt;/param-name&gt;&lt;param-value&gt;</span>
+            classpath:/config/spring/applicationContext.xml
+    <span class="nt">&lt;/param-value&gt;</span>
+  <span class="nt">&lt;/context-param&gt;</span>
+</pre></div>
+
+
+<p>配置applicationContext.xml文件</p>
+<div class="hlcode"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;beans</span> <span class="na">xmlns=</span><span class="s">&quot;http://www.springframework.org/schema/beans&quot;</span>
+    <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> <span class="na">xmlns:p=</span><span class="s">&quot;http://www.springframework.org/schema/p&quot;</span>
+    <span class="na">xmlns:context=</span><span class="s">&quot;http://www.springframework.org/schema/context&quot;</span>
+    <span class="na">xmlns:util=</span><span class="s">&quot;http://www.springframework.org/schema/util&quot;</span> <span class="na">xmlns:mvc=</span><span class="s">&quot;http://www.springframework.org/schema/mvc&quot;</span>
+    <span class="na">xmlns:aop=</span><span class="s">&quot;http://www.springframework.org/schema/aop&quot;</span>  
+    <span class="na">xmlns:tx=</span><span class="s">&quot;http://www.springframework.org/schema/tx&quot;</span>  
+    <span class="na">xsi:schemaLocation=</span><span class="s">&quot;</span>
+<span class="s">        http://www.springframework.org/schema/util </span>
+<span class="s">        http://www.springframework.org/schema/util/spring-util-3.1.xsd </span>
+<span class="s">        http://www.springframework.org/schema/beans </span>
+<span class="s">        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd </span>
+<span class="s">        http://www.springframework.org/schema/context </span>
+<span class="s">        http://www.springframework.org/schema/context/spring-context-4.0.xsd </span>
+<span class="s">        http://www.springframework.org/schema/mvc</span>
+<span class="s">        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd</span>
+<span class="s">        http://www.springframework.org/schema/tx</span>
+<span class="s">        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd</span>
+<span class="s">        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd  </span>
+<span class="s">        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd  &quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;mvc:annotation-driven</span> <span class="nt">/&gt;</span>
+    <span class="c">&lt;!-- 读配置文件 --&gt;</span>
+    <span class="nt">&lt;bean</span>
+        <span class="na">class=</span><span class="s">&quot;org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;locations&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;list&gt;</span>
+                <span class="nt">&lt;value&gt;</span>classpath:config/jdbc.properties<span class="nt">&lt;/value&gt;</span>
+            <span class="nt">&lt;/list&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+    <span class="nt">&lt;/bean&gt;</span>
+    <span class="c">&lt;!-- end 读配置文件 --&gt;</span>
+    <span class="nt">&lt;mvc:annotation-driven</span> <span class="nt">/&gt;</span>
+    <span class="c">&lt;!-- &lt;tx:annotation-driven transaction-manager=&quot;transactionManager&quot; /&gt;   --&gt;</span>
+    <span class="c">&lt;!-- quqrtz 定时器 --&gt;</span>
+    <span class="c">&lt;!--  &lt;bean id=&quot;schedulerFactoryBean&quot;</span>
+<span class="c">        class=&quot;org.springframework.scheduling.quartz.SchedulerFactoryBean&quot; /&gt;</span>
+<span class="c"> --&gt;</span>
+<span class="nt">&lt;/beans&gt;</span>
+</pre></div>
+
+
+<p>配置扫描：</p>
+<div class="hlcode"><pre> <span class="c">&lt;!-- 配置注解扫描 --&gt;</span>
+<span class="nt">&lt;context:component-scan</span> <span class="na">base-package=</span><span class="s">&quot;org.daxiang.framework.dao.basic&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+
+
+<p>然后就是配置Spring的数据库事项了。在hibernate中有提到。</p>
+<h3 id="springhibernate">Spring整合Hibernate后事务的配置</h3>
+<div class="hlcode"><pre><span class="o">&lt;!--</span> <span class="err">通知</span> <span class="o">--&gt;</span>
+<span class="o">&lt;</span><span class="nl">tx:</span><span class="n">advice</span> <span class="n">id</span><span class="o">=</span><span class="s">&quot;txAdvice&quot;</span> <span class="n">transaction</span><span class="o">-</span><span class="n">manager</span><span class="o">=</span><span class="s">&quot;transactionManager&quot;</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nl">tx:</span><span class="n">attributes</span><span class="o">&gt;</span>
+  <span class="o">&lt;!--</span> <span class="err">传播行为</span> <span class="o">--&gt;</span>
+  <span class="o">&lt;!--</span> <span class="err">顺序，</span><span class="o">*</span><span class="err">优先级最低，处理查询数据的操作默认不开启事务</span> <span class="o">--&gt;</span>
+  <span class="o">&lt;</span><span class="nl">tx:</span><span class="n">method</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;get*&quot;</span> <span class="n">propagation</span><span class="o">=</span><span class="s">&quot;SUPPORTS&quot;</span> <span class="n">read</span><span class="o">-</span><span class="n">only</span><span class="o">=</span><span class="s">&quot;true&quot;</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="nl">tx:</span><span class="n">method</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;find*&quot;</span> <span class="n">propagation</span><span class="o">=</span><span class="s">&quot;SUPPORTS&quot;</span> <span class="n">read</span><span class="o">-</span><span class="n">only</span><span class="o">=</span><span class="s">&quot;true&quot;</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="nl">tx:</span><span class="n">method</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;search*&quot;</span> <span class="n">propagation</span><span class="o">=</span><span class="s">&quot;SUPPORTS&quot;</span> <span class="n">read</span><span class="o">-</span><span class="n">only</span><span class="o">=</span><span class="s">&quot;true&quot;</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="nl">tx:</span><span class="n">method</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;load*&quot;</span> <span class="n">propagation</span><span class="o">=</span><span class="s">&quot;SUPPORTS&quot;</span> <span class="n">read</span><span class="o">-</span><span class="n">only</span><span class="o">=</span><span class="s">&quot;true&quot;</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="nl">tx:</span><span class="n">method</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;*&quot;</span> <span class="n">propagation</span><span class="o">=</span><span class="s">&quot;REQUIRED&quot;</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;/</span><span class="nl">tx:</span><span class="n">attributes</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="nl">tx:</span><span class="n">advice</span><span class="o">&gt;</span>
+</pre></div>
+
+
+<p>经过实践，发现*号的优先度是最低的。这样配置可以实现除了get，find，search，load等纯读取方法外，其余方法都是会开启事务。</p>
+<h3 id="aop">AOP</h3>
+<p><strong>在这里就只是简单的列举一下实践，更多的使用以后再归纳整理。</strong>
+举个例子：
+首先，aop我们一般会放在service中，我们先定义一个接口名字，名字就叫ISleepServiceInter</p>
+<div class="hlcode"><pre><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ISleepServiceInter</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">sleep</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>然后，我们实现写一个他的实现类SleepServiceImpl</p>
+<div class="hlcode"><pre><span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SleepServiceImpl</span> <span class="kd">implements</span> <span class="n">ISleepServiceInter</span><span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">sleep</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;蛤铪：睡觉ing。。。。。。&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>然后我们开始写aop的类</p>
+<div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SleepAop</span> <span class="kd">implements</span> <span class="n">MethodBeforeAdvice</span><span class="o">,</span> <span class="n">AfterReturningAdvice</span><span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">afterReturning</span><span class="o">(</span><span class="n">Object</span> <span class="n">arg0</span><span class="o">,</span> <span class="n">Method</span> <span class="n">arg1</span><span class="o">,</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">arg2</span><span class="o">,</span> <span class="n">Object</span> <span class="n">arg3</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Throwable</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;蛤铪：昨天搞的这个大新闻啊。。。。exicted！&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">before</span><span class="o">(</span><span class="n">Method</span> <span class="n">arg0</span><span class="o">,</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">arg1</span><span class="o">,</span> <span class="n">Object</span> <span class="n">arg2</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Throwable</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;蛤铪：睡觉之前，先搞个大新闻！&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div>
+
+
+<p>最后配置xml文件</p>
+<div class="hlcode"><pre>    <span class="c">&lt;!-- aop发生的地点 --&gt;</span>
+    <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&quot;sleepCutPoint&quot;</span> <span class="na">class=</span><span class="s">&quot;org.springframework.aop.support.JdkRegexpMethodPointcut&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;pattern&quot;</span> <span class="na">value=</span><span class="s">&quot;.*sleep&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/bean&gt;</span>
+
+    <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&quot;sleepAop&quot;</span> <span class="na">class=</span><span class="s">&quot;com.houmingjian.mblog.service.aop.SleepAop&quot;</span><span class="nt">&gt;&lt;/bean&gt;</span>  
+
+    <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&quot;sleepHelperAdvisor&quot;</span> <span class="na">class=</span><span class="s">&quot;org.springframework.aop.support.DefaultPointcutAdvisor&quot;</span><span class="nt">&gt;</span>
+     <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;advice&quot;</span> <span class="na">ref=</span><span class="s">&quot;sleepAop&quot;</span><span class="nt">/&gt;</span>
+     <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;pointcut&quot;</span> <span class="na">ref=</span><span class="s">&quot;sleepCutPoint&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/bean&gt;</span>
+
+     <span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">&quot;org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator&quot;</span><span class="nt">/&gt;</span>  
+</pre></div>
+
+
+<p>当然也可以用注释的方法来做~</p>
+    </div>
+
+    <footer class="footer">
+        <p style="font-size: 12px">Copyright © 2016 . Powered by Simiki. Theme by 9avalon</p>
+    </footer>
+
+</div> <!-- /container -->
+
+</body>
+</html>
