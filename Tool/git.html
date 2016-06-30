@@ -43,6 +43,8 @@
 <li><a href="#git-add_1">撤销git add</a></li>
 <li><a href="#_3">提交</a></li>
 <li><a href="#fork">更新远程fork的项目</a></li>
+<li><a href="#git-add_2">git add恢复</a></li>
+<li><a href="#_4">解决冲突</a></li>
 </ul>
 </li>
 <li><a href="#git-bash">git bash 脚本</a></li>
@@ -87,6 +89,20 @@ git pull <span class="o">[</span>upstream<span class="o">]</span> master
 
 <p>相当于把远程源拉回来。
 在这其中，可能会有冲突，如果有冲突，则将冲突解决掉之后，git add 冲突文件并且commit-&gt;push到服务器上。</p>
+<h4 id="git-add_2">git add恢复</h4>
+<p>有时候我们把文件提交上去了，但是突然发现add错了文件，那怎么办呢</p>
+<p>我们可以恢复add之前的状态</p>
+<div class="hlcode"><pre><span class="n">git</span> <span class="n">reset</span> <span class="n">head</span>
+</pre></div>
+
+
+<p>或者单独移除文件</p>
+<div class="hlcode"><pre><span class="nx">git</span> <span class="nx">rm</span> <span class="na">-cached</span> <span class="o">&lt;</span><span class="nb">FILE</span><span class="o">&gt;</span>
+</pre></div>
+
+
+<h4 id="_4">解决冲突</h4>
+<p>当我们pull远程源merge然后发现有冲突的时候，git会提示我们某个文件需要解决冲突，一般来说，只要到本地种把冲突的文件修改，然后add commit掉，就可以了。</p>
 <h3 id="git-bash">git bash 脚本</h3>
 <p>在git的安装目录下新建文件，<code>git-xxx.sh</code> 然后编写该sh文件，示例如下：</p>
 <div class="hlcode"><pre>!/bin/sh
