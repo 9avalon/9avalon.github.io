@@ -45,7 +45,6 @@
 </ul>
 </li>
 <li><a href="#_4">实现分页</a></li>
-<li><a href="#spirng">与Spirng的整合</a></li>
 </ul>
 </div>
 <h3 id="hibernate">hibernate组成</h3>
@@ -120,95 +119,6 @@ SessionFactory负责创建session，而SessionFactory是线程安全的，多个
 
 
 <p>当然也可以使用sql来进行分页，不过oracle不支持limit会比较麻烦，而mysql支持limit会比较简单。</p>
-<h3 id="spirng">与Spirng的整合</h3>
-<p>spring的配置文件中加入</p>
-<div class="hlcode"><pre>    <span class="c">&lt;!-- 读取jdbc文件 --&gt;</span>
-    <span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">&quot;org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;locations&quot;</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;list&gt;</span>
-                <span class="nt">&lt;value&gt;</span>classpath:config/jdbc.properties<span class="nt">&lt;/value&gt;</span>
-            <span class="nt">&lt;/list&gt;</span>
-        <span class="nt">&lt;/property&gt;</span>
-    <span class="nt">&lt;/bean&gt;</span>
-
-    <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&quot;dataSource&quot;</span> <span class="na">class=</span><span class="s">&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;</span><span class="nt">&gt;</span>
-        <span class="c">&lt;!-- 用户名 --&gt;</span>
-        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;user&quot;</span> <span class="na">value=</span><span class="s">&quot;${jdbc.username}&quot;</span> <span class="nt">/&gt;</span>
-        <span class="c">&lt;!-- 用户密码 --&gt;</span>
-        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;password&quot;</span> <span class="na">value=</span><span class="s">&quot;${jdbc.password}&quot;</span> <span class="nt">/&gt;</span>
-        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;driverClass&quot;</span> <span class="na">value=</span><span class="s">&quot;${jdbc.driver}&quot;</span> <span class="nt">/&gt;</span>
-        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;jdbcUrl&quot;</span> <span class="na">value=</span><span class="s">&quot;${jdbc.url}&quot;</span> <span class="nt">/&gt;</span>
-        <span class="c">&lt;!--连接池中保留的最大连接数。默认值: 15 --&gt;</span>
-        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;maxPoolSize&quot;</span> <span class="na">value=</span><span class="s">&quot;20&quot;</span> <span class="nt">/&gt;</span>
-        <span class="c">&lt;!-- 连接池中保留的最小连接数，默认为：3 --&gt;</span>
-        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;minPoolSize&quot;</span> <span class="na">value=</span><span class="s">&quot;2&quot;</span> <span class="nt">/&gt;</span>
-        <span class="c">&lt;!-- 初始化连接池中的连接数，取值应在minPoolSize与maxPoolSize之间，默认为3 --&gt;</span>
-        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;initialPoolSize&quot;</span> <span class="na">value=</span><span class="s">&quot;2&quot;</span> <span class="nt">/&gt;</span>
-
-        <span class="c">&lt;!--最大空闲时间，60秒内未使用则连接被丢弃。若为0则永不丢弃。默认值: 0 --&gt;</span>
-        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;maxIdleTime&quot;</span> <span class="na">value=</span><span class="s">&quot;60&quot;</span> <span class="nt">/&gt;</span>
-
-        <span class="c">&lt;!-- 当连接池连接耗尽时，客户端调用getConnection()后等待获取新连接的时间，超时后将抛出SQLException，如设为0则无限期等待。单位毫秒。默认: </span>
-<span class="c">            0 --&gt;</span>
-        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;checkoutTimeout&quot;</span> <span class="na">value=</span><span class="s">&quot;3000&quot;</span> <span class="nt">/&gt;</span>
-
-        <span class="c">&lt;!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。默认值: 3 --&gt;</span>
-        <span class="c">&lt;!-- &lt;property name=&quot;acquireIncrement&quot; value=&quot;2&quot;/&gt; --&gt;</span>
-
-        <span class="c">&lt;!--定义在从数据库获取新连接失败后重复尝试的次数。默认值: 30 ；小于等于0表示无限次 --&gt;</span>
-        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;acquireRetryAttempts&quot;</span> <span class="na">value=</span><span class="s">&quot;0&quot;</span> <span class="nt">/&gt;</span>
-
-        <span class="c">&lt;!--重新尝试的时间间隔，默认为：1000毫秒 --&gt;</span>
-        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;acquireRetryDelay&quot;</span> <span class="na">value=</span><span class="s">&quot;1000&quot;</span> <span class="nt">/&gt;</span>
-
-        <span class="c">&lt;!--关闭连接时，是否提交未提交的事务，默认为false，即关闭连接，回滚未提交的事务 --&gt;</span>
-        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;autoCommitOnClose&quot;</span> <span class="na">value=</span><span class="s">&quot;false&quot;</span> <span class="nt">/&gt;</span>
-
-        <span class="c">&lt;!--如果为false，则获取连接失败将会引起所有等待连接池来获取连接的线程抛出异常，但是数据源仍有效保留，并在下次调用getConnection()的时候继续尝试获取连接。如果设为true，那么在尝试获取连接失败后该数据源将申明已断开并永久关闭。默认: </span>
-<span class="c">            false --&gt;</span>
-        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;breakAfterAcquireFailure&quot;</span> <span class="na">value=</span><span class="s">&quot;false&quot;</span> <span class="nt">/&gt;</span>
-
-        <span class="c">&lt;!--每60秒检查所有连接池中的空闲连接。默认值: 0，不检查 --&gt;</span>
-        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;idleConnectionTestPeriod&quot;</span> <span class="na">value=</span><span class="s">&quot;60&quot;</span> <span class="nt">/&gt;</span>
-        <span class="c">&lt;!--c3p0全局的PreparedStatements缓存的大小。如果maxStatements与maxStatementsPerConnection均为0，则缓存不生效，只要有一个不为0，则语句的缓存就能生效。如果默认值: </span>
-<span class="c">            0 --&gt;</span>
-        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;maxStatements&quot;</span> <span class="na">value=</span><span class="s">&quot;100&quot;</span> <span class="nt">/&gt;</span>
-        <span class="c">&lt;!--maxStatementsPerConnection定义了连接池内单个连接所拥有的最大缓存statements数。默认值: 0 --&gt;</span>
-        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;maxStatementsPerConnection&quot;</span> <span class="na">value=</span><span class="s">&quot;10&quot;</span> <span class="nt">/&gt;</span>
-    <span class="nt">&lt;/bean&gt;</span>
-
-    <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&quot;sessionFactory&quot;</span> <span class="na">class=</span><span class="s">&quot;org.springframework.orm.hibernate4.LocalSessionFactoryBean&quot;</span><span class="nt">&gt;</span>
-        <span class="c">&lt;!-- 配置数据源 --&gt;</span>
-        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;dataSource&quot;</span> <span class="na">ref=</span><span class="s">&quot;dataSource&quot;</span> <span class="nt">/&gt;</span>
-        <span class="c">&lt;!-- 扫描包 --&gt;</span>
-        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;packagesToScan&quot;</span> <span class="na">value=</span><span class="s">&quot;org.daxiang.resume.po&quot;</span><span class="nt">&gt;</span> <span class="nt">&lt;/property&gt;</span>
-        <span class="c">&lt;!--hibernate参数配置 --&gt;</span>
-        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;hibernateProperties&quot;</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;props&gt;</span>
-                <span class="nt">&lt;prop</span> <span class="na">key=</span><span class="s">&quot;hibernate.dialect&quot;</span><span class="nt">&gt;</span> org.hibernate.dialect.MySQLDialect <span class="nt">&lt;/prop&gt;</span>
-                <span class="nt">&lt;prop</span> <span class="na">key=</span><span class="s">&quot;hibernate.show_sql&quot;</span><span class="nt">&gt;</span>true<span class="nt">&lt;/prop&gt;</span>
-                <span class="nt">&lt;prop</span> <span class="na">key=</span><span class="s">&quot;hibernate.current_session_context_class&quot;</span><span class="nt">&gt;</span>org.springframework.orm.hibernate4.SpringSessionContext<span class="nt">&lt;/prop&gt;</span>
-                <span class="nt">&lt;prop</span> <span class="na">key=</span><span class="s">&quot;jdbc.use_scrollable_resultset&quot;</span><span class="nt">&gt;</span>false<span class="nt">&lt;/prop&gt;</span>
-                <span class="c">&lt;!-- &lt;prop key=&quot;hibernate.hbm2ddl.auto&quot;&gt;none&lt;/prop&gt; </span>
-<span class="c">                     &lt;prop key=&quot;hibernate.jdbc.fetch_size&quot;&gt;50&lt;/prop&gt; </span>
-<span class="c">                     &lt;prop key=&quot;hibernate.jdbc.batch_size&quot;&gt;30&lt;/prop&gt; --&gt;</span>
-            <span class="nt">&lt;/props&gt;</span>
-        <span class="nt">&lt;/property&gt;</span>
-    <span class="nt">&lt;/bean&gt;</span>
-</pre></div>
-
-
-<p>web.xml中加入</p>
-<div class="hlcode"><pre>  <span class="c">&lt;!-- 配置Session --&gt;</span>
-  <span class="nt">&lt;filter&gt;</span>
-    <span class="nt">&lt;filter-name&gt;</span>openSession<span class="nt">&lt;/filter-name&gt;</span>
-    <span class="nt">&lt;filter-class&gt;</span>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter<span class="nt">&lt;/filter-class&gt;</span>
-  <span class="nt">&lt;/filter&gt;</span>
-  <span class="nt">&lt;filter-mapping&gt;</span>
-    <span class="nt">&lt;filter-name&gt;</span>openSession<span class="nt">&lt;/filter-name&gt;</span>
-    <span class="nt">&lt;url-pattern&gt;</span>/*<span class="nt">&lt;/url-pattern&gt;</span>
-  <span class="nt">&lt;/filter-mapping&gt;</span>
-</pre></div>
     </div>
 
     <footer class="footer">
