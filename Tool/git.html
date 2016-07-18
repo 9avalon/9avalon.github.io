@@ -42,15 +42,20 @@
 <li><a href="#git-add">添加当前目录文件 git add [目录]</a></li>
 <li><a href="#git-add_1">撤销git add</a></li>
 <li><a href="#_3">提交</a></li>
+<li><a href="#_4">提交反悔</a></li>
 <li><a href="#fork">更新远程fork的项目</a></li>
 <li><a href="#git-add_2">git add恢复</a></li>
-<li><a href="#_4">解决冲突</a></li>
+<li><a href="#_5">解决冲突</a></li>
+<li><a href="#_6">还原本地所有代码</a></li>
 </ul>
 </li>
 <li><a href="#git_1">git 分支</a><ul>
-<li><a href="#_5">查看分支</a></li>
-<li><a href="#_6">切换分支</a></li>
-<li><a href="#_7">删除分支</a></li>
+<li><a href="#_7">查看分支</a></li>
+<li><a href="#_8">切换分支</a></li>
+<li><a href="#_9">删除分支</a></li>
+<li><a href="#_10">合并分支代码</a></li>
+<li><a href="#_11">将分支推送到远程服务器上</a></li>
+<li><a href="#_12">暂存</a></li>
 </ul>
 </li>
 <li><a href="#git-bash">git bash 脚本</a></li>
@@ -82,6 +87,13 @@ git remote add &lt;name&gt; &lt;url&gt; //添加
 
 <h4 id="_3">提交</h4>
 <div class="hlcode"><pre>git commit -m <span class="s1">&#39;your comment&#39;</span>
+git commit -am <span class="s1">&#39;your comment&#39;</span>   <span class="c">#add+commit</span>
+</pre></div>
+
+
+<h4 id="_4">提交反悔</h4>
+<div class="hlcode"><pre>git reset --hard HASH <span class="c">#返回到某个节点，不保留修改。</span>
+git reset --soft HASH <span class="c">#返回到某个节点。保留修改</span>
 </pre></div>
 
 
@@ -107,24 +119,49 @@ git pull <span class="o">[</span>upstream<span class="o">]</span> master
 </pre></div>
 
 
-<h4 id="_4">解决冲突</h4>
+<h4 id="_5">解决冲突</h4>
 <p>当我们pull远程源merge然后发现有冲突的时候，git会提示我们某个文件需要解决冲突，一般来说，只要到本地种把冲突的文件修改，然后add commit掉，就可以了。</p>
+<h4 id="_6">还原本地所有代码</h4>
+<p>本地所有修改，没有提交的，都返回到原来的状态</p>
+<div class="hlcode"><pre><span class="n">git</span> <span class="n">checkout</span> <span class="p">.</span>
+</pre></div>
+
+
 <h3 id="git_1">git 分支</h3>
-<h4 id="_5">查看分支</h4>
+<h4 id="_7">查看分支</h4>
 <div class="hlcode"><pre>git branch  -va //查看本地和远程的分支
 git branch -a  //查看远程的分支  
 </pre></div>
 
 
-<h4 id="_6">切换分支</h4>
+<h4 id="_8">切换分支</h4>
 <div class="hlcode"><pre>git checkout &lt;branch_name&gt; //切换分支
 git checkout -b &lt;branch_name&gt; &lt;origin&gt;/&lt;origin_branch_name&gt;
 eg: checkout -b devlop origin/devlop
 </pre></div>
 
 
-<h4 id="_7">删除分支</h4>
+<h4 id="_9">删除分支</h4>
 <div class="hlcode"><pre>git branch -d &lt;branch_name&gt;
+</pre></div>
+
+
+<h4 id="_10">合并分支代码</h4>
+<p>branch_name 为要合并的分支</p>
+<div class="hlcode"><pre><span class="nx">git</span> <span class="nb">merge</span> <span class="o">&lt;</span><span class="nx">branch_name</span><span class="o">&gt;</span>
+</pre></div>
+
+
+<h4 id="_11">将分支推送到远程服务器上</h4>
+<p>其中local_branch_name在本地中必须存在
+第二个branch_name对应远程分支的名称。</p>
+<div class="hlcode"><pre>git push origin &lt;local_branch_name&gt;:&lt;branch_name&gt;
+</pre></div>
+
+
+<h4 id="_12">暂存</h4>
+<div class="hlcode"><pre><span class="n">git</span> <span class="n">stash</span> <span class="err">#把所有没有提交的修改暂存到</span><span class="n">stash</span><span class="err">里面。</span>
+<span class="n">git</span> <span class="n">stash</span> <span class="n">pop</span> <span class="err">#回复暂存区的代码。</span>
 </pre></div>
 
 
