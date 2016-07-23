@@ -40,6 +40,7 @@
 <li><a href="#_2">最常见的单例模式</a></li>
 <li><a href="#_3">改进版，线程安全</a></li>
 <li><a href="#1">改进版+1，双重校验锁</a></li>
+<li><a href="#_4">使用静态内部类的方式实现单例模式</a></li>
 </ul>
 </div>
 <p>单例模式是属于比较简单，容易理解的设计模式，我们在课堂上都应该能轻易理解如何使用单例模式。</p>
@@ -98,6 +99,23 @@
 </blockquote>
 <p>所以最终的解决方案是利用volatile来使得指令顺序不排序。</p>
 <div class="hlcode"><pre><span class="kd">private</span> <span class="kd">volatile</span> <span class="kd">static</span> <span class="n">Single</span> <span class="n">single</span><span class="o">;</span>
+</pre></div>
+
+
+<h4 id="_4">使用静态内部类的方式实现单例模式</h4>
+<p>这是在《Java性能优化》这本书中看到的。
+通过JVM来实现线程安全的单例模式，原理是类加载时，其内部类不会初始化，而当调用到内部类时，内部类才会进行初始化。</p>
+<div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Singleton</span> <span class="o">{</span>  
+    <span class="kd">private</span> <span class="nf">Singleton</span><span class="o">()</span> <span class="o">{}</span>  
+
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">SingletonHolder</span> <span class="o">{</span>  
+        <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Singleton</span> <span class="n">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Singleton</span><span class="o">();</span>  
+    <span class="o">}</span>  
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Singleton</span> <span class="nf">getInstance</span><span class="o">()</span> <span class="o">{</span>  
+        <span class="k">return</span> <span class="n">SingletonHolder</span><span class="o">.</span><span class="na">instance</span><span class="o">;</span>  
+    <span class="o">}</span>  
+<span class="o">}</span>  
 </pre></div>
     </div>
 
