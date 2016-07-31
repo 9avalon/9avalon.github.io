@@ -1,0 +1,40 @@
+body{
+    /*background-color: #fbfffd;*/
+    font-family: "microsoft yahei", "Times New Roman", "ËÎÌו", Times, serif
+}
+
+.wiki-main{
+    margin: 0;
+}
+
+.wiki-item{
+    margin-top: 5px;
+    padding-left: 20px;
+    font-size: 15px;
+}
+
+.wiki-item li{
+    padding-bottom: 3px;
+}
+
+.wiki-item a{
+    color: #554d53;
+    text-decoration: none;
+
+}
+
+.wiki-item a:hover{
+    color: #000000;
+}
+
+.wiki-category{
+    padding-top: 10px;
+    padding-bottom: 20px;
+    border-top: 1px solid #e5e5e5;
+    overflow: auto;
+}
+
+.toc{
+	padding-bottom: 10px;
+	border-bottom: 1px solid #e5e5e5;
+}
