@@ -54,6 +54,7 @@
 </li>
 <li><a href="#aop_1">AOP</a></li>
 <li><a href="#quartz">Quartz定时任务</a></li>
+<li><a href="#springjar">spring引用jar包里面的配置文件</a></li>
 </ul>
 </div>
 <h3 id="spring">搭建Spring环境</h3>
@@ -585,6 +586,16 @@
         <span class="nt">&lt;/property&gt;</span>
     <span class="nt">&lt;/bean&gt;</span>
 <span class="nt">&lt;/beans&gt;</span>
+</pre></div>
+
+
+<h3 id="springjar">spring引用jar包里面的配置文件</h3>
+<p>我们使用maven进行多模块开发时，一般会进行多模块开发。这里举个例子，我们现在有两个模块，分别是A和B，其中A是服务层，B是web层。</p>
+<p>A主要是核心业务的代码实现，而B用于向外提供http服务和连接A项目。这两个项目都有spring，这时候我们一般是会将A打包成jar，然后供B调用。但这时候问题来了，B怎么才能同时接管A的spring呢</p>
+<p>这时候会用到spring配置文件中的<import>标签，将jar包中的spring配置文件引入到B中。</p>
+<div class="hlcode"><pre><span class="o">&lt;</span><span class="kn">import</span> <span class="nn">resource</span><span class="o">=</span><span class="s">&quot;classpath*:/spring/spring-common.xml&quot;</span> <span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="kn">import</span> <span class="nn">resource</span><span class="o">=</span><span class="s">&quot;classpath*:/spring/spring-mybatis.xml&quot;</span> <span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="kn">import</span> <span class="nn">resource</span><span class="o">=</span><span class="s">&quot;classpath*:/spring/spring-jms.xml&quot;</span> <span class="o">/&gt;</span>
 </pre></div>
     </div>
 
