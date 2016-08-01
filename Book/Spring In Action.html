@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../static/favicon.ico">
+
+    <title>Spring In Action - 9avalon wiki</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+	<link href="../static/css/tango.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+	<ol class="breadcrumb">	
+		<li><a href="/">Home</a></li><li><a href="/#Book">Book</a></li><li class="active">Spring In Action</li>
+    </ol>
+	
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+            </ul>
+        </nav>
+        <h3 class="text-muted">Spring In Action</h3>
+    </div>
+
+    <div class="row wiki-main">
+		<div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#spring-in-action">Spring In Action 读书笔记</a><ul>
+<li><a href="#_1">事务挂起</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h3 id="spring-in-action">Spring In Action 读书笔记</h3>
+<h4 id="_1">事务挂起</h4>
+<p>我们都知道，事务的传播性有五个，而其中PROPAGATION_NOT_SUPPORTED有一段是这样描述的</p>
+<blockquote>
+<p>表示该方法不应该运行在事务中，如果存在当前事务，在该方法运行期间，当前事务将被挂起，如果使用........</p>
+</blockquote>
+<p>之前一直不是很理解挂起是什么意思，大概百度了一下，可以这样解释。</p>
+<p>现在有A方法和B方法，A方法需要事务，而B方法不需要。则当A方法开启了事务，调用了B方法，那么正在管理A方法的事务管理Transaction将会被挂起，方法B中任何对数据库的操作，都不会在Transaction的管理之下。</p>
+<p>当方法B返回，方法A继续运行，之前的Transaction回复，后面的数据库操作都会继续在该Transaction的控制之下继续运行。</p>
+    </div>
+
+    <footer class="footer">
+        <p style="font-size: 12px">Copyright © 2016 . Powered by Simiki. Theme by 9avalon</p>
+    </footer>
+
+</div> <!-- /container -->
+
+</body>
+</html>
