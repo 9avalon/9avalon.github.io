@@ -589,6 +589,76 @@
 </pre></div>
 
 
+<p>cronExpression表达式</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>说明</th>
+<th>是否必填</th>
+<th>允许填写的值</th>
+<th>允许的通配符</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>秒</td>
+<td>是</td>
+<td>0-59</td>
+<td>, - * /</td>
+</tr>
+<tr>
+<td>2</td>
+<td>分</td>
+<td>是</td>
+<td>0-59</td>
+<td>, - * /</td>
+</tr>
+<tr>
+<td>3</td>
+<td>小时</td>
+<td>是</td>
+<td>0-23</td>
+<td>, - * /</td>
+</tr>
+<tr>
+<td>4</td>
+<td>日</td>
+<td>是</td>
+<td>1-31</td>
+<td>, - * ? / L W</td>
+</tr>
+<tr>
+<td>5</td>
+<td>月</td>
+<td>是</td>
+<td>1-12</td>
+<td>, - * /</td>
+</tr>
+<tr>
+<td>6</td>
+<td>周</td>
+<td>是</td>
+<td>1-7</td>
+<td>, - * ? / L #</td>
+</tr>
+<tr>
+<td>7</td>
+<td>年</td>
+<td>否</td>
+<td>empty或1970-2099</td>
+<td>, - * /</td>
+</tr>
+</tbody>
+</table>
+<p>常见例子：</p>
+<div class="hlcode"><pre><span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="o">?</span> <span class="c1">//每一秒</span>
+<span class="mi">0</span><span class="o">/</span><span class="mi">3</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="o">?</span> <span class="c1">//每三秒一次</span>
+<span class="mi">0</span> <span class="mi">0</span><span class="o">/</span><span class="mi">3</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="o">?</span>  <span class="c1">//每三分钟一次</span>
+</pre></div>
+
+
 <h3 id="springjar">spring引用jar包里面的配置文件</h3>
 <p>我们使用maven进行多模块开发时，一般会进行多模块开发。这里举个例子，我们现在有两个模块，分别是A和B，其中A是服务层，B是web层。</p>
 <p>A主要是核心业务的代码实现，而B用于向外提供http服务和连接A项目。这两个项目都有spring，这时候我们一般是会将A打包成jar，然后供B调用。但这时候问题来了，B怎么才能同时接管A的spring呢</p>

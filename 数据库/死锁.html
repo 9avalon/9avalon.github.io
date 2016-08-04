@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../static/favicon.ico">
+
+    <title>数据库锁，并发，死锁 - 9avalon wiki</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+	<link href="../static/css/tango.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+	<ol class="breadcrumb">	
+		<li><a href="/">Home</a></li><li><a href="/#数据库">数据库</a></li><li class="active">数据库锁，并发，死锁</li>
+    </ol>
+	
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+            </ul>
+        </nav>
+        <h3 class="text-muted">数据库锁，并发，死锁</h3>
+    </div>
+
+    <div class="row wiki-main">
+		<h3 id="_1">行锁和表锁</h3>
+<p>首先介绍一下行锁和表锁</p>
+<p><strong>表锁</strong>顾明思议是把整张表给锁住，表锁并发度低，但管理锁的开销较小
+<strong>行锁</strong>是把表的一条纪录锁住，并发度较高，管理锁的开销大。</p>
+<p>锁定的单元越小，并发能力越高，管理锁的开销越大。</p>
+<h3 id="_2">乐观锁和悲观锁：</h3>
+<p>乐观锁：事务把记录锁住，可以允许其他事务读取该记录，但是该记录不能被其他事务修改。</p>
+<p>悲观锁：事务将记录锁住，不允许其他事务读取和修改该记录</p>
+<h3 id="_3">死锁的产生例子</h3>
+<p>使用排它锁会有可能出现死锁的情况。</p>
+<p>假如当前有两个线程A和B，数据库某张表中C记录，D记录</p>
+<p>1、A发起请求，对C记录进行查询，并使用了排它锁，将此记录锁住。</p>
+<p>2、B随后发起请求，对D纪录进行查询，同样把纪录锁住。</p>
+<p>3、此时，A纪录要访问D纪录，但由于B把D纪录锁了，所以A会一直等待直到B把D纪录的锁释放。</p>
+<p>4、在A等待的时候，B却要对C纪录进行访问，但是C纪录的锁在A上，因此B要等待直到A释放C纪录的锁。</p>
+<p>5、两者互相等待，死锁产生了。</p>
+<h3 id="_4">避免死锁</h3>
+<p>使用事务时，尽量缩短事务逻辑处理过程，及早提交和回滚事务。</p>
+<p>设置死锁超时时间</p>
+<p>合理安排表访问顺序</p>
+<h3 id="_5">文章推荐</h3>
+<p>不错的文章</p>
+<p><a href="http://www.cnblogs.com/zhaoyl/p/4121010.html">mysql事务和锁InnoDB</a></p>
+<p><a href="http://www.cnblogs.com/xiohao/p/4385508.html">大数据量下高并发同步的讲解</a></p>
+    </div>
+
+    <footer class="footer">
+        <p style="font-size: 12px">Copyright © 2016 . Powered by Simiki. Theme by 9avalon</p>
+    </footer>
+
+</div> <!-- /container -->
+
+</body>
+</html>

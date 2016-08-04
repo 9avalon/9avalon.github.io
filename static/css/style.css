@@ -1,6 +1,8 @@
 body{
     /*background-color: #fbfffd;*/
-    font-family: "microsoft yahei", "Times New Roman", "ËÎÌו", Times, serif
+    line-height: 1.8;
+    font-family: "microsoft yahei", "Times New Roman", "ËÎÌו", Times, serif;
+
 }
 
 .wiki-main{
@@ -38,3 +40,19 @@ body{
 	padding-bottom: 10px;
 	border-bottom: 1px solid #e5e5e5;
 }
+
+.h3, h3{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.h4, h4{
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+blockquote p{
+    font-size: 14px;
+}
+
+
