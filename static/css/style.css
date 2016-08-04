@@ -1,8 +1,11 @@
 body{
     /*background-color: #fbfffd;*/
-    line-height: 1.8;
+    
     font-family: "microsoft yahei", "Times New Roman", "ËÎÌו", Times, serif;
+}
 
+p{
+	line-height: 1.8;
 }
 
 .wiki-main{
