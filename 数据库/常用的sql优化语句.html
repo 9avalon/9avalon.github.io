@@ -35,19 +35,8 @@
     </div>
 
     <div class="row wiki-main">
-		<div class="toc"><span class="toctitle">Table of Contents</span><ul>
-<li><a href="#sql">怎么给sql语句做优化呢？</a><ul>
-<li><a href="#_1">给列加索引</a></li>
-<li><a href="#whereis-null-is-not-null">避免在where字句中使用is null 或者 is not null</a></li>
-<li><a href="#where">避免在where字句中使用！=或者&lt;&gt;操作符</a></li>
-<li><a href="#whereor">避免在where字句中使用or来链接条件</a></li>
-<li><a href="#innot-in">少用 in或者not in</a></li>
-<li><a href="#like">注意like通配符的使用</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<p>总结了一下，优化sql的关键在于加索引，然后尽量让数据查询都能使用到索引，如乱使用like或者or会导致数据库不使用索引查询，然后查询速度当然就会慢很多了</p>
+		<p>[TOC]
+总结了一下，优化sql的关键在于加索引，然后尽量让数据查询都能使用到索引，如乱使用like或者or会导致数据库不使用索引查询，然后查询速度当然就会慢很多了</p>
 <h4 id="sql">怎么给sql语句做优化呢？</h4>
 <h5 id="_1">给列加索引</h5>
 <p>首先，最常用的当然还是加索引，索引能明显的提高查询数据的速度。</p>
