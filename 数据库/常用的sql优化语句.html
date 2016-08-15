@@ -68,11 +68,54 @@
 
 <h5 id="innot-in">少用 in或者not in</h5>
 <p>in和not in我在hql中用得很多。</p>
+<p>其实，使用in也是会走索引，以下是摘自CSDN中别人的测试sql。</p>
+<div class="hlcode"><pre><span class="c1">-- 建测试表</span>
+<span class="k">create</span> <span class="k">table</span> <span class="n">wzp144650</span>
+<span class="p">(</span><span class="n">id</span> <span class="nb">int</span><span class="p">,</span> 
+ <span class="n">de</span> <span class="nb">char</span><span class="p">(</span><span class="mi">5000</span><span class="p">),</span>
+ <span class="n">wz</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+ <span class="k">constraint</span> <span class="n">pk_wzp144650</span> <span class="k">primary</span> <span class="k">key</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+ <span class="p">)</span>
+
+<span class="c1">-- 插入10万笔wz=&#39;144650&#39;的记录</span>
+<span class="k">set</span> <span class="n">nocount</span> <span class="k">on</span>
+<span class="k">declare</span> <span class="o">@</span><span class="n">x</span> <span class="nb">int</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">while</span><span class="p">(</span><span class="o">@</span><span class="n">x</span><span class="o">&lt;=</span><span class="mi">100000</span><span class="p">)</span>
+<span class="k">begin</span>
+  <span class="k">insert</span> <span class="k">into</span> <span class="n">wzp144650</span>
+    <span class="k">select</span> <span class="o">@</span><span class="n">x</span><span class="p">,</span><span class="s1">&#39;abc&#39;</span><span class="p">,</span><span class="s1">&#39;144650&#39;</span>
+  <span class="k">select</span> <span class="o">@</span><span class="n">x</span><span class="o">=@</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span>
+<span class="k">end</span>
+
+<span class="c1">-- 插入1笔wz=&#39;6&#39;的记录</span>
+<span class="k">insert</span> <span class="k">into</span> <span class="n">wzp144650</span> <span class="k">select</span> <span class="mi">140001</span><span class="p">,</span><span class="s1">&#39;abc&#39;</span><span class="p">,</span><span class="s1">&#39;6&#39;</span>
+
+<span class="c1">-- 在wz列上建索引</span>
+<span class="k">create</span> <span class="k">index</span> <span class="n">ix_wzp144650_wz</span> <span class="k">on</span> <span class="n">wzp144650</span><span class="p">(</span><span class="n">wz</span><span class="p">)</span>
+
+
+<span class="c1">----- 测试 -----</span>
+
+<span class="c1">-- 当where wz in (&#39;6&#39;)时,能用索引.</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">wzp144650</span> <span class="k">where</span> <span class="n">wz</span> <span class="k">in</span> <span class="p">(</span><span class="s1">&#39;6&#39;</span><span class="p">)</span>
+<span class="c1">--&gt; Index Seek(OBJECT:([DBAP].[dbo].[wzp144650].[ix_wzp144650_wz]) </span>
+<span class="c1">-- CPU time = 0 ms,  elapsed time = 26 ms.</span>
+
+
+<span class="c1">-- 当where wz in (&#39;144650&#39;)时,不能用索引.</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">wzp144650</span> <span class="k">where</span> <span class="n">wz</span> <span class="k">in</span> <span class="p">(</span><span class="s1">&#39;144650&#39;</span><span class="p">)</span>
+<span class="c1">--&gt; Clustered Index Scan(OBJECT:([DBAP].[dbo].[wzp144650].[pk_wzp144650])</span>
+<span class="c1">-- CPU time = 1294 ms,  elapsed time = 12507 ms.</span>
+</pre></div>
+
+
+<p>可以看到，如果数据在表中是存在的，则会走索引，但是如果 要查找的数据不在表中的时候，就不能用索引了。</p>
+<p>所以这时候要去衡量，若查找的数据几乎都在表里面，那用in是没问题的，如果1000条数据里面，只有1条在数据库里面是有的，则要考虑用另一种方式去优化了。</p>
 <div class="hlcode"><pre><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="k">table</span> <span class="k">where</span> <span class="n">col1</span> <span class="k">in</span> <span class="p">(</span><span class="k">sql</span><span class="p">);</span>
 </pre></div>
 
 
-<p>这时候可以考虑用between来替代(对于已知)</p>
+<p>此外也这时候可以考虑用between来替代(对于已知)</p>
 <div class="hlcode"><pre><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="k">table</span> <span class="k">where</span> <span class="n">col1</span> <span class="k">between</span> <span class="o">?</span> <span class="k">and</span> <span class="o">?</span>
 </pre></div>
 

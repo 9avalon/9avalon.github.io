@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../static/favicon.ico">
 
-    <title>走过的弯路 - 9avalon wiki</title>
+    <title>Java并发编程 - 9avalon wiki</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../static/css/bootstrap.min.css" rel="stylesheet">
@@ -23,7 +23,7 @@
 
 <div class="container">
 	<ol class="breadcrumb">	
-		<li><a href="/">Home</a></li><li><a href="/#Log">Log</a></li><li class="active">走过的弯路</li>
+		<li><a href="/">Home</a></li><li><a href="/#Book">Book</a></li><li class="active">Java并发编程</li>
     </ol>
 	
     <div class="header clearfix">
@@ -31,22 +31,14 @@
             <ul class="nav nav-pills pull-right">
             </ul>
         </nav>
-        <h3 class="text-muted">走过的弯路</h3>
+        <h3 class="text-muted">Java并发编程</h3>
     </div>
 
     <div class="row wiki-main">
-		<h4 id="1git">1、把不应该推的推倒git上面去了。</h4>
-<p>应审查哪些类有被修改过，没被修改过的类就不要推上去。</p>
-<h4 id="2">2、没有进行全面的测试</h4>
-<p>偷懒，只测试了正确的流程，没有测试失败的流程。</p>
-<h4 id="3altinsert">3、Alt+Insert 添错包</h4>
-<p>贪快导致引包引错了</p>
-<h4 id="4jira">4、JIRA没看清楚</h4>
-<p>修BUG没看清楚JIRA，只修了一部分就推上去了。</p>
-<h4 id="5bug">5、修bug时间太长</h4>
-<p>归根到底还是对项目框架不熟悉，导致步步为营。写起代码来不爽快。</p>
-<hr />
-<p>2016年8月5日00:10:41</p>
+		<p>原子变量类</p>
+<p>AtomicIneger，AtomicLong，等等</p>
+<p>之前接触到这种原子变量类还是在Redis写入的时候。为什么会用到这个呢？</p>
+<p>之前看公司同事在操作redis的时候，发现他们写值的时候都是用到了AtomInteger这个类，今天碰巧读到了这个类，一开始以为这样是为了防并发的，但是今天网上搜了一下，发现redis内部是单线程的，每次操作都具有原子性。那么为什么还要用AtomInteger这个类呢？</p>
     </div>
 
     <footer class="footer">
