@@ -69,17 +69,8 @@
 </pre></div>
 
 
-<p>还有一点就是，volatile能保证线程每次读取变量都是最新的，那么到底这个最新的是什么意思呢？</p>
-<p>正常来说，线程从主内存中读取一个变量，会将该变量生成一个副本，线程内部会对该副本进行操作，而对主内存中的变量不进行任何操作了，等线程修改完值，线程会自动将副本回写到主内存中。这样在堆中的内存就发生了变化。</p>
-<p>因此，即使加了volatile，也只能保证线程从主内存中读取到的变量是最新的，而不能防止多个线程并发的情况发生。</p>
-<blockquote>
-<p>例如假如线程1，线程2 在进行read,load 操作中，发现主内存中count的值都是5，那么都会加载这个最新的值</p>
-<p>在线程1堆count进行修改之后，会write到主内存中，主内存中的count变量就会变为6</p>
-<p>线程2由于已经进行read,load操作，在进行运算之后，也会更新主内存count的变量值为6</p>
-<p>导致两个线程及时用volatile关键字修改之后，还是会,存在并发的情况。</p>
-</blockquote>
 <h4 id="_1">参考</h4>
-<p><a href="http://www.cnblogs.com/aigongsi/archive/2012/04/01/2429166.html">java中volatile关键字的含义</a></p>
+<p><a href="http://www.cnblogs.com/dolphin0520/p/3920373.html]">Java并发编程，volatile解析</a></p>
     </div>
 
     <footer class="footer">
