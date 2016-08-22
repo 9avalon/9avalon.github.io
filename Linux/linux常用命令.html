@@ -36,31 +36,64 @@
 
     <div class="row wiki-main">
 		<div class="toc"><span class="toctitle">Table of Contents</span><ul>
-<li><a href="#_1">解压</a></li>
+<li><a href="#_1">常用</a><ul>
+<li><a href="#_2">解压</a></li>
+<li><a href="#_3">复制</a></li>
+<li><a href="#_4">查找文件</a></li>
+<li><a href="#_5">下载</a></li>
+<li><a href="#_6">查看文件大小</a></li>
+<li><a href="#_7">权限</a></li>
+</ul>
+</li>
+<li><a href="#tomcat7">Tomcat7</a><ul>
 <li><a href="#tomcat">查看tomcat运行时日志</a></li>
-<li><a href="#_2">复制</a></li>
-<li><a href="#_3">查找文件</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <p>一些基本的命令容易忘掉，所以写下来当备忘录。</p>
-<h3 id="_1">解压</h3>
-<div class="hlcode"><pre><span class="n">tar</span> <span class="n">xvf</span> <span class="n">wordpress</span><span class="p">.</span><span class="n">tar</span>       <span class="err">####解压</span><span class="n">tar</span><span class="err">格式的文件####</span>
+<h3 id="_1">常用</h3>
+<h4 id="_2">解压</h4>
+<div class="hlcode"><pre>tar xvf wordpress.tar       <span class="c">####解压tar格式的文件####</span>
 </pre></div>
 
 
-<h3 id="tomcat">查看tomcat运行时日志</h3>
+<h4 id="_3">复制</h4>
+<div class="hlcode"><pre>cp -R file1path file2path
+</pre></div>
+
+
+<h4 id="_4">查找文件</h4>
+<div class="hlcode"><pre>find / -name &lt;file_name&gt; 
+</pre></div>
+
+
+<h4 id="_5">下载</h4>
+<div class="hlcode"><pre>sudo wget &lt;url&gt;  
+sudo wget &lt;url&gt; -O &lt;file_name&gt; //指定文件下载名
+</pre></div>
+
+
+<h4 id="_6">查看文件大小</h4>
+<div class="hlcode"><pre>du &lt;file_name&gt;
+</pre></div>
+
+
+<h4 id="_7">权限</h4>
+<p>数字的代表含义：</p>
+<p>r ------------4</p>
+<p>w -----------2</p>
+<p>x ------------1</p>
+<p>无------------0</p>
+<p>所以我平时常用的有主要有755（所有者所有权限，组读和执行，其他人读和执行），也可以对其他人限制得更厉害。</p>
+<div class="hlcode"><pre>sudo chmod &lt;auth_number&gt;
+</pre></div>
+
+
+<h3 id="tomcat7">Tomcat7</h3>
+<h4 id="tomcat">查看tomcat运行时日志</h4>
 <p>先进入logs目录</p>
-<div class="hlcode"><pre><span class="n">tail</span> <span class="o">-</span><span class="n">f</span> <span class="n">catalina</span><span class="p">.</span><span class="n">out</span> <span class="c1">//ctrl + c退出</span>
-</pre></div>
-
-
-<h3 id="_2">复制</h3>
-<div class="hlcode"><pre><span class="n">cp</span> <span class="o">-</span><span class="n">R</span> <span class="n">file1path</span> <span class="n">file2path</span>
-</pre></div>
-
-
-<h3 id="_3">查找文件</h3>
-<div class="hlcode"><pre><span class="nb">find</span> <span class="o">/</span> <span class="na">-name</span> <span class="o">&lt;</span><span class="nx">file_name</span><span class="o">&gt;</span>
+<div class="hlcode"><pre>tail -f catalina.out //ctrl + c退出
 </pre></div>
     </div>
 
