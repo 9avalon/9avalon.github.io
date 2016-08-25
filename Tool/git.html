@@ -60,7 +60,15 @@
 </ul>
 </li>
 <li><a href="#git-bash">git bash 脚本</a></li>
-<li><a href="#sshgithub">使用SSH来连接GitHub</a></li>
+<li><a href="#sshgithub">使用SSH来连接GitHub</a><ul>
+<li><a href="#ssh">多个ssh使用</a></li>
+<li><a href="#_14">全局设置用户名和邮箱</a><ul>
+<li><a href="#_15">查看全局设置</a></li>
+</ul>
+</li>
+<li><a href="#gitignore">gitignore</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <h3 id="git">git命令</h3>
@@ -199,6 +207,29 @@ git push
 <p>1、前者可以随意克隆github上的项目，而不管是谁的；而后者则是你必须是你要克隆的项目的拥有者或管理员，且需要先添加 SSH key ，否则无法克隆。
 2、https url 在push的时候是需要验证用户名和密码的；而 SSH 在push的时候，是不需要输入用户名的，如果配置SSH key的时候设置了密码，则需要输入密码的，否则直接是不需要输入密码的</p>
 </blockquote>
+<h4 id="ssh">多个ssh使用</h4>
+<p><a href="http://yijiebuyi.com/blog/f18d38eb7cfee860c117d629fdb16faf.html">同一个电脑多个sshkey管理</a></p>
+<h4 id="_14">全局设置用户名和邮箱</h4>
+<div class="hlcode"><pre><span class="nv">$ </span>git config --global user.name <span class="s2">&quot;wirelessqa&quot;</span>  
+<span class="nv">$ </span>git config --global user.email wirelessqa.me@gmail.com  
+</pre></div>
+
+
+<p>如果想单独某个项目设置，则去掉 --global 即可</p>
+<h5 id="_15">查看全局设置</h5>
+<div class="hlcode"><pre><span class="nv">$ </span>git config --list // 查看设置
+</pre></div>
+
+
+<h4 id="gitignore">gitignore</h4>
+<p>隐藏idea文件</p>
+<div class="hlcode"><pre><span class="o">/</span><span class="p">.</span><span class="n">idea</span>
+</pre></div>
+
+
+<p>隐藏特定iml后缀文件</p>
+<div class="hlcode"><pre><span class="o">*</span><span class="p">.</span><span class="n">iml</span>
+</pre></div>
     </div>
 
     <footer class="footer">

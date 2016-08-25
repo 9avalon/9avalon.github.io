@@ -84,7 +84,14 @@
 然后网上找了一段仓库镜像。
 使用方法：到maven的安装路径里面找conf，然后修改 setting文件。找到mirror，将下面这段代码加进去就可以了。
 效果卓越！</p>
+<p><strong>现在阿里云也搭建了一个maven开放仓库，简直造福国内java开发者啊！</strong></p>
 <div class="hlcode"><pre>  <span class="nt">&lt;mirrors&gt;</span>
+    <span class="nt">&lt;mirror&gt;</span>
+      <span class="nt">&lt;id&gt;</span>alimaven<span class="nt">&lt;/id&gt;</span>
+      <span class="nt">&lt;name&gt;</span>aliyun maven<span class="nt">&lt;/name&gt;</span>
+      <span class="nt">&lt;url&gt;</span>http://maven.aliyun.com/nexus/content/groups/public/<span class="nt">&lt;/url&gt;</span>
+      <span class="nt">&lt;mirrorOf&gt;</span>central<span class="nt">&lt;/mirrorOf&gt;</span>        
+    <span class="nt">&lt;/mirror&gt;</span>
     <span class="nt">&lt;mirror&gt;</span>  
       <span class="nt">&lt;id&gt;</span>repo2<span class="nt">&lt;/id&gt;</span>  
       <span class="nt">&lt;mirrorOf&gt;</span>central<span class="nt">&lt;/mirrorOf&gt;</span>  
