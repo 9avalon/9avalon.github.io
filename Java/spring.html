@@ -55,7 +55,11 @@
 <li><a href="#aop_1">AOP</a></li>
 <li><a href="#spring-cache">Spring-cache</a></li>
 <li><a href="#quartz">Quartz定时任务</a></li>
-<li><a href="#springjar">spring引用jar包里面的配置文件</a></li>
+<li><a href="#springjar">spring引用jar包里面的配置文件</a><ul>
+<li><a href="#spring_2">spring扫描</a></li>
+<li><a href="#aop_2">开启aop</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <h3 id="spring">搭建Spring环境</h3>
@@ -669,6 +673,20 @@
 <div class="hlcode"><pre><span class="o">&lt;</span><span class="kn">import</span> <span class="nn">resource</span><span class="o">=</span><span class="s">&quot;classpath*:/spring/spring-common.xml&quot;</span> <span class="o">/&gt;</span>
 <span class="o">&lt;</span><span class="kn">import</span> <span class="nn">resource</span><span class="o">=</span><span class="s">&quot;classpath*:/spring/spring-mybatis.xml&quot;</span> <span class="o">/&gt;</span>
 <span class="o">&lt;</span><span class="kn">import</span> <span class="nn">resource</span><span class="o">=</span><span class="s">&quot;classpath*:/spring/spring-jms.xml&quot;</span> <span class="o">/&gt;</span>
+</pre></div>
+
+
+<h4 id="spring_2">spring扫描</h4>
+<p>以前是认为只要配置了下面这个注解，那么spring就会自动去扫描该base-package，并且自动将里面所有的类纳入spring容器管理中，但是最近在做一个spring-cache的东西的时候，发现这个注解只是会起到标记扫描的作用，还是要自己去加注解让spring识别。</p>
+<div class="hlcode"><pre><span class="nt">&lt;context:component-scan</span> <span class="na">base-package=</span><span class="s">&quot;com.navalon.superdemo.annotation&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+
+
+<blockquote>
+<p>component-scan标签默认情况下自动扫描指定路径下的包（含所有子包），将带有@Component、@Repository、@Service、@Controller标签的类自动注册到spring容器。对标记了 Spring's @Required、@Autowired、JSR250's @PostConstruct、@PreDestroy、@Resource、JAX-WS's @WebServiceRef、EJB3's @EJB、JPA's @PersistenceContext、@PersistenceUnit等注解的类进行对应的操作使注解生效（包含了annotation-config标签的作用）。</p>
+</blockquote>
+<h4 id="aop_2">开启aop</h4>
+<div class="hlcode"><pre><span class="nt">&lt;aop:aspectj-autoproxy</span> <span class="nt">/&gt;</span> 
 </pre></div>
     </div>
 
