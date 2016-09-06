@@ -47,9 +47,11 @@
 <li><a href="#git-add_2">git add恢复</a></li>
 <li><a href="#_5">解决冲突</a></li>
 <li><a href="#_6">还原本地所有代码</a></li>
+<li><a href="#commit">回退到某个commit版本</a></li>
+<li><a href="#git_1">查看某次git修改了哪些文件</a></li>
 </ul>
 </li>
-<li><a href="#git_1">git 分支</a><ul>
+<li><a href="#git_2">git 分支</a><ul>
 <li><a href="#_7">查看分支</a></li>
 <li><a href="#_8">切换分支</a></li>
 <li><a href="#_9">删除分支</a></li>
@@ -119,12 +121,12 @@ git pull <span class="o">[</span>upstream<span class="o">]</span> master
 <h4 id="git-add_2">git add恢复</h4>
 <p>有时候我们把文件提交上去了，但是突然发现add错了文件，那怎么办呢</p>
 <p>我们可以恢复add之前的状态</p>
-<div class="hlcode"><pre><span class="n">git</span> <span class="n">reset</span> <span class="n">head</span>
+<div class="hlcode"><pre>git reset head
 </pre></div>
 
 
 <p>或者单独移除文件</p>
-<div class="hlcode"><pre><span class="nx">git</span> <span class="nx">rm</span> <span class="na">-cached</span> <span class="o">&lt;</span><span class="nb">FILE</span><span class="o">&gt;</span>
+<div class="hlcode"><pre>git rm -cached &lt;FILE&gt;
 </pre></div>
 
 
@@ -132,11 +134,21 @@ git pull <span class="o">[</span>upstream<span class="o">]</span> master
 <p>当我们pull远程源merge然后发现有冲突的时候，git会提示我们某个文件需要解决冲突，一般来说，只要到本地种把冲突的文件修改，然后add commit掉，就可以了。</p>
 <h4 id="_6">还原本地所有代码</h4>
 <p>本地所有修改，没有提交的，都返回到原来的状态</p>
-<div class="hlcode"><pre><span class="n">git</span> <span class="n">checkout</span> <span class="p">.</span>
+<div class="hlcode"><pre>git checkout .
 </pre></div>
 
 
-<h3 id="git_1">git 分支</h3>
+<h4 id="commit">回退到某个commit版本</h4>
+<div class="hlcode"><pre>git reset --hard &lt;commit_id&gt;
+</pre></div>
+
+
+<h4 id="git_1">查看某次git修改了哪些文件</h4>
+<div class="hlcode"><pre>git show &lt;commit_id&gt;
+</pre></div>
+
+
+<h3 id="git_2">git 分支</h3>
 <h4 id="_7">查看分支</h4>
 <div class="hlcode"><pre>git branch  -va //查看本地和远程的分支
 git branch -a  //查看远程的分支  
@@ -162,7 +174,7 @@ eg: checkout -b devlop origin/devlop
 
 <h4 id="_11">合并分支代码</h4>
 <p>branch_name 为要合并的分支</p>
-<div class="hlcode"><pre><span class="nx">git</span> <span class="nb">merge</span> <span class="o">&lt;</span><span class="nx">branch_name</span><span class="o">&gt;</span>
+<div class="hlcode"><pre>git merge &lt;branch_name&gt;
 </pre></div>
 
 
@@ -174,8 +186,9 @@ eg: checkout -b devlop origin/devlop
 
 
 <h4 id="_13">暂存</h4>
-<div class="hlcode"><pre><span class="n">git</span> <span class="n">stash</span> <span class="err">#把所有没有提交的修改暂存到</span><span class="n">stash</span><span class="err">里面。</span>
-<span class="n">git</span> <span class="n">stash</span> <span class="n">pop</span> <span class="err">#回复暂存区的代码。</span>
+<div class="hlcode"><pre>git stash <span class="c">#把所有没有提交的修改暂存到stash里面。</span>
+git stash pop <span class="c">#回复暂存区的代码。</span>
+git stash list <span class="c">#查看所有的暂存</span>
 </pre></div>
 
 
