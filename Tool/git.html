@@ -60,13 +60,14 @@
 <li><a href="#_12">将分支推送到远程服务器上</a></li>
 <li><a href="#_13">暂存</a></li>
 <li><a href="#git_3">git强行回退分支版本</a></li>
+<li><a href="#_14">删除远程分支</a></li>
 </ul>
 </li>
 <li><a href="#git-bash">git bash 脚本</a></li>
 <li><a href="#sshgithub">使用SSH来连接GitHub</a><ul>
 <li><a href="#ssh">多个ssh使用</a></li>
-<li><a href="#_14">全局设置用户名和邮箱</a><ul>
-<li><a href="#_15">查看全局设置</a></li>
+<li><a href="#_15">全局设置用户名和邮箱</a><ul>
+<li><a href="#_16">查看全局设置</a></li>
 </ul>
 </li>
 <li><a href="#gitignore">gitignore</a></li>
@@ -201,6 +202,11 @@ git push -f origin &lt;branch_name&gt;
 </pre></div>
 
 
+<h4 id="_14">删除远程分支</h4>
+<div class="hlcode"><pre>git push origin :branch-name
+</pre></div>
+
+
 <h3 id="git-bash">git bash 脚本</h3>
 <p>在git的安装目录下新建文件，<code>git-xxx.sh</code> 然后编写该sh文件，示例如下：</p>
 <div class="hlcode"><pre>!/bin/sh
@@ -231,14 +237,14 @@ git push
 </blockquote>
 <h4 id="ssh">多个ssh使用</h4>
 <p><a href="http://yijiebuyi.com/blog/f18d38eb7cfee860c117d629fdb16faf.html">同一个电脑多个sshkey管理</a></p>
-<h4 id="_14">全局设置用户名和邮箱</h4>
+<h4 id="_15">全局设置用户名和邮箱</h4>
 <div class="hlcode"><pre><span class="nv">$ </span>git config --global user.name <span class="s2">&quot;wirelessqa&quot;</span>  
 <span class="nv">$ </span>git config --global user.email wirelessqa.me@gmail.com  
 </pre></div>
 
 
 <p>如果想单独某个项目设置，则去掉 --global 即可</p>
-<h5 id="_15">查看全局设置</h5>
+<h5 id="_16">查看全局设置</h5>
 <div class="hlcode"><pre><span class="nv">$ </span>git config --list // 查看设置
 </pre></div>
 
