@@ -43,7 +43,8 @@
 <li><a href="#date_sub">DATE_SUB —— 减少日期</a></li>
 </ul>
 </li>
-<li><a href="#_2">存储过程</a></li>
+<li><a href="#_2">查询重复</a></li>
+<li><a href="#_3">存储过程</a></li>
 </ul>
 </div>
 <h4 id="_1">函数</h4>
@@ -75,7 +76,12 @@
 </pre></div>
 
 
-<h4 id="_2">存储过程</h4>
+<h4 id="_2">查询重复</h4>
+<div class="hlcode"><pre><span class="k">select</span> <span class="n">order_id</span><span class="p">,</span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">as</span> <span class="k">count</span> <span class="k">from</span> <span class="n">t_order</span> <span class="k">group</span> <span class="k">by</span> <span class="n">order_id</span> <span class="k">having</span> <span class="k">count</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">;</span>
+</pre></div>
+
+
+<h4 id="_3">存储过程</h4>
 <p>1、传入参数是varchar类型时要注意，传入参数要带 '', 不然参数不能识别</p>
     </div>
 
