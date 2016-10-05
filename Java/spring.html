@@ -58,6 +58,7 @@
 <li><a href="#springjar">spring引用jar包里面的配置文件</a><ul>
 <li><a href="#spring_2">spring扫描</a></li>
 <li><a href="#aop_2">开启aop</a></li>
+<li><a href="#spring-test">Spring-test</a></li>
 </ul>
 </li>
 </ul>
@@ -687,6 +688,12 @@
 </blockquote>
 <h4 id="aop_2">开启aop</h4>
 <div class="hlcode"><pre><span class="nt">&lt;aop:aspectj-autoproxy</span> <span class="nt">/&gt;</span> 
+</pre></div>
+
+
+<h4 id="spring-test">Spring-test</h4>
+<p>若想执行测试用例的时候回滚，则在测试用例的头部加入</p>
+<div class="hlcode"><pre><span class="err">@</span><span class="n">TransactionConfiguration</span><span class="p">(</span><span class="n">transactionManager</span> <span class="o">=</span> <span class="s">&quot;transactionManager&quot;</span><span class="p">,</span> <span class="n">defaultRollback</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span>
 </pre></div>
     </div>
 
