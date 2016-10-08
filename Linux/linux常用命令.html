@@ -56,6 +56,8 @@
 <li><a href="#tomcat">查看tomcat运行时日志</a></li>
 </ul>
 </li>
+<li><a href="#_15">查看内存占用</a></li>
+<li><a href="#ssh">SSH</a></li>
 </ul>
 </div>
 <p>一些基本的命令容易忘掉，所以写下来当备忘录。</p>
@@ -120,7 +122,7 @@ ls -l path/filename   // 查看权限
 
 
 <h4 id="_12">下载文件</h4>
-<div class="hlcode"><pre>sz &lt;filename&gt;
+<div class="hlcode"><pre>sz &lt;filename&gt; <span class="c"># 需要安装lrzsz</span>
 </pre></div>
 
 
@@ -137,7 +139,18 @@ ls -l path/filename   // 查看权限
 <h3 id="tomcat7">Tomcat7</h3>
 <h4 id="tomcat">查看tomcat运行时日志</h4>
 <p>先进入logs目录</p>
-<div class="hlcode"><pre>tail -f catalina.out //ctrl + c退出
+<div class="hlcode"><pre>tail -f catalina.out  <span class="c">#ctrl + c退出</span>
+也可以查看catalina.out.201x.xx.xx <span class="c">#当天的日志</span>
+</pre></div>
+
+
+<h3 id="_15">查看内存占用</h3>
+<div class="hlcode"><pre>free -m  <span class="c"># 看buffer的那一栏，第一列是使用的内存，第二列是还剩下多少内存</span>
+</pre></div>
+
+
+<h3 id="ssh">SSH</h3>
+<div class="hlcode"><pre>ssh &lt;ip&gt; &lt;port&gt;
 </pre></div>
     </div>
 
