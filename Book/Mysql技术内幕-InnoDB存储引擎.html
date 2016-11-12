@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../static/favicon.ico">
+
+    <title>MySQL技术内幕——InnoDB存储引擎 - 9avalon wiki</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+	<link href="../static/css/tango.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+	<ol class="breadcrumb">	
+		<li><a href="/">Home</a></li><li><a href="/#Book">Book</a></li><li class="active">MySQL技术内幕——InnoDB存储引擎</li>
+    </ol>
+	
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+            </ul>
+        </nav>
+        <h3 class="text-muted">MySQL技术内幕——InnoDB存储引擎</h3>
+    </div>
+
+    <div class="row wiki-main">
+		<h4 id="_1">锁</h4>
+<p>1、讲解的B+tree例子不错，深入浅出，强烈推荐</p>
+<p>2、关于死锁的问题，除了AB-BA这种互相等待的死锁外，还有另外一种死锁</p>
+<ul>
+<li>当前事务持有了待插入记录下一个记录的X锁，但是在等待队列中存在一个S锁的请求</li>
+</ul>
+<p>3、锁升级，粒度从行到页再到表，从细到粗</p>
+<ul>
+<li>升级锁是因为锁的开销比较大，系统需要使用较多内存维护锁。但是升级锁同时并发性能会降低。 </li>
+<li>InnoDB不存在锁升级的问题，因为其是根据事务访问的每个页对锁进行管理的。即页锁。</li>
+</ul>
+<p>4、如果一个列里面重复数据特别多，那就不适合加索引。</p>
+<h4 id="_2">事务</h4>
+    </div>
+
+    <footer class="footer">
+        <p style="font-size: 12px">Copyright © 2016 . Powered by Simiki. Theme by 9avalon</p>
+    </footer>
+
+</div> <!-- /container -->
+
+</body>
+</html>
