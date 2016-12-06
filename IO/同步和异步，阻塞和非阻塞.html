@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../static/favicon.ico">
+
+    <title>同步和异步，阻塞和非阻塞 - 9avalon wiki</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+	<link href="../static/css/tango.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+	<ol class="breadcrumb">	
+		<li><a href="/">Home</a></li><li><a href="/#IO">IO</a></li><li class="active">同步和异步，阻塞和非阻塞</li>
+    </ol>
+	
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+            </ul>
+        </nav>
+        <h3 class="text-muted">同步和异步，阻塞和非阻塞</h3>
+    </div>
+
+    <div class="row wiki-main">
+		<p>同步和异步：对结果方来说，调用的时候，结果方是让请求等待返回，还是通知请求再返回。
+阻塞和非阻塞：对请求方来说，是请求后，继续等待结果，还是先去做其他事情的区别。
+一般来说，异步和非阻塞是一致的。而同步非阻塞需要请求方去轮循结果。</p>
+<blockquote>
+<p>作者：严肃</p>
+<p>链接：https://www.zhihu.com/question/19732473/answer/20851256</p>
+<p>来源：知乎</p>
+<p>著作权归作者所有，转载请联系作者获得授权。</p>
+<p>“阻塞”与"非阻塞"与"同步"与“异步"不能简单的从字面理解，提供一个从分布式系统角度的回答。
+<strong>1.同步与异步</strong>
+同步和异步关注的是<strong>消息通信机制</strong> (synchronous communication/ asynchronous communication)
+所谓同步，就是在发出一个<em>调用</em>时，在没有得到结果之前，该<em>调用</em>就不返回。但是一旦调用返回，就得到返回值了。
+换句话说，就是由<em>调用者</em>主动等待这个<em>调用</em>的结果。
+而异步则是相反，<strong><em>调用*在发出之后</em></strong><em>，这个调用就直接返回了，所以没有返回结果<strong>。换句话说，当一个异步过程调用发出后，调用者不会立刻得到结果。而是在<em>调用</em>发出后，<em>被调用者</em>通过状态、通知来通知调用者，或通过回调函数处理这个调用。
+典型的异步编程模型比如Node.js
+举个通俗的例子：
+你打电话问书店老板有没有《分布式系统》这本书，如果是同步通信机制，书店老板会说，你稍等，”我查一下"，然后开始查啊查，等查好了（可能是5秒，也可能是一天）告诉你结果（返回结果）。
+而异步通信机制，书店老板直接告诉你我查一下啊，查好了打电话给你，然后直接挂电话了（不返回结果）。然后查好了，他会主动打电话给你。在这里老板通过“回电”这种方式来回调。
+\2. 阻塞与非阻塞
+阻塞和非阻塞关注的是</strong>程序在等待调用结果（<strong><em>*消息，</em></strong></em>返回值）时的状态.**
+阻塞调用是指调用结果返回之前，当前线程会被挂起。调用线程只有在得到结果之后才会返回。
+非阻塞调用指在不能立刻得到结果之前，该调用不会阻塞当前线程。
+还是上面的例子，
+你打电话问书店老板有没有《分布式系统》这本书，你如果是阻塞式调用，你会一直把自己“挂起”，直到得到这本书有没有的结果，如果是非阻塞式调用，你不管老板有没有告诉你，你自己先一边去玩了， 当然你也要偶尔过几分钟check一下老板有没有返回结果。
+在这里阻塞与非阻塞与是否同步异步无关。跟老板通过什么方式回答你结果无关。</p>
+</blockquote>
+<p>redis event loop单线程模型。没有并发问题，主要瓶颈在于网络IO，吞吐量</p>
+    </div>
+
+    <footer class="footer">
+        <p style="font-size: 12px">Copyright © 2016 . Powered by Simiki. Theme by 9avalon</p>
+    </footer>
+
+</div> <!-- /container -->
+
+</body>
+</html>

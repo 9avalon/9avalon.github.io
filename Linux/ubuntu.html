@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../static/favicon.ico">
+
+    <title>ubuntu - 9avalon wiki</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+	<link href="../static/css/tango.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+	<ol class="breadcrumb">	
+		<li><a href="/">Home</a></li><li><a href="/#Linux">Linux</a></li><li class="active">ubuntu</li>
+    </ol>
+	
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+            </ul>
+        </nav>
+        <h3 class="text-muted">ubuntu</h3>
+    </div>
+
+    <div class="row wiki-main">
+		<div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#java">安装java</a></li>
+<li><a href="#mysql">安装mysql</a><ul>
+<li><a href="#_1">修改中文编码</a></li>
+<li><a href="#_2">添加远程账号</a></li>
+<li><a href="#_3">修改登陆后的默认位置</a></li>
+</ul>
+</li>
+<li><a href="#tomcat"># 安装tomcat</a></li>
+</ul>
+</div>
+<h3 id="java">安装java</h3>
+<p>首先到官网下载jdk，注意x86和x64的版本下载</p>
+<p>然后创建一个目录/usr/lib/jvm以便于把下载解压后的包放到这个目录
+    sudo mkdir /usr/lib/jvm</p>
+<p>解压并把解压后的jdk1.8.0_25文件夹放到/usr/lib/jvm目录中。注意：我现在下载的安装包在Desktop目录下所以直接Desktop目录下在操作，如果你所下载的安装包不在Desktop目录下，请先cd进入相应目录，再继续操作。
+    sudo tar zxvf jdk-...... -C /usr/lib/jvm</p>
+<p>进入到/usr/lib/jvm目录下
+    cd /usr/lib/jvm</p>
+<p>把解压后的jdk1.8.0_25文件夹重命名为java，以便于书写
+    sudo mv jdk..... java</p>
+<p>先进入vi编辑器（第一幅图），然后输入以下内容（第二幅图）。</p>
+<div class="hlcode"><pre>sudo vim ~/.bashrc
+
+export JAVA_HOME=/usr/lib/jvm/java
+export JRE_HOME=<span class="cp">${</span><span class="n">JAVA_HOME</span><span class="cp">}</span>/jre
+export CLASSPATH=.:<span class="cp">${</span><span class="n">JAVA_HOME</span><span class="cp">}</span>/lib:<span class="cp">${</span><span class="n">JRE_HOME</span><span class="cp">}</span>/lib
+export PATH=<span class="cp">${</span><span class="n">JAVA_HOME</span><span class="cp">}</span>/bin:<span class="nv">$PATH</span>
+</pre></div>
+
+
+<p>输入如下代码
+    source ~/.bashrc</p>
+<p>测试，出现如下结果则安装好，你就可以尽情的编写Java程序了。
+    java -version</p>
+<h3 id="mysql">安装mysql</h3>
+<p>直接命令行下载
+    sudo apt-get install mysql-server
+    apt-get isntall mysql-client
+    sudo apt-get install libmysqlclient-dev</p>
+<p>检查有无安装成功
+    sudo netstat -tap | grep mysql</p>
+<h4 id="_1">修改中文编码</h4>
+<p>进入 /etc/mysql/my.cnf,打开mysql配置文件：
+    vim/etc/mysql/my.cnf
+在[client]下追加：
+    default-character-set=utf8
+在[mysqld]下追加：
+    character-set-server=utf8
+在[mysql]下追加：
+    default-character-set=utf8
+保存并退出,重启服务
+    sudo service mysql restart
+进入mysql控制台查看编码
+    mysql&gt;show variables like 'character%'
+看到没有latian1则大功告成</p>
+<h4 id="_2">添加远程账号</h4>
+<p>第一步：
+    vim /etc/MySQL/my.cnf找到bind-address = 127.0.0.1
+注释掉这行
+    #bind-address = 127.0.0.1
+或者改为，这样修改的意思是允许任意的ip访问，或者自己指定一个ip地址
+    bind-address = 0.0.0.0
+重启 mysql
+    sudo /etc/init.d/mysql restart
+第二步：
+授权用户能进行远程连接
+    grant all privileges on [database].* to [用户名]@"%" identified by "[password]" with grant option;
+刷新
+    flush privileges;</p>
+<h4 id="_3">修改登陆后的默认位置</h4>
+<p>编辑配置文件</p>
+<div class="hlcode"><pre>vi /etc/passwd
+</pre></div>
+
+
+<p>找到root所在行</p>
+<div class="hlcode"><pre>root:x:0:0:root:/root:/bin/bash
+</pre></div>
+
+
+<p>修改默认目录</p>
+<div class="hlcode"><pre>root:x:0:0:root:&lt;path&gt;:/bin/bash
+</pre></div>
+
+
+<p>保存退出</p>
+<h3 id="tomcat"># 安装tomcat</h3>
+<p>从官网处下载tomcat的包，然后放到linux下解压</p>
+    </div>
+
+    <footer class="footer">
+        <p style="font-size: 12px">Copyright © 2016 . Powered by Simiki. Theme by 9avalon</p>
+    </footer>
+
+</div> <!-- /container -->
+
+</body>
+</html>
