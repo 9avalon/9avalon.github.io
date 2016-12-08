@@ -475,6 +475,8 @@
 </pre></div>
 
 
+<p>这篇讲得不错</p>
+<p>http://hwak.iteye.com/blog/1611970</p>
 <h3 id="aop_1">AOP</h3>
 <p><strong>在这里就只是简单的列举一下实践，更多的使用以后再归纳整理。</strong>
 举个例子：
@@ -532,6 +534,7 @@
 
 
 <p>当然也可以用注释的方法来做~</p>
+<p>最近看了一下部分AOP的源码。。起初是因为想不通，为什么一个方法调用同一个类里面的带事务方法，事务不起作用。看了源码之后明白了。因为Spring创建代理对象，是在获取Bean的时候生成代替的，例如说A这个类，有不带事务的B方法和带事务的C方法。Spring发现你要调用A的B方法，于是他就去看看B需不需要被代理，发现不需要，就直接从Bean容器中给你返回了A类，然后调用带事务的C方法时，就是直接本类调用了。因为同类调用不需要向Spring获取Bean。</p>
 <h3 id="spring-cache">Spring-cache</h3>
 <p><a href="https://www.ibm.com/developerworks/cn/opensource/os-cn-spring-cache/">注释驱动的 Spring cache 缓存介绍</a></p>
 <h3 id="quartz">Quartz定时任务</h3>
