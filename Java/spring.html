@@ -52,12 +52,15 @@
 <li><a href="#mybatis_1">配置mybatis的环境</a></li>
 </ul>
 </li>
-<li><a href="#aop_1">AOP</a></li>
+<li><a href="#aop_1">AOP</a><ul>
+<li><a href="#aop_2">事务注解和AOP注解</a></li>
+</ul>
+</li>
 <li><a href="#spring-cache">Spring-cache</a></li>
 <li><a href="#quartz">Quartz定时任务</a></li>
 <li><a href="#springjar">spring引用jar包里面的配置文件</a><ul>
 <li><a href="#spring_2">spring扫描</a></li>
-<li><a href="#aop_2">开启aop</a></li>
+<li><a href="#aop_3">开启aop</a></li>
 <li><a href="#spring-test">Spring-test</a></li>
 </ul>
 </li>
@@ -535,6 +538,8 @@
 
 <p>当然也可以用注释的方法来做~</p>
 <p>最近看了一下部分AOP的源码。。起初是因为想不通，为什么一个方法调用同一个类里面的带事务方法，事务不起作用。看了源码之后明白了。因为Spring创建代理对象，是在获取Bean的时候生成代替的，例如说A这个类，有不带事务的B方法和带事务的C方法。Spring发现你要调用A的B方法，于是他就去看看B需不需要被代理，发现不需要，就直接从Bean容器中给你返回了A类，然后调用带事务的C方法时，就是直接本类调用了。因为同类调用不需要向Spring获取Bean。</p>
+<h4 id="aop_2">事务注解和AOP注解</h4>
+<p>当事务注解和自定义的AOP注解在同一个方法上面时，就需要自定义注解的顺序，在Spring中配置事务的地方有一个属性<strong>order</strong>，这个属性的值越小，则执行优先级最高，事务的默认级别是最高的。</p>
 <h3 id="spring-cache">Spring-cache</h3>
 <p><a href="https://www.ibm.com/developerworks/cn/opensource/os-cn-spring-cache/">注释驱动的 Spring cache 缓存介绍</a></p>
 <h3 id="quartz">Quartz定时任务</h3>
@@ -689,7 +694,7 @@
 <blockquote>
 <p>component-scan标签默认情况下自动扫描指定路径下的包（含所有子包），将带有@Component、@Repository、@Service、@Controller标签的类自动注册到spring容器。对标记了 Spring's @Required、@Autowired、JSR250's @PostConstruct、@PreDestroy、@Resource、JAX-WS's @WebServiceRef、EJB3's @EJB、JPA's @PersistenceContext、@PersistenceUnit等注解的类进行对应的操作使注解生效（包含了annotation-config标签的作用）。</p>
 </blockquote>
-<h4 id="aop_2">开启aop</h4>
+<h4 id="aop_3">开启aop</h4>
 <div class="hlcode"><pre><span class="nt">&lt;aop:aspectj-autoproxy</span> <span class="nt">/&gt;</span> 
 </pre></div>
 
