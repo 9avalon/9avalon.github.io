@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../static/favicon.ico">
+
+    <title>java命名规范 - 9avalon wiki</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+	<link href="../static/css/tango.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+	<ol class="breadcrumb">	
+		<li><a href="/">Home</a></li><li><a href="/#Java">Java</a></li><li class="active">java命名规范</li>
+    </ol>
+	
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+            </ul>
+        </nav>
+        <h3 class="text-muted">java命名规范</h3>
+    </div>
+
+    <div class="row wiki-main">
+		<h3 id="java">Java命名规范</h3>
+<h4 id="_1">方法</h4>
+<p>返回类型是Boolean类型的，方法名一般使用” is “ 或 “ has ”开头。示例：isConnected()</p>
+<h4 id="_2">变量命名</h4>
+<p>String  前缀s
+Float f
+Doule d
+Integer i
+boolean is
+Map h</p>
+<h4 id="_3">缩进</h4>
+<p>tab 4个空格</p>
+<h4 id="_4">空格的使用</h4>
+<p>注释隔一个空格
+运算符用空格隔开
+三目运算符  eg：return a == b ? 1 : 0;
+逗号后空格</p>
+<h4 id="_5">注释</h4>
+<p>块级别注释
+eg；
+    /<em>----------start: 订单处理 ------- </em>/
+    //取得dao
+    OrderDao dao = Factory.getDao("OrderDao");
+    /<em> 查询订单 </em>/
+    Order order = dao.findById(456);
+    //更新订单
+    order.setUserName("uu");
+    order.setPassword("pass");
+    order.setPrice("ddd");
+    orderDao.save(order);
+    /<em>----------end: 订单处理 ------- </em>/</p>
+<h4 id="_6">浮点算运算</h4>
+<p>涉及所有浮点数的运算，一律用BigDecimal运算来保证准确度。系统框架已提供封装后的方法。</p>
+<h3 id="mysql">Mysql命名规范</h3>
+<h4 id="_7">常规</h4>
+<p>库名、表名、字段名必须使用小写字母，“_”分割。
+库名、表名、字段名必须不超过12个字符。</p>
+<p>表必须使用“t_”开头命名。
+存储精确浮点数必须使用DECIMAL替代FLOAT和DOUBLE。
+整形定义中不添加长度，比如使用INT，而不是INT(4)。</p>
+<p>VARCHAR(N)，N表示的是字符数不是字节数，比如VARCHAR(255)，可以最大可存储255个汉字，需要根据实际的宽度来选择N。
+VARCHAR(N)，N尽可能小，因为MySQL一个表中所有的VARCHAR字段最大长度是65535个字节，进行排序和创建临时表一类的内存操作时，会使用N的长度申请内存。</p>
+<p>存储年使用YEAR类型。
+存储日期使用DATE类型。
+存储时间（精确到秒）建议使用TIMESTAMP类型，因为TIMESTAMP使用4字节，DATETIME使用8个字节。
+建议字段定义为NOT NULL。
+禁止在数据库中使用VARBINARY、BLOB存储图片、文件等。
+表结构变更需要通知DBA审核。</p>
+<h4 id="_8">索引</h4>
+<p>SQL语句中IN包含的值不应过多，不能超过1000个参数。
+UPDATE、DELETE语句不使用LIMIT。
+WHERE条件中必须使用合适的类型，避免MySQL进行隐式类型转化。
+SELECT语句只获取需要的字段。
+SELECT、INSERT语句必须显式的指明字段名称，不使用SELECT *，不使用INSERT INTO table()。
+WHERE条件中的非等值条件（IN、BETWEEN、&lt;、&lt;=、&gt;、&gt;=）会导致后面的条件使用不了索引。
+INSERT语句使用batch提交（INSERT INTO table VALUES(),(),()……），values的个数不应过多。
+避免使用存储过程、触发器、函数等，容易将业务逻辑和DB耦合在一起，并且MySQL的存储过程、触发器、函数中存在一定的bug。
+避免使用JOIN。
+使用合理的SQL语句减少与数据库的交互次数。</p>
+<p>禁止在数据库中使用VARBINARY、BLOB存储图片、文件等。
+    采用分布式文件系统更高效</p>
+<p>QA:
+    MySQL中如何进行分页？
+    假如有类似下面分页语句：
+    SELECT * FROM table ORDER BY TIME DESC LIMIT 10000,10;
+    这种分页方式会导致大量的io，因为MySQL使用的是提前读取策略。
+    推荐分页方式：
+    SELECT * FROM table WHERE TIME&lt;last_TIME ORDER BY TIME DESC LIMIT 10.
+    SELECT * FROM table inner JOIN(SELECT id FROM table ORDER BY TIME LIMIT 10000,10) as t USING(id)</p>
+<p>为什么避免使用复杂的SQL？
+    拒绝使用复杂的SQL，将大的SQL拆分成多条简单SQL分步执行。原因：简单的SQL容易使用到MySQL的query cache；减少锁表时间特别是MyISAM；可以使用多核cpu。</p>
+    </div>
+
+    <footer class="footer">
+        <p style="font-size: 12px">Copyright © 2016 . Powered by Simiki. Theme by 9avalon</p>
+    </footer>
+
+</div> <!-- /container -->
+
+</body>
+</html>

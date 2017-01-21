@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../static/favicon.ico">
+
+    <title>常用命令 - 9avalon wiki</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+	<link href="../static/css/tango.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+	<ol class="breadcrumb">	
+		<li><a href="/">Home</a></li><li><a href="/#Linux">Linux</a></li><li class="active">常用命令</li>
+    </ol>
+	
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+            </ul>
+        </nav>
+        <h3 class="text-muted">常用命令</h3>
+    </div>
+
+    <div class="row wiki-main">
+		<div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#_1">常用</a><ul>
+<li><a href="#_2">解压</a></li>
+<li><a href="#_3">复制</a></li>
+<li><a href="#_4">查找文件</a></li>
+<li><a href="#_5">下载</a></li>
+<li><a href="#_6">查看文件大小</a></li>
+<li><a href="#_7">权限</a></li>
+<li><a href="#_8">查看端口占用</a></li>
+<li><a href="#_9">重命名文件</a></li>
+<li><a href="#_10">选择进程</a></li>
+<li><a href="#_11">杀死进程</a></li>
+<li><a href="#_12">下载文件</a></li>
+<li><a href="#_13">清屏</a></li>
+<li><a href="#_14">查看端口占用</a></li>
+<li><a href="#_15">查看目录文件详细</a></li>
+<li><a href="#_16">软连接</a></li>
+</ul>
+</li>
+<li><a href="#tomcat7">Tomcat7</a><ul>
+<li><a href="#tomcat">查看tomcat运行时日志</a></li>
+</ul>
+</li>
+<li><a href="#_17">查看内存占用</a></li>
+<li><a href="#ssh">SSH</a></li>
+</ul>
+</div>
+<p>一些基本的命令容易忘掉，所以写下来当备忘录。</p>
+<h3 id="_1">常用</h3>
+<h4 id="_2">解压</h4>
+<div class="hlcode"><pre>tar xvf wordpress.tar       <span class="c">####解压tar格式的文件####</span>
+</pre></div>
+
+
+<h4 id="_3">复制</h4>
+<div class="hlcode"><pre>cp -R file1path file2path
+</pre></div>
+
+
+<h4 id="_4">查找文件</h4>
+<div class="hlcode"><pre>find / -name &lt;file_name&gt; 
+</pre></div>
+
+
+<h4 id="_5">下载</h4>
+<div class="hlcode"><pre>sudo wget &lt;url&gt;  
+sudo wget &lt;url&gt; -O &lt;file_name&gt; //指定文件下载名
+</pre></div>
+
+
+<h4 id="_6">查看文件大小</h4>
+<div class="hlcode"><pre>du &lt;file_name&gt;
+</pre></div>
+
+
+<h4 id="_7">权限</h4>
+<p>数字的代表含义：</p>
+<p>r ------------4</p>
+<p>w -----------2</p>
+<p>x ------------1</p>
+<p>无------------0</p>
+<p>所以我平时常用的有主要有755（所有者所有权限，组读和执行，其他人读和执行），也可以对其他人限制得更厉害。</p>
+<div class="hlcode"><pre>sudo chmod &lt;auth_number&gt;  // 修改权限
+ls -l path/filename   // 查看权限
+</pre></div>
+
+
+<h4 id="_8">查看端口占用</h4>
+<p>例如，我要查看8080端口的占用</p>
+<div class="hlcode"><pre>netstat -ap | grep 8080
+</pre></div>
+
+
+<h4 id="_9">重命名文件</h4>
+<div class="hlcode"><pre>sudo mv old_file_name new_file_name
+</pre></div>
+
+
+<h4 id="_10">选择进程</h4>
+<div class="hlcode"><pre>ps -aux | grep &lt;name&gt;
+</pre></div>
+
+
+<h4 id="_11">杀死进程</h4>
+<div class="hlcode"><pre><span class="nb">kill</span> -9 pid
+</pre></div>
+
+
+<h4 id="_12">下载文件</h4>
+<div class="hlcode"><pre>sz &lt;filename&gt; <span class="c"># 需要安装lrzsz</span>
+</pre></div>
+
+
+<h4 id="_13">清屏</h4>
+<div class="hlcode"><pre>clear   
+</pre></div>
+
+
+<h4 id="_14">查看端口占用</h4>
+<div class="hlcode"><pre>netstat -tunlp
+</pre></div>
+
+
+<h4 id="_15">查看目录文件详细</h4>
+<div class="hlcode"><pre>ls -lrsh  升序
+ls -lsh   降序
+</pre></div>
+
+
+<h4 id="_16">软连接</h4>
+<div class="hlcode"><pre>ln -s &lt;true_file_path&gt; &lt;link&gt;
+目标文件被破坏，软连接还是会存在
+</pre></div>
+
+
+<h3 id="tomcat7">Tomcat7</h3>
+<h4 id="tomcat">查看tomcat运行时日志</h4>
+<p>先进入logs目录</p>
+<div class="hlcode"><pre>tail -f catalina.out  <span class="c">#ctrl + c退出</span>
+也可以查看catalina.out.201x.xx.xx <span class="c">#当天的日志</span>
+</pre></div>
+
+
+<h3 id="_17">查看内存占用</h3>
+<div class="hlcode"><pre>free -m  <span class="c"># 看buffer的那一栏，第一列是使用的内存，第二列是还剩下多少内存</span>
+ps aux --sort -rss  <span class="c"># 查看内存占用大小，rss列为实际列</span>
+</pre></div>
+
+
+<h3 id="ssh">SSH</h3>
+<div class="hlcode"><pre>ssh &lt;ip&gt; &lt;port&gt;
+</pre></div>
+    </div>
+
+    <footer class="footer">
+        <p style="font-size: 12px">Copyright © 2016 . Powered by Simiki. Theme by 9avalon</p>
+    </footer>
+
+</div> <!-- /container -->
+
+</body>
+</html>
