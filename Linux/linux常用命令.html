@@ -52,13 +52,15 @@
 <li><a href="#_14">查看端口占用</a></li>
 <li><a href="#_15">查看目录文件详细</a></li>
 <li><a href="#_16">软连接</a></li>
+<li><a href="#_17">查找大文件</a></li>
+<li><a href="#_18">清空某个文件</a></li>
 </ul>
 </li>
 <li><a href="#tomcat7">Tomcat7</a><ul>
 <li><a href="#tomcat">查看tomcat运行时日志</a></li>
 </ul>
 </li>
-<li><a href="#_17">查看内存占用</a></li>
+<li><a href="#_19">查看内存占用</a></li>
 <li><a href="#ssh">SSH</a></li>
 </ul>
 </div>
@@ -150,6 +152,16 @@ ls -lsh   降序
 </pre></div>
 
 
+<h4 id="_17">查找大文件</h4>
+<div class="hlcode"><pre>find . -type f -size +800M -exec ls -lh <span class="o">{}</span> <span class="se">\;</span>
+</pre></div>
+
+
+<h4 id="_18">清空某个文件</h4>
+<div class="hlcode"><pre>cp /dev/null nohup.out
+</pre></div>
+
+
 <h3 id="tomcat7">Tomcat7</h3>
 <h4 id="tomcat">查看tomcat运行时日志</h4>
 <p>先进入logs目录</p>
@@ -158,7 +170,7 @@ ls -lsh   降序
 </pre></div>
 
 
-<h3 id="_17">查看内存占用</h3>
+<h3 id="_19">查看内存占用</h3>
 <div class="hlcode"><pre>free -m  <span class="c"># 看buffer的那一栏，第一列是使用的内存，第二列是还剩下多少内存</span>
 ps aux --sort -rss  <span class="c"># 查看内存占用大小，rss列为实际列</span>
 </pre></div>
