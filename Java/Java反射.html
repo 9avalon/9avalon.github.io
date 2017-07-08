@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/static/css/tango.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>反射 - 心之所动，且就随缘而去吧</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/">Home</a>&nbsp;&#187;&nbsp;<a href="/#Java">Java</a>&nbsp;&#187;&nbsp;反射
+    <span class="updated">Page Updated&nbsp;
+      2016-06-23 16:57:32
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">反射</div>
+
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#java">什么是Java的反射机制</a></li>
+<li><a href="#_1">获取方法，调用方法</a></li>
+<li><a href="#_2">获取注解</a></li>
+<li><a href="#_3">获取构造函数</a></li>
+<li><a href="#_4">获取变量</a></li>
+</ul>
+</div>
+<p>最近准备学习Spring的源码, 考虑到Spring中的ioc和aop模块会有比较多的反射代码，而且这方面内容之前只是初略了解过，所以专门地去看了下java反射的相关使用。</p>
+<h4 id="java">什么是Java的反射机制</h4>
+<p>简而言之，Java反射机制可以让我们在程序运行时，检查类，接口，变量，以及方法、注解等。<br />
+有了反射我们就可以做很多事情，例如，动态生成类，动态生成实例等。</p>
+<p>为了方便，我们首先定义了一个Human Pojo类，这个类用来做测试对象。</p>
+<div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Human</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">HUMAN_PACKAGE</span> <span class="o">=</span> <span class="s">&quot;org.mingzzz.reflect.Human&quot;</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">sex</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">age</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Running&quot;</span><span class="o">);</span> <span class="o">};</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">speak</span><span class="o">()</span> <span class="o">{</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Speaking&quot;</span><span class="o">);</span> <span class="o">}</span>
+    <span class="c1">//构造函数</span>
+    <span class="kd">public</span> <span class="nf">Human</span><span class="o">()</span> <span class="o">{}</span>
+    <span class="c1">//带参构造函数</span>
+    <span class="kd">public</span> <span class="nf">Human</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">){</span> <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span> <span class="o">}</span>
+    <span class="c1">//各种get set方法</span>
+    <span class="o">...................</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<h4 id="_1">获取方法，调用方法</h4>
+<p>通过反射，我们可以轻松地获取到类的所有方法，也包括其父类的方法。</p>
+<div class="hlcode"><pre>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">getMethods</span><span class="o">(){</span>
+        <span class="k">try</span><span class="o">{</span>        
+            <span class="c1">// 打印出指定类的所有public方法,包括父类</span>
+            <span class="n">Method</span><span class="o">[]</span> <span class="n">methods</span> <span class="o">=</span> <span class="n">Human</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getMethods</span><span class="o">();</span>
+            <span class="k">for</span> <span class="o">(</span><span class="n">Method</span> <span class="nl">method:</span> <span class="n">methods</span><span class="o">){</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;method = &quot;</span> <span class="o">+</span> <span class="n">method</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+            <span class="o">}</span>
+
+            <span class="c1">// 获取指定名字的方法，并且执行之</span>
+            <span class="n">Method</span>  <span class="n">method</span> <span class="o">=</span> <span class="n">Human</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getMethod</span><span class="o">(</span><span class="s">&quot;setName&quot;</span><span class="o">,</span> <span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+            <span class="n">Human</span> <span class="n">human</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Human</span><span class="o">();</span>
+            <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">human</span><span class="o">,</span> <span class="s">&quot;kaka&quot;</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">human</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+        <span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</pre></div>
+
+
+<p>输出结果<br />
+可以看到，除了一些我们自己定义的方法，连父类的Object的方法也被打印了出来<br />
+后面我们通过反射调用了Human的setName方法，改变了Human的Name值<br />
+<img alt="" src="http://7xt3lj.com2.z0.glb.clouddn.com/markdown%E5%8F%8D%E5%B0%841.png" /></p>
+<h4 id="_2">获取注解</h4>
+<p>下面的几个都是大同小异的了，我就不详细展开写了，只贴了代码出来，只需要知道反射能这样获取内容就可以了。</p>
+<div class="hlcode"><pre>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">getAnno</span><span class="o">(){</span>
+        <span class="n">Annotation</span><span class="o">[]</span> <span class="n">annotations</span> <span class="o">=</span> <span class="n">Human</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getAnnotations</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">Annotation</span> <span class="nl">anno:</span> <span class="n">annotations</span><span class="o">){</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;anno = &quot;</span> <span class="o">+</span> <span class="n">anno</span><span class="o">.</span><span class="na">annotationType</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</pre></div>
+
+
+<h4 id="_3">获取构造函数</h4>
+<div class="hlcode"><pre>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">getConstructor</span><span class="o">(){</span>
+        <span class="k">try</span><span class="o">{</span>
+            <span class="c1">// 获取构造函数</span>
+            <span class="n">Constructor</span> <span class="n">constructor</span> <span class="o">=</span> <span class="n">Human</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getConstructor</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+            <span class="c1">// 通过构造函数实例化对象</span>
+            <span class="n">Human</span> <span class="n">human</span> <span class="o">=</span> <span class="o">(</span><span class="n">Human</span><span class="o">)</span> <span class="n">constructor</span><span class="o">.</span><span class="na">newInstance</span><span class="o">(</span><span class="s">&quot;小猴&quot;</span><span class="o">);</span>
+
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">human</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+        <span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</pre></div>
+
+
+<h4 id="_4">获取变量</h4>
+<div class="hlcode"><pre><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">getFields</span><span class="o">(){</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="c1">//获取类中所有的public变量</span>
+            <span class="n">Field</span><span class="o">[]</span> <span class="n">fields</span> <span class="o">=</span>  <span class="n">Human</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getFields</span><span class="o">();</span>
+            <span class="k">for</span> <span class="o">(</span><span class="n">Field</span> <span class="nl">field:</span> <span class="n">fields</span><span class="o">){</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;public == fieldName = &quot;</span> <span class="o">+</span> <span class="n">field</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; ====== fieldType = &quot;</span> <span class="o">+</span> <span class="n">field</span><span class="o">.</span><span class="na">getType</span><span class="o">());</span>
+            <span class="o">}</span>
+
+            <span class="c1">//获取类中的所有private变量</span>
+            <span class="n">Field</span><span class="o">[]</span> <span class="n">privateFields</span> <span class="o">=</span> <span class="n">Human</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getDeclaredFields</span><span class="o">();</span>
+            <span class="k">for</span> <span class="o">(</span><span class="n">Field</span> <span class="nl">pfield:</span> <span class="n">privateFields</span><span class="o">){</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;private == fieldName = &quot;</span> <span class="o">+</span> <span class="n">pfield</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; ====== fieldType = &quot;</span> <span class="o">+</span> <span class="n">pfield</span><span class="o">.</span><span class="na">getType</span><span class="o">());</span>
+            <span class="o">}</span>
+
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2017 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2017-07-08 12:40:11</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

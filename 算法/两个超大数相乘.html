@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/static/css/tango.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>两个超大数相乘 - 心之所动，且就随缘而去吧</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/">Home</a>&nbsp;&#187;&nbsp;<a href="/#算法">算法</a>&nbsp;&#187;&nbsp;两个超大数相乘
+    <span class="updated">Page Updated&nbsp;
+      2016-08-07 00:15:39
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">两个超大数相乘</div>
+
+  <p>美团金融的一道面试题</p>
+<p>很明显，超大数用Integer或者Long来装是不行的，必须要用String来进行存储，这里我采用了最笨的方法，就是模拟乘法的原理，去进行计算。</p>
+<div class="hlcode"><pre>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">twoBigNumberAdd</span><span class="o">(</span><span class="n">String</span> <span class="n">leftNum</span><span class="o">,</span> <span class="n">String</span> <span class="n">rightNum</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 转化成数组，并逆向排序</span>
+        <span class="n">Integer</span><span class="o">[]</span> <span class="n">leftCharArray</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Integer</span><span class="o">[</span><span class="n">leftNum</span><span class="o">.</span><span class="na">length</span><span class="o">()];</span>
+        <span class="n">Integer</span><span class="o">[]</span> <span class="n">rightCharArray</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Integer</span><span class="o">[</span><span class="n">rightNum</span><span class="o">.</span><span class="na">length</span><span class="o">()];</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">leftCharArray</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">leftCharArray</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">leftNum</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">leftNum</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="sc">&#39;0&#39;</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">rightCharArray</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">rightCharArray</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">rightNum</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">rightNum</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">-</span> <span class="sc">&#39;0&#39;</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 逐位相乘进行计算</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">allCharArray</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">leftNum</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">+</span> <span class="n">rightNum</span><span class="o">.</span><span class="na">length</span><span class="o">()];</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">leftCharArray</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">rightCharArray</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">allCharArray</span><span class="o">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="o">]</span> <span class="o">+=</span> <span class="n">leftCharArray</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">*</span> <span class="n">rightCharArray</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 将计算后的结果进行逐步移位</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">allCharArray</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">Integer</span> <span class="n">addNum</span> <span class="o">=</span> <span class="n">allCharArray</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+            <span class="n">allCharArray</span><span class="o">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">]</span> <span class="o">+=</span> <span class="n">addNum</span> <span class="o">/</span> <span class="mi">10</span><span class="o">;</span>
+            <span class="n">allCharArray</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">addNum</span> <span class="o">-</span> <span class="o">(</span><span class="n">addNum</span> <span class="o">/</span> <span class="mi">10</span><span class="o">)</span> <span class="o">*</span> <span class="mi">10</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 转换成String，并且去掉多余的0</span>
+        <span class="n">StringBuffer</span> <span class="n">sb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuffer</span><span class="o">();</span>
+        <span class="kt">boolean</span> <span class="n">zero</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">allCharArray</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">allCharArray</span><span class="o">[</span><span class="n">allCharArray</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="o">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">zero</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">zero</span> <span class="o">==</span> <span class="kc">true</span><span class="o">){</span>
+                <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">allCharArray</span><span class="o">[</span><span class="n">allCharArray</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="o">]);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">sb</span><span class="o">);</span>
+    <span class="o">}</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2017 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2017-07-08 12:40:11</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

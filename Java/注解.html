@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/static/css/tango.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>注解 - 心之所动，且就随缘而去吧</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/">Home</a>&nbsp;&#187;&nbsp;<a href="/#Java">Java</a>&nbsp;&#187;&nbsp;注解
+    <span class="updated">Page Updated&nbsp;
+      2016-08-26 10:13:32
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">注解</div>
+
+  <h4 id="retention">@Retention：注解的保留位置</h4>
+<div class="hlcode"><pre><span class="nd">@Retention</span><span class="o">(</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="na">SOURCE</span><span class="o">)</span>   <span class="c1">//注解仅存在于源码中，在class字节码文件中不包含</span>
+<span class="nd">@Retention</span><span class="o">(</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="na">CLASS</span><span class="o">)</span>     <span class="c1">// 默认的保留策略，注解会在class字节码文件中存在，但运行时无法获得，</span>
+<span class="nd">@Retention</span><span class="o">(</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>  <span class="c1">// 注解会在class字节码文件中存在，在运行时可以通过反射获取到</span>
+</pre></div>
+
+
+<h4 id="target">@Target注解的作用目标</h4>
+<div class="hlcode"><pre><span class="nd">@Target</span><span class="o">(</span><span class="n">ElementType</span><span class="o">.</span><span class="na">TYPE</span><span class="o">)</span>   <span class="c1">//接口、类、枚举、注解</span>
+<span class="nd">@Target</span><span class="o">(</span><span class="n">ElementType</span><span class="o">.</span><span class="na">FIELD</span><span class="o">)</span> <span class="c1">//字段、枚举的常量</span>
+<span class="nd">@Target</span><span class="o">(</span><span class="n">ElementType</span><span class="o">.</span><span class="na">METHOD</span><span class="o">)</span> <span class="c1">//方法</span>
+<span class="nd">@Target</span><span class="o">(</span><span class="n">ElementType</span><span class="o">.</span><span class="na">PARAMETER</span><span class="o">)</span> <span class="c1">//方法参数</span>
+<span class="nd">@Target</span><span class="o">(</span><span class="n">ElementType</span><span class="o">.</span><span class="na">CONSTRUCTOR</span><span class="o">)</span>  <span class="c1">//构造函数</span>
+<span class="nd">@Target</span><span class="o">(</span><span class="n">ElementType</span><span class="o">.</span><span class="na">LOCAL_VARIABLE</span><span class="o">)</span><span class="c1">//局部变量</span>
+<span class="nd">@Target</span><span class="o">(</span><span class="n">ElementType</span><span class="o">.</span><span class="na">ANNOTATION_TYPE</span><span class="o">)</span><span class="c1">//注解</span>
+<span class="nd">@Target</span><span class="o">(</span><span class="n">ElementType</span><span class="o">.</span><span class="na">PACKAGE</span><span class="o">)</span> <span class="c1">///包   </span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2017 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2017-07-08 12:40:11</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
