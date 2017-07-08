@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/static/css/tango.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>数据库锁，并发，死锁 - 心之所动，且就随缘而去吧</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/">Home</a>&nbsp;&#187;&nbsp;<a href="/#数据库">数据库</a>&nbsp;&#187;&nbsp;数据库锁，并发，死锁
+    <span class="updated">Page Updated&nbsp;
+      2016-08-03 14:53:45
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">数据库锁，并发，死锁</div>
+
+  <h3 id="_1">行锁和表锁</h3>
+<p>首先介绍一下行锁和表锁</p>
+<p><strong>表锁</strong>顾明思议是把整张表给锁住，表锁并发度低，但管理锁的开销较小</p>
+<p><strong>行锁</strong>是把表的一条纪录锁住，并发度较高，管理锁的开销大。</p>
+<p>锁定的单元越小，并发能力越高，管理锁的开销越大。</p>
+<h3 id="_2">乐观锁和悲观锁：</h3>
+<p>乐观锁：事务把记录锁住，可以允许其他事务读取该记录，但是该记录不能被其他事务修改。</p>
+<p>悲观锁：事务将记录锁住，不允许其他事务读取和修改该记录</p>
+<h3 id="_3">死锁的产生例子</h3>
+<p>使用排它锁会有可能出现死锁的情况。</p>
+<p>假如当前有两个线程A和B，数据库某张表中C记录，D记录</p>
+<p>1、A发起请求，对C记录进行查询，并使用了排它锁，将此记录锁住。</p>
+<p>2、B随后发起请求，对D纪录进行查询，同样把纪录锁住。</p>
+<p>3、此时，A纪录要访问D纪录，但由于B把D纪录锁了，所以A会一直等待直到B把D纪录的锁释放。</p>
+<p>4、在A等待的时候，B却要对C纪录进行访问，但是C纪录的锁在A上，因此B要等待直到A释放C纪录的锁。</p>
+<p>5、两者互相等待，死锁产生了。</p>
+<h3 id="_4">避免死锁</h3>
+<p>使用事务时，尽量缩短事务逻辑处理过程，及早提交和回滚事务。</p>
+<p>设置死锁超时时间</p>
+<p>合理安排表访问顺序</p>
+<h3 id="_5">一些问题</h3>
+<p>Q:select for update是什么锁？</p>
+<p>A:行锁</p>
+<h3 id="_6">文章推荐</h3>
+<p>不错的文章</p>
+<p><a href="http://www.cnblogs.com/zhaoyl/p/4121010.html">mysql事务和锁InnoDB</a></p>
+<p><a href="http://www.cnblogs.com/xiohao/p/4385508.html">大数据量下高并发同步的讲解</a></p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2017 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2017-07-08 13:12:34</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
