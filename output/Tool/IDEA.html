@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/static/css/tango.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>IntelliJ IDEA - 心之所动，且就随缘而去吧</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/">Home</a>&nbsp;&#187;&nbsp;<a href="/#Tool">Tool</a>&nbsp;&#187;&nbsp;IntelliJ IDEA
+    <span class="updated">Page Updated&nbsp;
+      2016-08-04 23:05:52
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">IntelliJ IDEA</div>
+
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#_1">常用快捷键</a><ul>
+<li><a href="#_2">查找类</a></li>
+<li><a href="#_3">其他常用类</a></li>
+<li><a href="#_4">快速输出</a></li>
+<li><a href="#idea">隐藏idea自动生成文件夹</a></li>
+<li><a href="#_5">单元测试挂代理</a></li>
+<li><a href="#_6">序列化自动完成提示</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>推荐安装vim插件，提升开发效率</p>
+<p>还有一点就是将idea的控制台更改为git bash，超级方便</p>
+<h3 id="_1">常用快捷键</h3>
+<p>列举一些自己最近使用idea依赖，使用得比较频繁的快捷键。</p>
+<h4 id="_2">查找类</h4>
+<div class="hlcode"><pre><span class="n">Shift</span> <span class="o">+</span> <span class="n">Shift</span>              <span class="c1">// 快速查找  </span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">Shift</span> <span class="o">+</span> <span class="n">F</span>           <span class="c1">// 全局搜索</span>
+
+<span class="n">Alt</span> <span class="o">+</span> <span class="n">F7</span>                   <span class="c1">// 查看调用关系</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">N</span>                   <span class="c1">// 查找类</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">Alt</span> <span class="o">+</span> <span class="n">B</span>             <span class="c1">// 查看具体实现</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">LeftClick</span>           <span class="c1">// 查看类</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">P</span>                   <span class="c1">// 查看需要传入参数</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">Q</span>                   <span class="c1">// 查看类信息</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">E</span>                   <span class="c1">// 查看最近修改的类</span>
+</pre></div>
+
+
+<h4 id="_3">其他常用类</h4>
+<div class="hlcode"><pre><span class="n">Alt</span> <span class="o">+</span> <span class="n">Shift</span> <span class="o">+</span> <span class="n">C</span>            <span class="c1">// 最近的更改</span>
+
+<span class="n">Alt</span> <span class="o">+</span> <span class="n">Shift</span> <span class="o">+</span> <span class="n">Up</span><span class="o">/</span><span class="n">Down</span>      <span class="c1">// 向上或下移一行</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">Shift</span> <span class="o">+</span> <span class="n">Backspace</span>  <span class="c1">// 返回上一次修改的地方</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">Alt</span> <span class="o">+</span> <span class="n">Space</span>         <span class="c1">// 自动补全</span>
+
+<span class="n">Alt</span> <span class="o">+</span> <span class="n">Enter</span>                <span class="c1">// 自动导入</span>
+
+<span class="n">Alt</span> <span class="o">+</span> <span class="n">Insert</span>               <span class="c1">// 调出自动构造get、set，构造函数</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">Alt</span> <span class="o">+</span> <span class="n">O</span>             <span class="c1">// 去掉引入多余的包</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">Alt</span> <span class="o">+</span> <span class="n">L</span>             <span class="c1">// 自动格式化代码</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="o">/</span>                   <span class="c1">// 注释代码</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">Alt</span> <span class="o">+</span> <span class="n">T</span>             <span class="c1">// 自动生成try catch等等</span>
+</pre></div>
+
+
+<h4 id="_4">快速输出</h4>
+<div class="hlcode"><pre><span class="n">sout</span> <span class="o">+</span> <span class="n">ENTER</span>              <span class="c1">// 快速打印System.out.println();</span>
+
+<span class="n">psvm</span> <span class="o">+</span> <span class="n">ENTER</span>              <span class="c1">// 快速打印main方法</span>
+</pre></div>
+
+
+<h4 id="idea">隐藏idea自动生成文件夹</h4>
+<p>项目中见到.idea文件不爽，把他隐藏掉</p>
+<p><a href="http://jingyan.baidu.com/article/14bd256e79747dbb6d2612cb.html">隐藏文件夹</a></p>
+<h4 id="_5">单元测试挂代理</h4>
+<div class="hlcode"><pre><span class="o">-</span><span class="n">ea</span> <span class="o">-</span><span class="n">Dhttp</span><span class="p">.</span><span class="n">proxyHost</span><span class="o">=</span><span class="mf">10.201.5.16</span> <span class="o">-</span><span class="n">Dhttp</span><span class="p">.</span><span class="n">proxyPort</span><span class="o">=</span><span class="mi">3128</span>
+</pre></div>
+
+
+<h4 id="_6">序列化自动完成提示</h4>
+<div class="hlcode"><pre><span class="nl">http:</span><span class="c1">//blog.csdn.net/tiantiandjava/article/details/8781776</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2017 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2017-07-08 12:40:11</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

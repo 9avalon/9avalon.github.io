@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/static/css/tango.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>ubuntu - 心之所动，且就随缘而去吧</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/">Home</a>&nbsp;&#187;&nbsp;<a href="/#Linux">Linux</a>&nbsp;&#187;&nbsp;ubuntu
+    <span class="updated">Page Updated&nbsp;
+      2016-06-24 18:06:23
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">ubuntu</div>
+
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#java">安装java</a></li>
+<li><a href="#mysql">安装mysql</a><ul>
+<li><a href="#_1">修改中文编码</a></li>
+<li><a href="#_2">添加远程账号</a></li>
+<li><a href="#_3">修改登陆后的默认位置</a></li>
+</ul>
+</li>
+<li><a href="#tomcat"># 安装tomcat</a></li>
+</ul>
+</div>
+<h3 id="java">安装java</h3>
+<p>首先到官网下载jdk，注意x86和x64的版本下载</p>
+<p>然后创建一个目录/usr/lib/jvm以便于把下载解压后的包放到这个目录<br />
+    sudo mkdir /usr/lib/jvm</p>
+<p>解压并把解压后的jdk1.8.0_25文件夹放到/usr/lib/jvm目录中。注意：我现在下载的安装包在Desktop目录下所以直接Desktop目录下在操作，如果你所下载的安装包不在Desktop目录下，请先cd进入相应目录，再继续操作。<br />
+    sudo tar zxvf jdk-...... -C /usr/lib/jvm</p>
+<p>进入到/usr/lib/jvm目录下<br />
+    cd /usr/lib/jvm</p>
+<p>把解压后的jdk1.8.0_25文件夹重命名为java，以便于书写<br />
+    sudo mv jdk..... java</p>
+<p>先进入vi编辑器（第一幅图），然后输入以下内容（第二幅图）。</p>
+<div class="hlcode"><pre>sudo vim ~/.bashrc
+
+export JAVA_HOME=/usr/lib/jvm/java
+export JRE_HOME=<span class="cp">${</span><span class="n">JAVA_HOME</span><span class="cp">}</span>/jre
+export CLASSPATH=.:<span class="cp">${</span><span class="n">JAVA_HOME</span><span class="cp">}</span>/lib:<span class="cp">${</span><span class="n">JRE_HOME</span><span class="cp">}</span>/lib
+export PATH=<span class="cp">${</span><span class="n">JAVA_HOME</span><span class="cp">}</span>/bin:<span class="nv">$PATH</span>
+</pre></div>
+
+
+<p>输入如下代码<br />
+    source ~/.bashrc</p>
+<p>测试，出现如下结果则安装好，你就可以尽情的编写Java程序了。<br />
+    java -version</p>
+<h3 id="mysql">安装mysql</h3>
+<p>直接命令行下载<br />
+    sudo apt-get install mysql-server<br />
+    apt-get isntall mysql-client<br />
+    sudo apt-get install libmysqlclient-dev</p>
+<p>检查有无安装成功<br />
+    sudo netstat -tap | grep mysql</p>
+<h4 id="_1">修改中文编码</h4>
+<p>进入 /etc/mysql/my.cnf,打开mysql配置文件：<br />
+    vim/etc/mysql/my.cnf<br />
+在[client]下追加：<br />
+    default-character-set=utf8<br />
+在[mysqld]下追加：<br />
+    character-set-server=utf8<br />
+在[mysql]下追加：<br />
+    default-character-set=utf8<br />
+保存并退出,重启服务<br />
+    sudo service mysql restart<br />
+进入mysql控制台查看编码<br />
+    mysql&gt;show variables like 'character%'<br />
+看到没有latian1则大功告成</p>
+<h4 id="_2">添加远程账号</h4>
+<p>第一步：<br />
+    vim /etc/MySQL/my.cnf找到bind-address = 127.0.0.1<br />
+注释掉这行<br />
+    #bind-address = 127.0.0.1<br />
+或者改为，这样修改的意思是允许任意的ip访问，或者自己指定一个ip地址<br />
+    bind-address = 0.0.0.0<br />
+重启 mysql<br />
+    sudo /etc/init.d/mysql restart<br />
+第二步：<br />
+授权用户能进行远程连接<br />
+    grant all privileges on [database].* to [用户名]@"%" identified by "[password]" with grant option;<br />
+刷新<br />
+    flush privileges;</p>
+<h4 id="_3">修改登陆后的默认位置</h4>
+<p>编辑配置文件</p>
+<div class="hlcode"><pre>vi /etc/passwd
+</pre></div>
+
+
+<p>找到root所在行</p>
+<div class="hlcode"><pre>root:x:0:0:root:/root:/bin/bash
+</pre></div>
+
+
+<p>修改默认目录</p>
+<div class="hlcode"><pre>root:x:0:0:root:&lt;path&gt;:/bin/bash
+</pre></div>
+
+
+<p>保存退出</p>
+<h3 id="tomcat"># 安装tomcat</h3>
+<p>从官网处下载tomcat的包，然后放到linux下解压</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2017 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2017-07-08 12:40:11</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
