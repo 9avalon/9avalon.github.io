@@ -71,6 +71,12 @@ git reset head
 git rm -cached <FILE>
 ```
 
+#### git commit 恢复
+
+```shell
+git reset --soft <commit_id>
+```
+
 #### 解决冲突
 
 当我们pull远程源merge然后发现有冲突的时候，git会提示我们某个文件需要解决冲突，一般来说，只要到本地种把冲突的文件修改，然后add commit掉，就可以了。
@@ -234,8 +240,6 @@ $ git config --global user.email wirelessqa.me@gmail.com
 ```sh
 $ git config --list // 查看设置
 ```
-
-
 
 #### gitignore
 

@@ -1,11 +1,13 @@
 # Document:
 # http://simiki.org/docs/configuration.html
 
-url: 
+url: 9avalon/wiki
 title: 心之所动，且就随缘而去吧
 keywords: 
 description: 侯铭健的个人wiki
 author: 侯铭健
+
+root: /wiki/
 
 deploy:
   - type: git
