@@ -18,7 +18,8 @@
 <div id="header">
   <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Linux">Linux</a>&nbsp;&#187;&nbsp;常用命令
     <span class="updated">Page Updated&nbsp;
-      2016-06-24 18:04:53
+      2017-8-31 12:09
+      
     </span></div>
 </div>
 <div class="clearfix"></div>
@@ -52,6 +53,7 @@
 </li>
 <li><a href="#_19">查看内存占用</a></li>
 <li><a href="#ssh">SSH</a></li>
+<li><a href="#scp">SCP跨主机传输文件</a></li>
 </ul>
 </div>
 <p>一些基本的命令容易忘掉，所以写下来当备忘录。</p>
@@ -174,12 +176,20 @@ ps aux --sort -rss  <span class="c"># 查看内存占用大小，rss列为实际
 <h3 id="ssh">SSH</h3>
 <div class="hlcode"><pre>ssh &lt;ip&gt; &lt;port&gt;
 </pre></div>
+
+
+<h3 id="scp">SCP跨主机传输文件</h3>
+<div class="hlcode"><pre>scp &lt;local_folder&gt; &lt;username&gt;@&lt;ip&gt;:&lt;remote_folder&gt;
+</pre></div>
+
+
+<p>从远程复制到本地的scp命令与上面的命令一样，只要将从本地复制到远程的命令后面2个参数互换顺序就行了。</p>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2017 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2017-08-27 12:49:48</p>
+        <p>Site Generated 2017-09-01 00:27:07</p>
       </span>
     </div>
 
