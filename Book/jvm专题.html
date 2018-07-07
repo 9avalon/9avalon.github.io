@@ -28,12 +28,12 @@
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
 <li><a href="#_1">主要内容</a></li>
 <li><a href="#jvm">JVM内存结构</a><ul>
-<li><a href="#_2">图示意</a></li>
-<li><a href="#_3">本地方法栈区</a></li>
-<li><a href="#_4">程序计数器</a></li>
-<li><a href="#_5">栈</a></li>
-<li><a href="#_6">堆</a></li>
-<li><a href="#_7">方法区</a></li>
+<li><a href="#_2">本地方法栈区</a></li>
+<li><a href="#_3">程序计数器</a></li>
+<li><a href="#_4">栈</a></li>
+<li><a href="#_5">堆</a></li>
+<li><a href="#_6">方法区</a></li>
+<li><a href="#_7">图示意</a></li>
 </ul>
 </li>
 <li><a href="#_8">垃圾回收</a><ul>
@@ -81,22 +81,22 @@
 <li>JVM参数调优</li>
 </ul>
 <h1 id="jvm">JVM内存结构</h1>
-<h2 id="_2">图示意</h2>
-<p><img alt="" src="http://ww1.sinaimg.cn/large/005H7Wvygy1fk8cr501rqj30p20isgvw.jpg" /></p>
-<h2 id="_3">本地方法栈区</h2>
+<h2 id="_2">本地方法栈区</h2>
 <p>存放native方法</p>
-<h2 id="_4">程序计数器</h2>
+<h2 id="_3">程序计数器</h2>
 <p>可以被看作是当前程序所执行的字节码所在行号的指示器。cpu切换线程时，找到程序计数器指向的字节码，继续执行程序。</p>
-<h2 id="_5">栈</h2>
+<h2 id="_4">栈</h2>
 <p>虚拟机栈的生命周期与线程是一样的，为线程私有的。</p>
 <p>每个方法都会产生一个栈帧，里面存放局部变量，变量引用，方法出入口等等。</p>
 <p>每个方法从开始被调用到结束调用，就意味着一个栈帧在虚拟机栈中入栈到出栈的过程。</p>
-<h2 id="_6">堆</h2>
+<h2 id="_5">堆</h2>
 <p>存放所有对象的区域，被所有线程共享。</p>
-<h2 id="_7">方法区</h2>
+<h2 id="_6">方法区</h2>
 <p>各个线程共享的区域，用于存储已被虚拟机加载的类信息，常量，静态变量等。</p>
 <p>运行时常量池也在方法区</p>
 <p>别名叫【非堆】，方法区也在堆区。</p>
+<h2 id="_7">图示意</h2>
+<p><img alt="" src="http://ww1.sinaimg.cn/large/005H7Wvygy1fk8cr501rqj30p20isgvw.jpg" /></p>
 <h1 id="_8">垃圾回收</h1>
 <h2 id="_9">判断对象是否可以被回收</h2>
 <h3 id="_10">计数法</h3>
@@ -209,7 +209,7 @@ jdk1.7正式商用。</p>
       <span>
         <p>Copyright © 2018 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2018-07-08 01:45:00</p>
+        <p>Site Generated 2018-07-08 01:48:12</p>
       </span>
     </div>
 
