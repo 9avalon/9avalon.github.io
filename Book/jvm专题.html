@@ -63,6 +63,8 @@
 <li><a href="#jstat">jstat</a></li>
 <li><a href="#jmap">jmap</a></li>
 <li><a href="#jstack">jstack</a></li>
+<li><a href="#jvm_2">JVM参数配置调优</a></li>
+<li><a href="#_15">官方推荐</a></li>
 </ul>
 </li>
 </ul>
@@ -182,12 +184,32 @@ jdk1.7正式商用。</p>
 
 <span class="o">-</span><span class="n">l</span> <span class="err">除堆栈外，显示关于锁的附加信息</span>
 </pre></div>
+
+
+<h3 id="jvm_2">JVM参数配置调优</h3>
+<ul>
+<li>-xms,-xmx</li>
+</ul>
+<p>堆区最大和最小值，一般为机器内存的1/3或1/4的值。xmn年轻代大，一般xms和xmx一样大小，减少jvm动态扩容导致的消耗</p>
+<ul>
+<li>-xmn</li>
+</ul>
+<p>年轻代大小，sun建议为整个堆区的3/8</p>
+<ul>
+<li>-XX:PermSize</li>
+</ul>
+<p>持久区大小，存放静态类，常量池等。一般为内存的六十四分之一。10g机器，156m</p>
+<h3 id="_15">官方推荐</h3>
+<p>Java整个堆大小设置，Xmx 和 Xms设置为老年代存活对象的3-4倍，即FullGC之后的老年代内存占用的3-4倍</p>
+<p>永久代 PermSize和MaxPermSize设置为老年代存活对象的1.2-1.5倍。</p>
+<p>年轻代Xmn的设置为老年代存活对象的1-1.5倍。</p>
+<p>老年代的内存大小设置为老年代存活对象的2-3倍。</p>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2018 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2018-07-08 01:22:58</p>
+        <p>Site Generated 2018-07-08 01:45:00</p>
       </span>
     </div>
 
