@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>SpringBoot - 心之所动，且就随缘而去吧</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;SpringBoot
+    <span class="updated">Page Updated&nbsp;
+      2017-09-20 00:28
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">SpringBoot</div>
+
+  <h1 id="spring-boot">Spring Boot</h1>
+<div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#spring-boot">Spring Boot</a><ul>
+<li><a href="#spring-boot-parent">不使用默认的Spring Boot parent模板</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>暂时只收录一些遇到的坑</p>
+<h2 id="spring-boot-parent">不使用默认的Spring Boot parent模板</h2>
+<p>在parent的pom中，<code>&lt;dependencyManagement&gt;</code>节点中增减下面的代码即可。</p>
+<div class="hlcode"><pre><span class="c">&lt;!-- spring boot--&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="c">&lt;!-- Import dependency management from Spring Boot --&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-boot-dependencies<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>1.4.3.RELEASE<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;type&gt;</span>pom<span class="nt">&lt;/type&gt;</span>
+    <span class="nt">&lt;scope&gt;</span>import<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2018 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2018-07-08 01:22:58</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

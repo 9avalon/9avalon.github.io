@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>JVM专题 - 心之所动，且就随缘而去吧</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Book">Book</a>&nbsp;&#187;&nbsp;JVM专题
+    <span class="updated">Page Updated&nbsp;
+      2018-07-07 21:05:16
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">JVM专题</div>
+
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#_1">主要内容</a></li>
+<li><a href="#jvm">JVM内存结构</a><ul>
+<li><a href="#_2">图示意</a></li>
+<li><a href="#_3">本地方法栈区</a></li>
+<li><a href="#_4">程序计数器</a></li>
+<li><a href="#_5">栈</a></li>
+<li><a href="#_6">堆</a></li>
+<li><a href="#_7">方法区</a></li>
+</ul>
+</li>
+<li><a href="#_8">垃圾回收</a><ul>
+<li><a href="#_9">判断对象是否可以被回收</a><ul>
+<li><a href="#_10">计数法</a></li>
+<li><a href="#_11">可达性分析</a></li>
+</ul>
+</li>
+<li><a href="#_12">垃圾回收算法</a><ul>
+<li><a href="#-">标记-清理算法</a></li>
+<li><a href="#_13">复制算法</a></li>
+<li><a href="#-_1">标记-整理算法</a></li>
+</ul>
+</li>
+<li><a href="#_14">垃圾收集器</a><ul>
+<li><a href="#serial">Serial收集器(新生代)</a></li>
+<li><a href="#parnew">ParNew收集器(新生代)</a></li>
+<li><a href="#parallel-old">Parallel Old(新生代)</a></li>
+<li><a href="#serial-old">Serial Old收集器（老年代）</a></li>
+<li><a href="#parallel-old_1">Parallel Old(老年代)</a></li>
+<li><a href="#cms">CMS(老年代)</a></li>
+<li><a href="#g1">G1（目前最先进）</a></li>
+</ul>
+</li>
+<li><a href="#jvm_1">JVM命令行工具使用</a><ul>
+<li><a href="#jps">jps</a></li>
+<li><a href="#jstat">jstat</a></li>
+<li><a href="#jmap">jmap</a></li>
+<li><a href="#jstack">jstack</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<h1 id="_1">主要内容</h1>
+<p>这篇大部分内容取自《深入了解JVM虚拟机》</p>
+<ul>
+<li>JVM内存结构 </li>
+<li>类加载机制 </li>
+<li>垃圾回收</li>
+<li>JVM命令行工具使用</li>
+<li>JVM参数调优</li>
+</ul>
+<h1 id="jvm">JVM内存结构</h1>
+<h2 id="_2">图示意</h2>
+<p><img alt="" src="http://ww1.sinaimg.cn/large/005H7Wvygy1fk8cr501rqj30p20isgvw.jpg" /></p>
+<h2 id="_3">本地方法栈区</h2>
+<p>存放native方法</p>
+<h2 id="_4">程序计数器</h2>
+<p>可以被看作是当前程序所执行的字节码所在行号的指示器。cpu切换线程时，找到程序计数器指向的字节码，继续执行程序。</p>
+<h2 id="_5">栈</h2>
+<p>虚拟机栈的生命周期与线程是一样的，为线程私有的。</p>
+<p>每个方法都会产生一个栈帧，里面存放局部变量，变量引用，方法出入口等等。</p>
+<p>每个方法从开始被调用到结束调用，就意味着一个栈帧在虚拟机栈中入栈到出栈的过程。</p>
+<h2 id="_6">堆</h2>
+<p>存放所有对象的区域，被所有线程共享。</p>
+<h2 id="_7">方法区</h2>
+<p>各个线程共享的区域，用于存储已被虚拟机加载的类信息，常量，静态变量等。</p>
+<p>运行时常量池也在方法区</p>
+<p>别名叫【非堆】，方法区也在堆区。</p>
+<h1 id="_8">垃圾回收</h1>
+<h2 id="_9">判断对象是否可以被回收</h2>
+<h3 id="_10">计数法</h3>
+<p>最简单的一种判断对象是否可回收的方法是计数法，当对象有被引用时，计数器加一，不被引用时，减一，当触发GC时，若计数器为0，则该对象可以被回收。但是，虽然该方法看似简单有效，但是不能解决对象循环依赖的问题。如以下代码:</p>
+<div class="hlcode"><pre><span class="n">Object</span> <span class="n">instanceA</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Obj</span><span class="o">();</span>
+<span class="n">Object</span> <span class="n">instanceB</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Obj</span><span class="o">();</span>
+<span class="n">instanceA</span> <span class="o">=</span> <span class="n">instanceB</span><span class="o">;</span>
+<span class="n">instanceB</span> <span class="o">=</span> <span class="n">instanceA</span><span class="o">;</span>
+
+<span class="n">instanceA</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+<span class="n">instanceB</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> 
+
+<span class="n">gc</span><span class="o">()</span>
+</pre></div>
+
+
+<p>instanceA和instanceB互相引用，计数器不为0，不能被回收。</p>
+<h3 id="_11">可达性分析</h3>
+<p>因此，现在主流的JVM虚拟机是通过 <em>【可达性分析】</em> 来判断对象是否可被回收。</p>
+<p><img alt="" src="https://ws1.sinaimg.cn/mw690/005H7Wvygy1ft1nak0pz3j31ag0ss7gy.jpg" /></p>
+<p>那么那些对象可以作为GC Roots呢？</p>
+<ul>
+<li>栈中引用的对象</li>
+<li>方法区中静态属性引用的对象</li>
+<li>方法区中常量引用的对象</li>
+<li>JNI引用的对象</li>
+</ul>
+<h2 id="_12">垃圾回收算法</h2>
+<h3 id="-">标记-清理算法</h3>
+<p>基本原理，标记需要清除的对象，在标记完成后，进行统一回收。优点是速度快，但是会导致内存区域产生大量不连续的内存碎片，导致后续分配内存时候，容易导致无可用区域块而需要重新分配内存。</p>
+<h3 id="_13">复制算法</h3>
+<p>基本原理，将内存分为两块，GC时候，将需要回收的对象直接清除，不需要回收的对象挪到另外的内存区里面。优点是内存区域整齐，不容易产生小碎片段，但是因为需要划分两块内存，会造成内存浪费。</p>
+<p>目前主流的JVM，年轻代回收算法使用的是复制算法，对年轻代分为三个区域，分别为一个eden区和两个suivivor区，eden区与suivivor内存大小比一般为8:1:1，一般年轻代进行回收时，eden区90%的对象都会被回收，没被回收的对象进入suivior区，如果对象两次gc后，还在suivior区，就会进入到老年代里面。</p>
+<h3 id="-_1">标记-整理算法</h3>
+<p>因为老年代内存较大，如果按年轻代一样使用复制算法的话，需要划分两块内存，会造成较大的空间浪费。而且老年代里面，对象的存活率较高，复制带来的成本也会变大。所以，老年代一般不使用复制算法。</p>
+<p>目前老年代主流的算法为标记整理方法，这个方法是与标记-清理算法不一样的是，先对要清理的对象进行清除，清除完毕后，再将老年代里面的对象进行整理，减少不连续的内存区域。</p>
+<h2 id="_14">垃圾收集器</h2>
+<h3 id="serial">Serial收集器(新生代)</h3>
+<p>由JVM后台单独起一个线程(单线程)进行收集回收，此时其他线程都需要停顿。是最原始的收集器。</p>
+<h3 id="parnew">ParNew收集器(新生代)</h3>
+<p>Serial收集器的多线程版本，提升了效率。</p>
+<h3 id="parallel-old">Parallel Old(新生代)</h3>
+<p>复制方法</p>
+<h3 id="serial-old">Serial Old收集器（老年代）</h3>
+<p>Serial收集器的老年代版本</p>
+<h3 id="parallel-old_1">Parallel Old(老年代)</h3>
+<p>吞吐量优先，标记-整理算法</p>
+<h3 id="cms">CMS(老年代)</h3>
+<p>并发收集，低停顿</p>
+<h3 id="g1">G1（目前最先进）</h3>
+<p><br />
+jdk1.7正式商用。</p>
+<h2 id="jvm_1">JVM命令行工具使用</h2>
+<h3 id="jps">jps</h3>
+<p>查看虚拟机进程</p>
+<div class="hlcode"><pre><span class="n">jps</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span> <span class="p">{</span><span class="n">hostid</span><span class="p">}</span>
+
+<span class="err">常用</span><span class="o">:</span>
+<span class="n">jps</span> <span class="o">-</span><span class="n">v</span> <span class="o">|</span> <span class="n">grep</span> <span class="p">{</span><span class="n">filter_name</span><span class="p">}</span>
+</pre></div>
+
+
+<p>-v 输出虚拟机进程进程启动时的JVM参数</p>
+<h3 id="jstat">jstat</h3>
+<div class="hlcode"><pre><span class="n">jstat</span> <span class="p">[</span> <span class="n">option</span> <span class="n">vmid</span> <span class="p">[]</span><span class="n">interval</span><span class="p">[</span><span class="n">s</span><span class="o">|</span><span class="n">ms</span><span class="p">]</span> <span class="p">[</span><span class="n">count</span><span class="p">]</span> <span class="p">]</span>
+
+<span class="err">比如，需要</span><span class="mi">250</span><span class="err">毫秒查询一次进程</span><span class="mi">2764</span><span class="err">垃圾收集情况，那命令格式为</span>
+<span class="n">jstat</span> <span class="o">-</span><span class="n">gc</span> <span class="mi">2764</span> <span class="mi">250</span> <span class="mi">20</span>
+</pre></div>
+
+
+<p><img alt="" src="https://ws1.sinaimg.cn/mw690/005H7Wvygy1ft1rxw4epyj31cw0mmwqt.jpg" /></p>
+<h3 id="jmap">jmap</h3>
+<p>jmap用于生成堆转储快照，我们经常用jamp来获取dump文件，用于分析异常情况。</p>
+<div class="hlcode"><pre><span class="n">jmap</span> <span class="p">[</span><span class="n">option</span><span class="p">]</span> <span class="n">vmid</span>
+
+<span class="n">eg</span><span class="p">.</span>
+<span class="n">jmap</span> <span class="o">-</span><span class="n">dump</span><span class="o">:</span><span class="n">format</span><span class="o">=</span><span class="n">b</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">srv</span><span class="o">-</span><span class="n">account</span><span class="o">-</span><span class="n">center</span><span class="o">-</span><span class="n">dump</span><span class="p">.</span><span class="n">bin</span> <span class="mi">2777</span> 
+</pre></div>
+
+
+<h3 id="jstack">jstack</h3>
+<p>用来查看当前线程的快照</p>
+<div class="hlcode"><pre><span class="n">jstack</span> <span class="p">[</span><span class="n">option</span><span class="p">]</span> <span class="n">vmid</span>
+
+<span class="o">-</span><span class="n">l</span> <span class="err">除堆栈外，显示关于锁的附加信息</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2018 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2018-07-08 01:22:58</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

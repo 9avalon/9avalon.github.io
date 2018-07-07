@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>jaxb - 心之所动，且就随缘而去吧</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;jaxb
+    <span class="updated">Page Updated&nbsp;
+      2017-8-28 20:14
+      
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">jaxb</div>
+
+  <h1 id="jaxb">JAXB</h1>
+<h2 id="jaxb_1">什么是jaxb</h2>
+<p>Jaxb是JavaEE的规范.全称Java Architecture for XML Binding.</p>
+<blockquote>
+<p>JAXB 2.0是JDK 1.6的组成部分。JAXB 2.2.3是JDK 1.7的组成部分。在实际使用不需要引入新的jar. 该包包含在jdk的rt.jar中</p>
+</blockquote>
+<p>通过它，我们可以以注解的方式，灵活地实现xml与entity之间的转换</p>
+<h2 id="_1">常用注解</h2>
+<h3 id="xmlrootelement">@XmlRootElement</h3>
+<p>处于类级别的注解，用来标识根节点，常与@XmlAccessorType一起使用</p>
+<div class="hlcode"><pre><span class="err">@</span><span class="n">XmlRootElement</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;condition&quot;</span><span class="p">)</span>
+<span class="err">@</span><span class="n">XmlAccessorType</span><span class="p">(</span><span class="n">XmlAccessType</span><span class="p">.</span><span class="n">FIELD</span><span class="p">)</span>
+</pre></div>
+
+
+<h3 id="xmlelement">@XmlElement</h3>
+<p>用于标识根节点下的子节点</p>
+<h3 id="xmlattribute">@XmlAttribute</h3>
+<p>用于标识根节点的属性</p>
+<h3 id="xmlelementwrapper">@XmlElementWrapper</h3>
+<p>相当于外节点又包了层</p>
+<div class="hlcode"><pre><span class="nd">@XmlRootElement</span>
+<span class="nd">@XmlAccessorType</span><span class="o">(</span><span class="n">XmlAccessType</span><span class="o">.</span><span class="na">FIELD</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Customer</span> <span class="o">{</span>
+
+    <span class="nd">@XmlElementWrapper</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;email-addresses&quot;</span><span class="o">)</span>
+    <span class="nd">@XmlElement</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;email-address&quot;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">emailAddresses</span><span class="o">;</span>
+
+<span class="o">}</span>
+</pre></div>
+
+
+<p>输出</p>
+<div class="hlcode"><pre><span class="nt">&lt;customer&gt;</span>
+    <span class="nt">&lt;email-addresses&gt;</span>
+        <span class="nt">&lt;email-address&gt;</span>janed@example.com<span class="nt">&lt;/email-address&gt;</span>
+        <span class="nt">&lt;email-address&gt;</span>jdoe@example.org<span class="nt">&lt;/email-address&gt;</span>
+    <span class="nt">&lt;/email-addresses&gt;</span>
+<span class="nt">&lt;/customer&gt;</span>
+</pre></div>
+
+
+<h2 id="xmlentity">xml与entity互转</h2>
+<p>目前在用的工具类如下(从网上摘录的):</p>
+<div class="hlcode"><pre>    <span class="cm">/**</span>
+<span class="cm">     * JavaBean转换成xml</span>
+<span class="cm">     * 默认编码UTF-8</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">convertToXml</span><span class="o">(</span><span class="n">Object</span> <span class="n">obj</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">convertToXml</span><span class="o">(</span><span class="n">obj</span><span class="o">,</span> <span class="s">&quot;UTF-8&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * JavaBean转换成xml</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">convertToXml</span><span class="o">(</span><span class="n">Object</span> <span class="n">obj</span><span class="o">,</span> <span class="n">String</span> <span class="n">encoding</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">result</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">JAXBContext</span> <span class="n">context</span> <span class="o">=</span> <span class="n">JAXBContext</span><span class="o">.</span><span class="na">newInstance</span><span class="o">(</span><span class="n">obj</span><span class="o">.</span><span class="na">getClass</span><span class="o">());</span>
+            <span class="n">Marshaller</span> <span class="n">marshaller</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">createMarshaller</span><span class="o">();</span>
+            <span class="n">marshaller</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="n">Marshaller</span><span class="o">.</span><span class="na">JAXB_FORMATTED_OUTPUT</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+            <span class="n">marshaller</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="n">Marshaller</span><span class="o">.</span><span class="na">JAXB_ENCODING</span><span class="o">,</span> <span class="n">encoding</span><span class="o">);</span>
+
+            <span class="n">StringWriter</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringWriter</span><span class="o">();</span>
+            <span class="n">marshaller</span><span class="o">.</span><span class="na">marshal</span><span class="o">(</span><span class="n">obj</span><span class="o">,</span> <span class="n">writer</span><span class="o">);</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">writer</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * xml转换成JavaBean</span>
+<span class="cm">     */</span>
+    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">&quot;unchecked&quot;</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">T</span> <span class="n">converyToJavaBean</span><span class="o">(</span><span class="n">String</span> <span class="n">xml</span><span class="o">,</span> <span class="n">Class</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">T</span> <span class="n">t</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">JAXBContext</span> <span class="n">context</span> <span class="o">=</span> <span class="n">JAXBContext</span><span class="o">.</span><span class="na">newInstance</span><span class="o">(</span><span class="n">c</span><span class="o">);</span>
+            <span class="n">Unmarshaller</span> <span class="n">unmarshaller</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">createUnmarshaller</span><span class="o">();</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="o">(</span><span class="n">T</span><span class="o">)</span> <span class="n">unmarshaller</span><span class="o">.</span><span class="na">unmarshal</span><span class="o">(</span><span class="k">new</span> <span class="n">StringReader</span><span class="o">(</span><span class="n">xml</span><span class="o">));</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="n">t</span><span class="o">;</span>
+    <span class="o">}</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2018 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2018-07-08 01:22:58</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
