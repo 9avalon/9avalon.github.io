@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>平衡二叉树 - 心之所动，且就随缘而去吧</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#算法">算法</a>&nbsp;&#187;&nbsp;平衡二叉树
+    <span class="updated">Page Updated&nbsp;
+      2016-06-23 17:56:34
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">平衡二叉树</div>
+
+  <p>这题我一开始单纯的以为只要分别算出树的最深度和最浅度就可以了，但是二叉平衡树会有其他情况出现，使得这样算的错误的。</p>
+<p>这里的难点主要在于要从底部开始算起，然后一步一步往上推。<br />
+里面用到一个boolean数组来标识失败与否。<br />
+关键还是怎么返回值和终止判断条件的设定。</p>
+<div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isBalanced</span><span class="o">(</span><span class="n">TreeNode</span> <span class="n">root</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Boolean</span><span class="o">[]</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Boolean</span><span class="o">[</span><span class="mi">1</span><span class="o">];</span>
+        <span class="n">result</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="n">travel</span><span class="o">(</span><span class="n">root</span><span class="o">,</span> <span class="n">result</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+    <span class="o">}</span>
+
+    <span class="c1">//定义，左节点和右节点深度不超过1</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">travel</span><span class="o">(</span><span class="n">TreeNode</span> <span class="n">node</span><span class="o">,</span> <span class="n">Boolean</span><span class="o">[]</span> <span class="n">result</span><span class="o">){</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">node</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="c1">//算出该节点以下的最大深度</span>
+        <span class="kt">int</span> <span class="n">lheight</span> <span class="o">=</span> <span class="n">travel</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">left</span><span class="o">,</span> <span class="n">result</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">rheight</span> <span class="o">=</span> <span class="n">travel</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">right</span><span class="o">,</span> <span class="n">result</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">Math</span><span class="o">.</span><span class="na">abs</span><span class="o">(</span><span class="n">lheight</span> <span class="o">-</span> <span class="n">rheight</span><span class="o">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="o">){</span>
+            <span class="n">result</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">lheight</span><span class="o">,</span> <span class="n">rheight</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2018 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2018-07-08 01:22:58</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

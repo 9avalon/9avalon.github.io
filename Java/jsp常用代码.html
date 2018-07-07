@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>jsp - 心之所动，且就随缘而去吧</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;jsp
+    <span class="updated">Page Updated&nbsp;
+      2016-06-23 17:00:21
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">jsp</div>
+
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#_1">给页面反馈错误信息</a></li>
+<li><a href="#_2">获取相对于项目的路径</a></li>
+<li><a href="#c">引入c标签库</a></li>
+<li><a href="#_3">选择</a></li>
+<li><a href="#_4">判断</a></li>
+<li><a href="#_5">循环</a></li>
+<li><a href="#_6">时间处理</a></li>
+</ul>
+</div>
+<h4 id="_1">给页面反馈错误信息</h4>
+<p>现在已经不推荐用这种写法了，因为一般来说，所有的错误显示都不应该由后端来提供。而且现在提倡使用json来显示错误信息。</p>
+<div class="hlcode"><pre><span class="nt">&lt;c:if</span> <span class="na">test=</span><span class="s">&quot;${not empty err}&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;script</span> <span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+        alert(&#39;${err}&#39;);
+    <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/c:if&gt;</span>
+</pre></div>
+
+
+<h4 id="_2">获取相对于项目的路径</h4>
+<div class="hlcode"><pre><span class="c">&lt;!-- 相对于工程路径的写法 --&gt;</span>
+<span class="nt">&lt;c:url</span> <span class="na">value=</span><span class="s">&#39;/student.do?flag=register&#39;</span><span class="nt">/&gt;</span>
+</pre></div>
+
+
+<h4 id="c">引入c标签库</h4>
+<div class="hlcode"><pre><span class="c">&lt;!-- c标签库--&gt;</span>
+<span class="k">&lt;%@</span> <span class="n">taglib</span> <span class="n">prefix</span><span class="o">=</span><span class="s">&quot;c&quot;</span> <span class="n">uri</span><span class="o">=</span><span class="s">&quot;http://java.sun.com/jsp/jstl/core&quot;</span> <span class="k">%&gt;</span>
+</pre></div>
+
+
+<h4 id="_3">选择</h4>
+<div class="hlcode"><pre><span class="c">&lt;!-- choose when otherwise 的使用：用于多分支条件判断 --&gt;</span>
+<span class="nt">&lt;c:choose&gt;</span>
+    <span class="nt">&lt;c:when</span> <span class="na">test=</span><span class="s">&quot;${c.name==&#39;lalala1&#39; or c.name==&#39;lalala&#39;}&quot;</span><span class="nt">&gt;</span> <span class="c">&lt;!-- 相当于if --&gt;</span>
+    ok!
+    <span class="nt">&lt;/c:when&gt;</span>
+    <span class="nt">&lt;c:when</span> <span class="na">test=</span><span class="s">&quot;${c.name==&#39;lalala2&#39; or c.name==&#39;lalala3&#39;}&quot;</span><span class="nt">&gt;</span> <span class="c">&lt;!-- 相当于else if --&gt;</span>
+    ok2!
+    <span class="nt">&lt;/c:when&gt;</span>
+    <span class="nt">&lt;c:otherwise&gt;</span><span class="c">&lt;!-- 相当于else --&gt;</span>
+        err!
+    <span class="nt">&lt;/c:otherwise&gt;</span>
+<span class="nt">&lt;/c:choose&gt;</span>
+</pre></div>
+
+
+<h4 id="_4">判断</h4>
+<div class="hlcode"><pre><span class="c">&lt;!-- 数值判断(如果发现是和数值进行判断，系统会尝试着把对象域的值转换成数值与之比较) --&gt;</span>
+<span class="nt">&lt;c:if</span> <span class="na">test=</span><span class="s">&quot;${a==111 and a==222}&quot;</span><span class="nt">&gt;</span>ok1<span class="nt">&lt;/c:if&gt;</span>
+<span class="c">&lt;!-- 字符串判断 --&gt;</span>
+<span class="c">&lt;!--  </span>
+<span class="c">&lt;c:if test=&quot;${b==&#39;h&#39;}&quot;&gt;ok2&lt;/c:if&gt;</span>
+<span class="c">--&gt;</span>
+<span class="nt">&lt;c:if</span> <span class="na">test=</span><span class="s">&quot;${c.name==&#39;lalala&#39;}&quot;</span><span class="nt">&gt;</span>ok3<span class="nt">&lt;/c:if&gt;</span>
+</pre></div>
+
+
+<h4 id="_5">循环</h4>
+<p>varStatus 表示循环中变量状态<br />
+varStatus.index 循环中的下标，从0开始 </p>
+<div class="hlcode"><pre><span class="nt">&lt;c:forEach</span> <span class="na">var=</span><span class="s">&quot;i&quot;</span> <span class="na">begin=</span><span class="s">&quot;1&quot;</span> <span class="na">end=</span><span class="s">&quot;10&quot;</span> <span class="na">step=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;c:out</span> <span class="na">value=</span><span class="s">&quot;${i}&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/c:forEach&gt;</span>
+</pre></div>
+
+
+<h4 id="_6">时间处理</h4>
+<p>引入<br />
+    &lt;%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %&gt;</p>
+<p>格式化时间<br />
+    String year = new SimpleDateFormat("yyyy").format(new Date());<br />
+    Date awardTime = new SimpleDateFormat("yyyy-MM-dd").parse(activityForm.getAwardDate());</p>
+<p>在jsp页面中格式化时间</p>
+<div class="hlcode"><pre><span class="nt">&lt;fmt:formatDate</span> <span class="na">value=</span><span class="s">&quot;</span><span class="cp">${</span><span class="n">dorm</span><span class="o">.</span><span class="n">checktime</span><span class="cp">}</span><span class="s">&quot;</span> <span class="na">pattern=</span><span class="s">&quot;yyyy年MM月dd日  HH:mm:ss E&quot;/</span><span class="nt">&gt;</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2018 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2018-07-08 01:22:58</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

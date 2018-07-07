@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>log4j - 心之所动，且就随缘而去吧</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;log4j
+    <span class="updated">Page Updated&nbsp;
+      2016-8-28 14:53
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">log4j</div>
+
+  <h1 id="log4j">log4j</h1>
+<p>Log4j由三个重要的组件构成，分别为<br />
+1.loggers:负责采集日志信息<br />
+2.appenders:负责将日志发布到不同地方<br />
+3.layout:负责以各种风格格式化日志信息</p>
+<h2 id="logger">Logger对象</h2>
+<p>虽然说，现在一般都会使用slf4j来整合多个日志系统，但是个人开发的小项目中还是会用到log4j来记录日志，在这里就列一下自己常用的log4j配置文件</p>
+<div class="hlcode"><pre><span class="na">log4j.rootLogger</span><span class="o">=</span><span class="s">INFO,console,R,ERROR </span>
+
+<span class="na">log4j.appender.console</span><span class="o">=</span><span class="s">org.apache.log4j.ConsoleAppender  </span>
+<span class="na">log4j.appender.console.threshold</span><span class="o">=</span><span class="s">INFO,ERROR </span>
+<span class="na">log4j.appender.console.layout</span><span class="o">=</span><span class="s">org.apache.log4j.PatternLayout  </span>
+<span class="na">log4j.appender.console.layout.ConversionPattern</span><span class="o">=</span><span class="s">%d{yyyy-MM-dd HH\:mm\:ss} [%5p] - %c -%F(%L) -%m%n  </span>
+
+<span class="na">log4j.appender.R</span><span class="o">=</span><span class="s">org.apache.log4j.DailyRollingFileAppender </span>
+<span class="na">log4j.appender.R.File</span><span class="o">=</span><span class="s">../dzdglogs/dzdg.log</span>
+<span class="na">log4j.appender.R.Encoding</span><span class="o">=</span><span class="s">UTF-8</span>
+<span class="na">log4j.appender.R.DatePattern</span> <span class="o">=</span> <span class="s">&#39;.&#39;yyyy-MM-dd </span>
+<span class="na">log4j.appender.R.layout</span><span class="o">=</span><span class="s">org.apache.log4j.PatternLayout </span>
+<span class="na">log4j.appender.R.layout.ConversionPattern</span><span class="o">=</span><span class="s">%-d{yyyy-MM-dd HH\:mm\:ss} [%c]-[%p] %m%n  </span>
+</pre></div>
+
+
+<p>如果需要看debug信息，则在第一行中INFO前面添加DEBUG</p>
+<p>在cosoloe.threshold中前面添加DEBUG，查看debug信息</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2018 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2018-07-08 01:22:58</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

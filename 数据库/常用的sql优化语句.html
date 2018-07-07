@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>sql优化 - 心之所动，且就随缘而去吧</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#数据库">数据库</a>&nbsp;&#187;&nbsp;sql优化
+    <span class="updated">Page Updated&nbsp;
+      2016-06-24 21:43:29
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">sql优化</div>
+
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#sql">怎么给sql语句做优化呢？</a><ul>
+<li><a href="#_1">给列加索引</a></li>
+<li><a href="#whereis-null-is-not-null">避免在where字句中使用is null 或者 is not null</a></li>
+<li><a href="#where">避免在where字句中使用！=或者&lt;&gt;操作符</a></li>
+<li><a href="#whereor">避免在where字句中使用or来链接条件</a></li>
+<li><a href="#innot-in">少用 in或者not in</a></li>
+<li><a href="#like">注意like通配符的使用</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h4 id="sql">怎么给sql语句做优化呢？</h4>
+<h5 id="_1">给列加索引</h5>
+<p>首先，最常用的当然还是加索引，索引能明显的提高查询数据的速度。</p>
+<h5 id="whereis-null-is-not-null">避免在where字句中使用is null 或者 is not null</h5>
+<div class="hlcode"><pre><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="k">table</span> <span class="k">where</span> <span class="n">uname</span> <span class="k">is</span> <span class="k">null</span><span class="p">;</span>
+</pre></div>
+
+
+<p>在这种情况下，就算给uname设置了索引，查询分析器也不会去使用，因此效率会底下，一般做法是给定一个默认值从而不让数据为空。</p>
+<h5 id="where">避免在where字句中使用！=或者&lt;&gt;操作符</h5>
+<p>同上，此种写法索引也不会生效，但是对于&lt;、 &lt;=、 &gt;=、 =、 &gt;这些倒是会有效果。建议写法为用union all连接</p>
+<div class="hlcode"><pre><span class="k">select</span> <span class="n">name</span> <span class="k">from</span> <span class="k">table</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&lt;</span> <span class="mi">0</span>  
+<span class="k">union</span> <span class="k">all</span>  
+<span class="k">select</span> <span class="n">name</span> <span class="k">from</span> <span class="k">table</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">;</span>
+</pre></div>
+
+
+<h5 id="whereor">避免在where字句中使用or来链接条件</h5>
+<div class="hlcode"><pre><span class="k">select</span>  <span class="o">*</span> <span class="k">from</span> <span class="k">table</span> <span class="k">where</span> <span class="n">col1</span><span class="o">=?</span> <span class="k">or</span> <span class="n">col2</span><span class="o">=?</span><span class="p">;</span>
+</pre></div>
+
+
+<p>这种情况下我们可以写</p>
+<div class="hlcode"><pre><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="k">table</span> <span class="k">where</span> <span class="n">col1</span><span class="o">=?</span>
+<span class="k">union</span> <span class="k">all</span> 
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="k">table</span> <span class="k">where</span> <span class="n">col2</span><span class="o">=?</span><span class="p">;</span>
+</pre></div>
+
+
+<h5 id="innot-in">少用 in或者not in</h5>
+<p>in和not in我在hql中用得很多。</p>
+<p>其实，使用in也是会走索引，以下是摘自CSDN中别人的测试sql。</p>
+<div class="hlcode"><pre><span class="c1">-- 建测试表</span>
+<span class="k">create</span> <span class="k">table</span> <span class="n">wzp144650</span>
+<span class="p">(</span><span class="n">id</span> <span class="nb">int</span><span class="p">,</span> 
+ <span class="n">de</span> <span class="nb">char</span><span class="p">(</span><span class="mi">5000</span><span class="p">),</span>
+ <span class="n">wz</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+ <span class="k">constraint</span> <span class="n">pk_wzp144650</span> <span class="k">primary</span> <span class="k">key</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+ <span class="p">)</span>
+
+<span class="c1">-- 插入10万笔wz=&#39;144650&#39;的记录</span>
+<span class="k">set</span> <span class="n">nocount</span> <span class="k">on</span>
+<span class="k">declare</span> <span class="o">@</span><span class="n">x</span> <span class="nb">int</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">while</span><span class="p">(</span><span class="o">@</span><span class="n">x</span><span class="o">&lt;=</span><span class="mi">100000</span><span class="p">)</span>
+<span class="k">begin</span>
+  <span class="k">insert</span> <span class="k">into</span> <span class="n">wzp144650</span>
+    <span class="k">select</span> <span class="o">@</span><span class="n">x</span><span class="p">,</span><span class="s1">&#39;abc&#39;</span><span class="p">,</span><span class="s1">&#39;144650&#39;</span>
+  <span class="k">select</span> <span class="o">@</span><span class="n">x</span><span class="o">=@</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span>
+<span class="k">end</span>
+
+<span class="c1">-- 插入1笔wz=&#39;6&#39;的记录</span>
+<span class="k">insert</span> <span class="k">into</span> <span class="n">wzp144650</span> <span class="k">select</span> <span class="mi">140001</span><span class="p">,</span><span class="s1">&#39;abc&#39;</span><span class="p">,</span><span class="s1">&#39;6&#39;</span>
+
+<span class="c1">-- 在wz列上建索引</span>
+<span class="k">create</span> <span class="k">index</span> <span class="n">ix_wzp144650_wz</span> <span class="k">on</span> <span class="n">wzp144650</span><span class="p">(</span><span class="n">wz</span><span class="p">)</span>
+
+
+<span class="c1">----- 测试 -----</span>
+
+<span class="c1">-- 当where wz in (&#39;6&#39;)时,能用索引.</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">wzp144650</span> <span class="k">where</span> <span class="n">wz</span> <span class="k">in</span> <span class="p">(</span><span class="s1">&#39;6&#39;</span><span class="p">)</span>
+<span class="c1">--&gt; Index Seek(OBJECT:([DBAP].[dbo].[wzp144650].[ix_wzp144650_wz]) </span>
+<span class="c1">-- CPU time = 0 ms,  elapsed time = 26 ms.</span>
+
+
+<span class="c1">-- 当where wz in (&#39;144650&#39;)时,不能用索引.</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">wzp144650</span> <span class="k">where</span> <span class="n">wz</span> <span class="k">in</span> <span class="p">(</span><span class="s1">&#39;144650&#39;</span><span class="p">)</span>
+<span class="c1">--&gt; Clustered Index Scan(OBJECT:([DBAP].[dbo].[wzp144650].[pk_wzp144650])</span>
+<span class="c1">-- CPU time = 1294 ms,  elapsed time = 12507 ms.</span>
+</pre></div>
+
+
+<p>可以看到，如果数据在表中是存在的，则会走索引，但是如果 要查找的数据不在表中的时候，就不能用索引了。</p>
+<p>所以这时候要去衡量，若查找的数据几乎都在表里面，那用in是没问题的，如果1000条数据里面，只有1条在数据库里面是有的，则要考虑用另一种方式去优化了。</p>
+<div class="hlcode"><pre><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="k">table</span> <span class="k">where</span> <span class="n">col1</span> <span class="k">in</span> <span class="p">(</span><span class="k">sql</span><span class="p">);</span>
+</pre></div>
+
+
+<p>此外也这时候可以考虑用between来替代(对于已知)</p>
+<div class="hlcode"><pre><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="k">table</span> <span class="k">where</span> <span class="n">col1</span> <span class="k">between</span> <span class="o">?</span> <span class="k">and</span> <span class="o">?</span>
+</pre></div>
+
+
+<h5 id="like">注意like通配符的使用</h5>
+<div class="hlcode"><pre><span class="c1">//下面两种都会很慢，因为前面是通配符</span>
+<span class="n">select</span> <span class="o">*</span> <span class="n">from</span> <span class="n">table</span> <span class="n">where</span> <span class="n">name</span> <span class="n">like</span><span class="o">=</span><span class="err">&#39;</span><span class="o">%</span><span class="n">happy</span><span class="o">%</span><span class="err">&#39;</span>  
+<span class="n">select</span> <span class="o">*</span> <span class="n">from</span> <span class="n">table</span> <span class="n">where</span> <span class="n">name</span> <span class="n">like</span><span class="o">=</span><span class="err">&#39;</span><span class="o">%</span><span class="n">happy</span><span class="err">&#39;</span>
+
+<span class="c1">//这种会快很多，因为使用到了索引</span>
+<span class="n">select</span> <span class="o">*</span> <span class="n">from</span> <span class="n">table</span> <span class="n">where</span> <span class="n">name</span> <span class="n">like</span><span class="o">=</span><span class="err">&#39;</span><span class="n">happy</span><span class="o">%</span><span class="err">&#39;</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2018 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2018-07-08 01:22:58</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
