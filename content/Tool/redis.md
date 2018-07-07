@@ -4,7 +4,9 @@ date: 2016-8-28 22:51:01
 draft: true
 ---
 
+[TOC]
 
+# redis
 
 安装Redis服务器端
 
@@ -26,11 +28,9 @@ netstat -nlt|grep 6379
 
 重启redis
 
-```
+```sh
 sudo service redis-server restart
 ```
-
-
 
 批量删除key
 
@@ -42,13 +42,8 @@ redis-cli -h 127.0.0.1 -p 6379 keys *ACCOUNT* | xargs redis-cli -p 6379 del
 redis-cli -p 9200 keys *ACCOUNT* | xargs redis-cli -p 9200 del
 ```
 
-
-
-
-
 ```
 redis-cli -p 9200 keys *ACCOUNT_next_* | xargs redis-cli -p 9200 del
 redis-cli -p 9200 keys *ACCOUNT_first_* | xargs redis-cli -p 9200 del
 redis-cli -p 9200 keys *ACCOUNT_pay_channel* | xargs redis-cli -p 9200 del
 ```
-

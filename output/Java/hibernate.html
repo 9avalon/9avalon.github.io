@@ -18,7 +18,8 @@
 <div id="header">
   <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;hibernate
     <span class="updated">Page Updated&nbsp;
-      2016-06-23 23:58:26
+      2017-8-28 20:06
+      
     </span></div>
 </div>
 <div class="clearfix"></div>
@@ -26,31 +27,46 @@
 <div class="page_title">hibernate</div>
 
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
-<li><a href="#hibernate">hibernate组成</a></li>
-<li><a href="#hibernate_1">Hibernate使用</a></li>
+<li><a href="#hibernate">Hibernate简要介绍</a><ul>
+<li><a href="#hibernate_1">hibernate组成</a></li>
+<li><a href="#hibernate_2">Hibernate使用</a></li>
 <li><a href="#_1">关于缓存</a><ul>
-<li><a href="#hibernate_2">什么是hibernate的二级缓存？</a></li>
+<li><a href="#hibernate_3">什么是hibernate的二级缓存？</a></li>
 <li><a href="#_2">缓存的原理</a></li>
 <li><a href="#_3">二级缓存的更新问题</a></li>
 </ul>
 </li>
 <li><a href="#_4">实现分页</a></li>
+<li><a href="#_5">关于调试时，懒加载踩坑</a></li>
+</ul>
+</li>
 </ul>
 </div>
-<h3 id="hibernate">hibernate组成</h3>
-<p><strong>Session</strong></p>
+<h1 id="hibernate">Hibernate简要介绍</h1>
+<h2 id="hibernate_1">hibernate组成</h2>
+<ul>
+<li>Session</li>
+</ul>
 <p>一个轻量级的非线程安全对象，这里的session并不是指的HttpSession，可以理解为JDBC的Session。<br />
 SessionFactory负责创建session，而SessionFactory是线程安全的，多个并发线程可以同时访问一个SessionFactory并从中获取Session实例。<br />
-而Session是线程不安全的，所以如果有多个线程同时对Session进行操作就会导致Session出错。因为创建的Session实例必须与线程相关。这里会用到ThreadLocal。<br />
-<strong>SessionFactory</strong></p>
-<p>负责初始化hibernate，可以创建Session，是线程安全的，一般而言SessionFactory会在Hibernate启动时创建一次，因为，为了便于利用，SessionFacctory应该用一个单例模式来实现。<br />
-<strong>Transaction</strong></p>
-<p>负责相关的事务操作<br />
-<strong>Query</strong></p>
+而Session是线程不安全的，所以如果有多个线程同时对Session进行操作就会导致Session出错。因为创建的Session实例必须与线程相关。这里会用到ThreadLocal。</p>
+<ul>
+<li>SessionFactory</li>
+</ul>
+<p>负责初始化hibernate，可以创建Session，是线程安全的，一般而言SessionFactory会在Hibernate启动时创建一次，因为，为了便于利用，SessionFacctory应该用一个单例模式来实现。</p>
+<ul>
+<li>Transaction</li>
+</ul>
+<p>负责相关的事务操作</p>
+<ul>
+<li>Query</li>
+</ul>
 <p>负责执行各种数据库查询，一般都Session的createQuery方法创建。</p>
-<p><strong>Configuration</strong><br />
-用于读取hibernate配置文件，并生成SessionFactory对象</p>
-<h3 id="hibernate_1">Hibernate使用</h3>
+<ul>
+<li>Configuration<br />
+用于读取hibernate配置文件，并生成SessionFactory对象</li>
+</ul>
+<h2 id="hibernate_2">Hibernate使用</h2>
 <p>1、应用程序通过Configuration读取配置文件并生成SessionFactory<br />
 <code>SessionFactory sessionFactory = new Configuration().configure().buildSessionfactory();</code><br />
 2、通过SessionFactory生成一个Session对象<br />
@@ -89,17 +105,17 @@ SessionFactory负责创建session，而SessionFactory是线程安全的，多个
 </pre></div>
 
 
-<h3 id="_1">关于缓存</h3>
+<h2 id="_1">关于缓存</h2>
 <p>要提升hibernate的性能可以分别从懒加载和缓存入手，其中缓存又分为一级缓存和二级缓存</p>
-<h4 id="hibernate_2">什么是hibernate的二级缓存？</h4>
+<h3 id="hibernate_3">什么是hibernate的二级缓存？</h3>
 <p>一级缓存：由session管理，当使用Session查询数据时，首先会在该Session内部中查找该对象是否存在，如果有则直接返回。但是因为Session是线程不安全的，这意味着session中的缓存并不能被多个线程共享，因为一级缓存的提升效果不太明显。<br />
 二级缓存：二级缓存用来为hibernate配置一种全局的缓存，实现多个线程与事务共享数据。在使用了二级缓存后，当查询数据时，会首先在内部缓存中去查找，如果不存在，接着在二级缓存中查找，都不存在才会到数据库找。<br />
 二级缓存适用的场景：数据量小的，修改少的，不会被大量的应用共享的数据（多线程影响性能），不是很重要的数据。</p>
-<h4 id="_2">缓存的原理</h4>
+<h3 id="_2">缓存的原理</h3>
 <p>先到session中查找有没有数据，如果没有就去查数据库数据。</p>
-<h4 id="_3">二级缓存的更新问题</h4>
+<h3 id="_3">二级缓存的更新问题</h3>
 <p>一般来说，二级缓存主要用于那些不常更新的表中。</p>
-<h3 id="_4">实现分页</h3>
+<h2 id="_4">实现分页</h2>
 <p>Hibernate自带分页机制</p>
 <div class="hlcode"><pre><span class="n">Query</span> <span class="n">q</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="na">createQuery</span><span class="o">(</span><span class="s">&quot;from table&quot;</span><span class="err">&quot;</span><span class="o">);</span>
 <span class="n">q</span><span class="o">.</span><span class="na">setFirstResult</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span> <span class="c1">//从第一百条记录开始</span>
@@ -109,12 +125,14 @@ SessionFactory负责创建session，而SessionFactory是线程安全的，多个
 
 
 <p>当然也可以使用sql来进行分页，不过oracle不支持limit会比较麻烦，而mysql支持limit会比较简单。</p>
+<h2 id="_5">关于调试时，懒加载踩坑</h2>
+<p>最近踩到的一个坑是，用IDEA进行调试时，代码执行到断点的时候，会默认把代码里面的数据全部 <strong>懒加载</strong> 出来，如果你在代码里面有对元素进行更新或删除的话，会造成DEBUG和RUN执行的结果不一致的问题。</p>
     </div>
     <div id="footer">
       <span>
-        <p>Copyright © 2017 侯铭健.
+        <p>Copyright © 2018 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2017-08-20 17:31:49</p>
+        <p>Site Generated 2018-07-08 01:22:58</p>
       </span>
     </div>
 

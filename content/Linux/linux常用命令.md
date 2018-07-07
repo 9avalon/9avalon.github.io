@@ -1,6 +1,7 @@
 ---
 title: 常用命令
-date: 2016-6-24 18:04:53
+date: 2016-6-24 18:04
+updated: 2017-8-31 12:09
 ---
 
 [TOC]
@@ -161,5 +162,11 @@ ps aux --sort -rss  # 查看内存占用大小，rss列为实际列
 ssh <ip> <port>
 ```
 
+### SCP跨主机传输文件
 
+```sh
+scp -r <local_folder> <username>@<ip>:<remote_folder>
+```
+
+从远程复制到本地的scp命令与上面的命令一样，只要将从本地复制到远程的命令后面2个参数互换顺序就行了。
 

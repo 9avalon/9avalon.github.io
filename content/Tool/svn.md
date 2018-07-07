@@ -6,7 +6,11 @@ collection: 项目代码控制
 
 [TOC]
 
-#### 什么是svn
+# SVN
+
+2017-08:已经转到git一年了，git有一个好的地方是有分支管理，一个完整的gitflow流很适合互联网快速迭代。
+
+## 什么是svn
 svn和git是目前使用最广泛的版本管理工具，知道github的朋友肯定也知道git并且使用过git，但其实svn也是一款很优秀的版本管理工具，与git的分布式不同的是，svn是集中式管理，拥有更细致的按照目录级别的权限控制。
 
 #### 在服务器中新建仓库
@@ -35,7 +39,7 @@ passwd 当然是管理每个用户的密码啦
 svnserve.conf管理svn的一些基本配置，我们把下面的三行去掉注释。
 
     anon-access = none
-    auth-access = write 
+    auth-access = write
     password-db = passwd
 
 修改完后保存就可以了。

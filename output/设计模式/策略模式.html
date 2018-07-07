@@ -18,7 +18,8 @@
 <div id="header">
   <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#设计模式">设计模式</a>&nbsp;&#187;&nbsp;策略模式
     <span class="updated">Page Updated&nbsp;
-      2016-06-23 12:55:11
+      2017-09-04 23:11
+      
     </span></div>
 </div>
 <div class="clearfix"></div>
@@ -32,6 +33,7 @@
 <li><a href="#_3">工厂模式和策略模式的区别</a></li>
 </ul>
 </div>
+<p>策略模式应该是一种很常用的设计模式了，使用了策略模式后，能显著地减少代码中<code>if else</code>的量。</p>
 <h3 id="_1">什么是策略模式</h3>
 <p>定义了算法家族，分别封装起来，让他们之间可以相互替换，此模式让算法的变化，不会影响到使用算法的客户。<br />
 但其实除了算法，策略模式还可以用来封装任何类型的规则，只要在分析过程中听到需要在不同时间应用不同的业务规则，就可以考虑使用策略模式处理这种变化的可能性。</p>
@@ -39,9 +41,9 @@
 <p><img alt="策略模式" src="http://7xt3lj.com2.z0.glb.clouddn.com/markdown%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F.png?imageView2/1/w/700/h/600" /></p>
 <h3 id="_2">商城优惠例子</h3>
 <p>优惠算法的父类</p>
-<div class="hlcode"><pre><span class="n">public</span> <span class="n">abstract</span> <span class="n">class</span> <span class="n">CrashSuper</span> <span class="p">{</span>
-    <span class="n">public</span> <span class="n">abstract</span> <span class="kt">float</span> <span class="n">figure</span><span class="p">(</span><span class="kt">float</span> <span class="n">money</span><span class="p">);</span>
-<span class="p">}</span>
+<div class="hlcode"><pre><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">CrashSuper</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">float</span> <span class="nf">figure</span><span class="o">(</span><span class="kt">float</span> <span class="n">money</span><span class="o">);</span>
+<span class="o">}</span>
 </pre></div>
 
 
@@ -77,9 +79,9 @@
     </div>
     <div id="footer">
       <span>
-        <p>Copyright © 2017 侯铭健.
+        <p>Copyright © 2018 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2017-08-20 17:31:49</p>
+        <p>Site Generated 2018-07-08 01:22:58</p>
       </span>
     </div>
 

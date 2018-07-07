@@ -18,14 +18,20 @@
 <div id="header">
   <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;log4j
     <span class="updated">Page Updated&nbsp;
-      2016-08-28 14:53:16
+      2016-8-28 14:53
     </span></div>
 </div>
 <div class="clearfix"></div>
 
 <div class="page_title">log4j</div>
 
-  <p>虽然说，现在一般都会使用slf4j来整合多个日志系统，但是个人开发的小项目中还是会用到log4j来记录日志，在这里就列一下自己常用的log4j配置文件</p>
+  <h1 id="log4j">log4j</h1>
+<p>Log4j由三个重要的组件构成，分别为<br />
+1.loggers:负责采集日志信息<br />
+2.appenders:负责将日志发布到不同地方<br />
+3.layout:负责以各种风格格式化日志信息</p>
+<h2 id="logger">Logger对象</h2>
+<p>虽然说，现在一般都会使用slf4j来整合多个日志系统，但是个人开发的小项目中还是会用到log4j来记录日志，在这里就列一下自己常用的log4j配置文件</p>
 <div class="hlcode"><pre><span class="na">log4j.rootLogger</span><span class="o">=</span><span class="s">INFO,console,R,ERROR </span>
 
 <span class="na">log4j.appender.console</span><span class="o">=</span><span class="s">org.apache.log4j.ConsoleAppender  </span>
@@ -47,9 +53,9 @@
     </div>
     <div id="footer">
       <span>
-        <p>Copyright © 2017 侯铭健.
+        <p>Copyright © 2018 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2017-08-20 17:31:49</p>
+        <p>Site Generated 2018-07-08 01:22:58</p>
       </span>
     </div>
 

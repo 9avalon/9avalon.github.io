@@ -26,12 +26,19 @@
 <div class="page_title">svn</div>
 
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
-<li><a href="#svn">什么是svn</a></li>
+<li><a href="#svn">SVN</a><ul>
+<li><a href="#svn_1">什么是svn</a><ul>
 <li><a href="#_1">在服务器中新建仓库</a></li>
 <li><a href="#_2">设置同步更新</a></li>
 </ul>
+</li>
+</ul>
+</li>
+</ul>
 </div>
-<h4 id="svn">什么是svn</h4>
+<h1 id="svn">SVN</h1>
+<p>2017-08:已经转到git一年了，git有一个好的地方是有分支管理，一个完整的gitflow流很适合互联网快速迭代。</p>
+<h2 id="svn_1">什么是svn</h2>
 <p>svn和git是目前使用最广泛的版本管理工具，知道github的朋友肯定也知道git并且使用过git，但其实svn也是一款很优秀的版本管理工具，与git的分布式不同的是，svn是集中式管理，拥有更细致的按照目录级别的权限控制。</p>
 <h4 id="_1">在服务器中新建仓库</h4>
 <p>下面的操作步骤我都是默认服务器环境中已经搭建好svn了，有时候新建svn仓库的命令我会忘记掉，所以就只记录下新建svn仓库的步骤了。</p>
@@ -59,7 +66,7 @@
 
 <p>svnserve.conf管理svn的一些基本配置，我们把下面的三行去掉注释。</p>
 <div class="hlcode"><pre><span class="n">anon</span><span class="o">-</span><span class="n">access</span> <span class="o">=</span> <span class="n">none</span>
-<span class="n">auth</span><span class="o">-</span><span class="n">access</span> <span class="o">=</span> <span class="n">write</span> 
+<span class="n">auth</span><span class="o">-</span><span class="n">access</span> <span class="o">=</span> <span class="n">write</span>
 <span class="n">password</span><span class="o">-</span><span class="n">db</span> <span class="o">=</span> <span class="n">passwd</span>
 </pre></div>
 
@@ -89,9 +96,9 @@ svn update 检出的仓库地址 --username 账号 --password 密码 --no-auth-c
     </div>
     <div id="footer">
       <span>
-        <p>Copyright © 2017 侯铭健.
+        <p>Copyright © 2018 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2017-08-20 17:31:49</p>
+        <p>Site Generated 2018-07-08 01:22:58</p>
       </span>
     </div>
 
