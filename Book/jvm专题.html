@@ -33,22 +33,21 @@
 <li><a href="#_4">栈</a></li>
 <li><a href="#_5">堆</a></li>
 <li><a href="#_6">方法区</a></li>
-<li><a href="#_7">图示意</a></li>
 </ul>
 </li>
-<li><a href="#_8">垃圾回收</a><ul>
-<li><a href="#_9">判断对象是否可以被回收</a><ul>
-<li><a href="#_10">计数法</a></li>
-<li><a href="#_11">可达性分析</a></li>
+<li><a href="#_7">垃圾回收</a><ul>
+<li><a href="#_8">判断对象是否可以被回收</a><ul>
+<li><a href="#_9">计数法</a></li>
+<li><a href="#_10">可达性分析</a></li>
 </ul>
 </li>
-<li><a href="#_12">垃圾回收算法</a><ul>
+<li><a href="#_11">垃圾回收算法</a><ul>
 <li><a href="#-">标记-清理算法</a></li>
-<li><a href="#_13">复制算法</a></li>
+<li><a href="#_12">复制算法</a></li>
 <li><a href="#-_1">标记-整理算法</a></li>
 </ul>
 </li>
-<li><a href="#_14">垃圾收集器</a><ul>
+<li><a href="#_13">垃圾收集器</a><ul>
 <li><a href="#serial">Serial收集器(新生代)</a></li>
 <li><a href="#parnew">ParNew收集器(新生代)</a></li>
 <li><a href="#parallel-old">Parallel Old(新生代)</a></li>
@@ -64,7 +63,7 @@
 <li><a href="#jmap">jmap</a></li>
 <li><a href="#jstack">jstack</a></li>
 <li><a href="#jvm_2">JVM参数配置调优</a></li>
-<li><a href="#_15">官方推荐</a></li>
+<li><a href="#_14">官方推荐</a></li>
 </ul>
 </li>
 </ul>
@@ -95,11 +94,9 @@
 <p>各个线程共享的区域，用于存储已被虚拟机加载的类信息，常量，静态变量等。</p>
 <p>运行时常量池也在方法区</p>
 <p>别名叫【非堆】，方法区也在堆区。</p>
-<h2 id="_7">图示意</h2>
-<p><img alt="" src="http://ww1.sinaimg.cn/large/005H7Wvygy1fk8cr501rqj30p20isgvw.jpg" /></p>
-<h1 id="_8">垃圾回收</h1>
-<h2 id="_9">判断对象是否可以被回收</h2>
-<h3 id="_10">计数法</h3>
+<h1 id="_7">垃圾回收</h1>
+<h2 id="_8">判断对象是否可以被回收</h2>
+<h3 id="_9">计数法</h3>
 <p>最简单的一种判断对象是否可回收的方法是计数法，当对象有被引用时，计数器加一，不被引用时，减一，当触发GC时，若计数器为0，则该对象可以被回收。但是，虽然该方法看似简单有效，但是不能解决对象循环依赖的问题。如以下代码:</p>
 <div class="hlcode"><pre><span class="n">Object</span> <span class="n">instanceA</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Obj</span><span class="o">();</span>
 <span class="n">Object</span> <span class="n">instanceB</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Obj</span><span class="o">();</span>
@@ -114,7 +111,7 @@
 
 
 <p>instanceA和instanceB互相引用，计数器不为0，不能被回收。</p>
-<h3 id="_11">可达性分析</h3>
+<h3 id="_10">可达性分析</h3>
 <p>因此，现在主流的JVM虚拟机是通过 <em>【可达性分析】</em> 来判断对象是否可被回收。</p>
 <p><img alt="" src="https://ws1.sinaimg.cn/mw690/005H7Wvygy1ft1nak0pz3j31ag0ss7gy.jpg" /></p>
 <p>那么那些对象可以作为GC Roots呢？</p>
@@ -124,16 +121,16 @@
 <li>方法区中常量引用的对象</li>
 <li>JNI引用的对象</li>
 </ul>
-<h2 id="_12">垃圾回收算法</h2>
+<h2 id="_11">垃圾回收算法</h2>
 <h3 id="-">标记-清理算法</h3>
 <p>基本原理，标记需要清除的对象，在标记完成后，进行统一回收。优点是速度快，但是会导致内存区域产生大量不连续的内存碎片，导致后续分配内存时候，容易导致无可用区域块而需要重新分配内存。</p>
-<h3 id="_13">复制算法</h3>
+<h3 id="_12">复制算法</h3>
 <p>基本原理，将内存分为两块，GC时候，将需要回收的对象直接清除，不需要回收的对象挪到另外的内存区里面。优点是内存区域整齐，不容易产生小碎片段，但是因为需要划分两块内存，会造成内存浪费。</p>
 <p>目前主流的JVM，年轻代回收算法使用的是复制算法，对年轻代分为三个区域，分别为一个eden区和两个suivivor区，eden区与suivivor内存大小比一般为8:1:1，一般年轻代进行回收时，eden区90%的对象都会被回收，没被回收的对象进入suivior区，如果对象两次gc后，还在suivior区，就会进入到老年代里面。</p>
 <h3 id="-_1">标记-整理算法</h3>
 <p>因为老年代内存较大，如果按年轻代一样使用复制算法的话，需要划分两块内存，会造成较大的空间浪费。而且老年代里面，对象的存活率较高，复制带来的成本也会变大。所以，老年代一般不使用复制算法。</p>
 <p>目前老年代主流的算法为标记整理方法，这个方法是与标记-清理算法不一样的是，先对要清理的对象进行清除，清除完毕后，再将老年代里面的对象进行整理，减少不连续的内存区域。</p>
-<h2 id="_14">垃圾收集器</h2>
+<h2 id="_13">垃圾收集器</h2>
 <h3 id="serial">Serial收集器(新生代)</h3>
 <p>由JVM后台单独起一个线程(单线程)进行收集回收，此时其他线程都需要停顿。是最原始的收集器。</p>
 <h3 id="parnew">ParNew收集器(新生代)</h3>
@@ -199,7 +196,7 @@ jdk1.7正式商用。</p>
 <li>-XX:PermSize</li>
 </ul>
 <p>持久区大小，存放静态类，常量池等。一般为内存的六十四分之一。10g机器，156m</p>
-<h3 id="_15">官方推荐</h3>
+<h3 id="_14">官方推荐</h3>
 <p>Java整个堆大小设置，Xmx 和 Xms设置为老年代存活对象的3-4倍，即FullGC之后的老年代内存占用的3-4倍</p>
 <p>永久代 PermSize和MaxPermSize设置为老年代存活对象的1.2-1.5倍。</p>
 <p>年轻代Xmn的设置为老年代存活对象的1-1.5倍。</p>
@@ -209,7 +206,7 @@ jdk1.7正式商用。</p>
       <span>
         <p>Copyright © 2018 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2018-07-08 01:48:12</p>
+        <p>Site Generated 2018-07-15 13:21:22</p>
       </span>
     </div>
 
