@@ -16,7 +16,7 @@
     <div id="container">
       
 <div id="header">
-  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Book">Book</a>&nbsp;&#187;&nbsp;Java并发专题
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#并发">并发</a>&nbsp;&#187;&nbsp;Java并发专题
     <span class="updated">Page Updated&nbsp;
       2016-8-7 14:52
     </span></div>
@@ -26,13 +26,13 @@
 <div class="page_title">Java并发专题</div>
 
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
-<li><a href="#_1">导读</a></li>
-<li><a href="#java">Java并发基础</a><ul>
+<li><a href="#_1">导读</a></li>
+<li><a href="#java">Java并发基础</a><ul>
 <li><a href="#_2">什么是线程安全</a></li>
 <li><a href="#_3">串行和并行</a></li>
 </ul>
 </li>
-<li><a href="#_4">常见锁</a><ul>
+<li><a href="#_4">常见锁</a><ul>
 <li><a href="#volatile">volatile</a></li>
 <li><a href="#synchronized">synchronized</a></li>
 <li><a href="#reentranlock">ReenTranLock</a></li>
@@ -40,7 +40,7 @@
 </ul>
 </li>
 <li><a href="#_6">原子变量类</a></li>
-<li><a href="#_7">常见的并发工具类</a><ul>
+<li><a href="#_7">常见的并发工具类</a><ul>
 <li><a href="#countdownlatch">CountDownLatch</a></li>
 <li><a href="#cyclicbarrier">CyclicBarrier</a></li>
 <li><a href="#semaphore">Semaphore（信号量）</a></li>
@@ -48,19 +48,19 @@
 </li>
 </ul>
 </div>
-<h1 id="_1">导读</h1>
+<h1 id="_1">导读</h1>
 <ul>
-<li>Java并发基础</li>
-<li>并发锁 </li>
+<li>Java并发基础</li>
+<li>并发锁</li>
 <li>原子操作类</li>
 <li>常见的并发工具类</li>
 </ul>
-<h1 id="java">Java并发基础</h1>
+<h1 id="java">Java并发基础</h1>
 <h2 id="_2">什么是线程安全</h2>
 <p>当多个线程并发访问一个类、方法或对象时，如果该类始终能正确执行，得到正确的结果，则该方法就是线程安全的。</p>
 <h2 id="_3">串行和并行</h2>
 <p>并行不一定比串行快，因为线程有创建和上下文切换的开销。会有临界点。</p>
-<h1 id="_4">常见锁</h1>
+<h1 id="_4">常见锁</h1>
 <h2 id="volatile">volatile</h2>
 <p>volatile，比 synchronized更轻量级的实现，它保证了并发时，共享变量的可见性，即，一个线程修改了变量，另一个线程能读到这个修改的值，但是，它不能保证操作的 <strong>原子性</strong> 。</p>
 <p>共享变量：可以看到，线程一般先从主内存中把变量取出，然后复制一个变量副本到本地内存中。再进行操作，如果变量被声明了volatile，则每次这个值的修改，都会使本地内存的副本失效，线程需要从主内存中重新获取值。即声明了volatile的变量可以使值是内存中最新的值。</p>
@@ -76,7 +76,7 @@
 </pre></div>
 
 
-<p>加锁后，同一个实例，多个线程并发时，只有一个线程能进入该方法并执行</p>
+<p>加锁后，同一个实例，多个线程并发时，只有一个线程能进入该方法并执行</p>
 <p>2.给静态方法加</p>
 <div class="hlcode"><pre><span class="kd">public</span> <span class="kd">static</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">sum</span><span class="o">()</span> <span class="o">{</span>
     <span class="n">dosomething</span><span class="o">();</span>
@@ -85,9 +85,8 @@
 
 
 <p>加锁后，所有实例，多个线程并发时，都只有一个线程能进入该方法并执行</p>
-<p>3.方法体中加入<br />
-<br />
-synchronized()里面既可以传类，也可以传实例，传类就是类锁，传实例就是对象锁。如下面的代码例子，若分别使用类锁和对象锁，两者是不会互相阻塞的。</p>
+<p>3.方法体中加入</p>
+<p>synchronized()里面既可以传类，也可以传实例，传类就是类锁，传实例就是对象锁。如下面的代码例子，若分别使用类锁和对象锁，两者是不会互相阻塞的。</p>
 <div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Entity</span> <span class="o">{</span>
     <span class="o">......</span>
 <span class="o">}</span>
@@ -105,7 +104,7 @@ synchronized()里面既可以传类，也可以传实例，传类就是类锁，
 
 
 <h2 id="reentranlock">ReenTranLock</h2>
-<p>也是一种常见的并发控制锁，比syncronized灵活，可以控制的粒度更小。</p>
+<p>也是一种常见的并发控制锁，比syncronized灵活，可以控制的粒度更小。</p>
 <div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ReenTranLockDemo</span> <span class="o">{</span>
 
     <span class="kd">private</span> <span class="kd">static</span> <span class="n">ReentrantLock</span> <span class="n">reentrantLock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReentrantLock</span><span class="o">();</span>
@@ -144,11 +143,11 @@ synchronized()里面既可以传类，也可以传实例，传类就是类锁，
 <p>同一个线程，如果已经获取到锁后，要继续获取锁时，可以直接执行，不需要再获取锁。synchronized是支持锁重入的。</p>
 <h1 id="_6">原子变量类</h1>
 <p>AtomicIneger，AtomicLong，等等</p>
-<p>线程安全，内部有锁，可以作为全局变量来进行内部操作，如自增。</p>
-<p>扩展：目前项目中一般很少用到原子变量类，因为现在我们的程序一般都是分布式了，几乎不会单机跑，而分布式，我们一般使用redis来作为自增锁来使用。</p>
-<h1 id="_7">常见的并发工具类</h1>
+<p>线程安全，内部有锁，可以作为全局变量来进行内部操作，如自增。</p>
+<p>扩展：目前项目中一般很少用到原子变量类，因为现在我们的程序一般都是分布式了，几乎不会单机跑，而分布式，我们一般使用redis来作为自增锁来使用。</p>
+<h1 id="_7">常见的并发工具类</h1>
 <h2 id="countdownlatch">CountDownLatch</h2>
-<p>CountDownLatch可以实现类似倒计时的功能，通过调用 <strong>countDown</strong> 来实现减一的功能，当CountDownLatch里面的计数器减到0时，之前await挂起的线程，就能继续执行。</p>
+<p>CountDownLatch可以实现类似倒计时的功能，通过调用 <strong>countDown</strong> 来实现减一的功能，当CountDownLatch里面的计数器减到0时，之前await挂起的线程，就能继续执行。</p>
 <div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CountDownLatchDemo</span> <span class="o">{</span>
 
     <span class="kd">public</span> <span class="kd">static</span> <span class="n">CountDownLatch</span> <span class="n">countDownLatch</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CountDownLatch</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
@@ -179,7 +178,7 @@ synchronized()里面既可以传类，也可以传实例，传类就是类锁，
 </pre></div>
 
 
-<p>执行结果</p>
+<p>执行结果</p>
 <div class="hlcode"><pre><span class="mi">10</span><span class="o">--</span> <span class="err">开始</span>
 <span class="mi">11</span><span class="o">--</span> <span class="err">开始</span>
 <span class="mi">12</span><span class="o">--</span> <span class="err">开始</span>
@@ -199,9 +198,9 @@ synchronized()里面既可以传类，也可以传实例，传类就是类锁，
 
 <h2 id="cyclicbarrier">CyclicBarrier</h2>
 <p>CyclicBarrier可以应用在这种场景。</p>
-<p>任务分发给各个线程执行，各个线程执行完后，主线程再进行统一处理。</p>
-<p>在项目中，比如我们在修数据时，要修几百万上千万的数据，需要用多线程跑缩短时间，这时候可以使用CyclicBarrier来帮助我们完成任务</p>
-<p>首先在主线程将任务分片，分片完毕后，各个分片的数据交给各个线程执行，执行完毕后，主线程再做逻辑判断，重新分片执行。</p>
+<p>任务分发给各个线程执行，各个线程执行完后，主线程再进行统一处理。</p>
+<p>在项目中，比如我们在修数据时，要修几百万上千万的数据，需要用多线程跑缩短时间，这时候可以使用CyclicBarrier来帮助我们完成任务</p>
+<p>首先在主线程将任务分片，分片完毕后，各个分片的数据交给各个线程执行，执行完毕后，主线程再做逻辑判断，重新分片执行。</p>
 <div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CyclicBarrierDemo</span> <span class="o">{</span>
 
     <span class="kd">private</span> <span class="kd">static</span> <span class="n">CyclicBarrier</span> <span class="n">cyclicBarrier</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CyclicBarrier</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
@@ -284,7 +283,7 @@ synchronized()里面既可以传类，也可以传实例，传类就是类锁，
       <span>
         <p>Copyright © 2018 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2018-07-15 13:21:22</p>
+        <p>Site Generated 2018-07-18 00:00:09</p>
       </span>
     </div>
 

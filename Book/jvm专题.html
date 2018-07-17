@@ -38,7 +38,7 @@
 <li><a href="#_7">垃圾回收</a><ul>
 <li><a href="#_8">判断对象是否可以被回收</a><ul>
 <li><a href="#_9">计数法</a></li>
-<li><a href="#_10">可达性分析</a></li>
+<li><a href="#_10">可达性分析</a></li>
 </ul>
 </li>
 <li><a href="#_11">垃圾回收算法</a><ul>
@@ -71,13 +71,12 @@
 </ul>
 </div>
 <h1 id="_1">主要内容</h1>
-<p>这篇大部分内容取自《深入了解JVM虚拟机》</p>
 <ul>
-<li>JVM内存结构 </li>
-<li>类加载机制 </li>
+<li>JVM内存结构</li>
+<li>类加载机制</li>
 <li>垃圾回收</li>
 <li>JVM命令行工具使用</li>
-<li>JVM参数调优</li>
+<li>JVM参数调优</li>
 </ul>
 <h1 id="jvm">JVM内存结构</h1>
 <h2 id="_2">本地方法栈区</h2>
@@ -111,9 +110,9 @@
 
 
 <p>instanceA和instanceB互相引用，计数器不为0，不能被回收。</p>
-<h3 id="_10">可达性分析</h3>
-<p>因此，现在主流的JVM虚拟机是通过 <em>【可达性分析】</em> 来判断对象是否可被回收。</p>
-<p><img alt="" src="https://ws1.sinaimg.cn/mw690/005H7Wvygy1ft1nak0pz3j31ag0ss7gy.jpg" /></p>
+<h3 id="_10">可达性分析</h3>
+<p>因此，现在主流的JVM虚拟机是通过 <em>【可达性分析】</em> 来判断对象是否可被回收。</p>
+<p><img alt="可达性分析" src="https://ws1.sinaimg.cn/mw690/005H7Wvygy1ft1nak0pz3j31ag0ss7gy.jpg" /></p>
 <p>那么那些对象可以作为GC Roots呢？</p>
 <ul>
 <li>栈中引用的对象</li>
@@ -144,28 +143,27 @@
 <h3 id="cms">CMS(老年代)</h3>
 <p>并发收集，低停顿</p>
 <h3 id="g1">G1（目前最先进）</h3>
-<p><br />
-jdk1.7正式商用。</p>
+<p>jdk1.7正式商用。</p>
 <h2 id="jvm_1">JVM命令行工具使用</h2>
 <h3 id="jps">jps</h3>
 <p>查看虚拟机进程</p>
 <div class="hlcode"><pre><span class="n">jps</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span> <span class="p">{</span><span class="n">hostid</span><span class="p">}</span>
 
-<span class="err">常用</span><span class="o">:</span>
+<span class="err">常用</span><span class="o">:</span>
 <span class="n">jps</span> <span class="o">-</span><span class="n">v</span> <span class="o">|</span> <span class="n">grep</span> <span class="p">{</span><span class="n">filter_name</span><span class="p">}</span>
 </pre></div>
 
 
 <p>-v 输出虚拟机进程进程启动时的JVM参数</p>
 <h3 id="jstat">jstat</h3>
-<div class="hlcode"><pre><span class="n">jstat</span> <span class="p">[</span> <span class="n">option</span> <span class="n">vmid</span> <span class="p">[]</span><span class="n">interval</span><span class="p">[</span><span class="n">s</span><span class="o">|</span><span class="n">ms</span><span class="p">]</span> <span class="p">[</span><span class="n">count</span><span class="p">]</span> <span class="p">]</span>
+<div class="hlcode"><pre><span class="n">jstat</span> <span class="o">[</span> <span class="n">option</span> <span class="n">vmid</span> <span class="o">[]</span><span class="n">interval</span><span class="o">[</span><span class="n">s</span><span class="o">|</span><span class="n">ms</span><span class="o">]</span> <span class="o">[</span><span class="n">count</span><span class="o">]</span> <span class="o">]</span>
 
 <span class="err">比如，需要</span><span class="mi">250</span><span class="err">毫秒查询一次进程</span><span class="mi">2764</span><span class="err">垃圾收集情况，那命令格式为</span>
 <span class="n">jstat</span> <span class="o">-</span><span class="n">gc</span> <span class="mi">2764</span> <span class="mi">250</span> <span class="mi">20</span>
 </pre></div>
 
 
-<p><img alt="" src="https://ws1.sinaimg.cn/mw690/005H7Wvygy1ft1rxw4epyj31cw0mmwqt.jpg" /></p>
+<p><img alt="jstat执行样例" src="https://ws1.sinaimg.cn/mw690/005H7Wvygy1ft1rxw4epyj31cw0mmwqt.jpg" /></p>
 <h3 id="jmap">jmap</h3>
 <p>jmap用于生成堆转储快照，我们经常用jamp来获取dump文件，用于分析异常情况。</p>
 <div class="hlcode"><pre><span class="n">jmap</span> <span class="p">[</span><span class="n">option</span><span class="p">]</span> <span class="n">vmid</span>
@@ -191,7 +189,7 @@ jdk1.7正式商用。</p>
 <ul>
 <li>-xmn</li>
 </ul>
-<p>年轻代大小，sun建议为整个堆区的3/8</p>
+<p>年轻代大小，sun建议为整个堆区的3/8</p>
 <ul>
 <li>-XX:PermSize</li>
 </ul>
@@ -206,7 +204,7 @@ jdk1.7正式商用。</p>
       <span>
         <p>Copyright © 2018 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2018-07-15 13:21:22</p>
+        <p>Site Generated 2018-07-18 00:00:09</p>
       </span>
     </div>
 
