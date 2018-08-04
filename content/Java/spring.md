@@ -3,388 +3,47 @@ title: spring
 date: 2016-6-24 16:57:46
 collection: Java框架
 ---
+
 [TOC]
 
 # 搭建Spring环境
-1、导入所有的Spring包
+
+2018-7-16 移除了spring搭建的相关内容，因为搭环境这些，一般配合网上的一些教程资源，既可以轻松搭建。
+
+# Spring事务
+
+## 注解控制事务(**推荐**)
+
+spring配置文件中加入
 
 ```xml
-<!-- spring开始 -->
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-core</artifactId>
-</dependency>
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-web</artifactId>
-</dependency>
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-oxm</artifactId>
-</dependency>
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-tx</artifactId>
-</dependency>
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-jdbc</artifactId>
-</dependency>
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-webmvc</artifactId>
-</dependency>
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-aop</artifactId>
-</dependency>
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-context-support</artifactId>
-</dependency>
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-test</artifactId>
-</dependency>
-```
-
-2、配置web.xml
-
-如果工程没有web的部分，或者并没有使用到spring-mvc，则不需要配置该文件
-
-```xml
-<!DOCTYPE web-app PUBLIC
-        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
-        "http://java.sun.com/dtd/web-app_2_3.dtd" >
-<web-app>
-    <display-name>Archetype Created Web Application</display-name>
-
-    <!-- Spring的配置文件 -->
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring/spring-common</param-value>
-    </context-param>
-
-    <!--log4j-->
-    <context-param>
-        <param-name>log4jConfigLocation</param-name>
-        <param-value>WEB-INF/log4j.properties</param-value>
-    </context-param>
-
-    <!-- 编码过滤器 -->
-    <filter>
-        <filter-name>encodingFilter</filter-name>
-        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-        <async-supported>true</async-supported>
-        <init-param>
-            <param-name>encoding</param-name>
-            <param-value>UTF-8</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>encodingFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-    <!-- Spring监听器 -->
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
-    <!-- 防止Spring内存溢出监听器 -->
-    <listener>
-        <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
-    </listener>
-    <listener>
-        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
-    </listener>
-
-    <!-- Spring MVC servlet -->
-    <servlet>
-        <servlet-name>SpringMVC</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:spring/spring-mvc.xml</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-        <async-supported>true</async-supported>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SpringMVC</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
-
-    <welcome-file-list>
-        <welcome-file>/index.jsp</welcome-file>
-    </welcome-file-list>
-</web-app>
-```
-
-配置spring-common.xml文件
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-      http://www.springframework.org/schema/context
-      http://www.springframework.org/schema/context/spring-context.xsd">
-
-    <!-- 扫描文件（自动将service层注入） -->
-    <context:component-scan base-package="com.houmingjian.practice.service"/>
-
-    <!-- 扫描dao层 -->
-    <context:component-scan base-package="com.houmingjian.practice.dao"/>
-</beans>
-```
-
-## 整合数据库
-配置jdbc信息
-
-jdbc.properties
-
-```properties
-jdbc.driver=com.mysql.jdbc.Driver
-jdbc.url=jdbc\:mysql\://localhost\:3306/practice
-jdbc.username=root
-jdbc.password=root
-```
-
-### 整合hibernate
-
-spring的配置文件中加入（最好是新建一个spring配置文件spring-hibernate）
-
-```xml
-<!-- 读取jdbc文件 -->
-	<bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>classpath:jdbc.properties</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-		<!-- 用户名 -->
-		<property name="user" value="${jdbc.username}" />
-		<!-- 用户密码 -->
-		<property name="password" value="${jdbc.password}" />
-		<property name="driverClass" value="${jdbc.driver}" />
-		<property name="jdbcUrl" value="${jdbc.url}" />
-		<!--连接池中保留的最大连接数。默认值: 15 -->
-		<property name="maxPoolSize" value="20" />
-		<!-- 连接池中保留的最小连接数，默认为：3 -->
-		<property name="minPoolSize" value="2" />
-		<!-- 初始化连接池中的连接数，取值应在minPoolSize与maxPoolSize之间，默认为3 -->
-		<property name="initialPoolSize" value="2" />
-
-		<!--最大空闲时间，60秒内未使用则连接被丢弃。若为0则永不丢弃。默认值: 0 -->
-		<property name="maxIdleTime" value="60" />
-
-		<!-- 当连接池连接耗尽时，客户端调用getConnection()后等待获取新连接的时间，超时后将抛出SQLException，如设为0则无限期等待。单位毫秒。默认:
-			0 -->
-		<property name="checkoutTimeout" value="3000" />
-
-		<!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。默认值: 3 -->
-		<!-- <property name="acquireIncrement" value="2"/> -->
-
-		<!--定义在从数据库获取新连接失败后重复尝试的次数。默认值: 30 ；小于等于0表示无限次 -->
-		<property name="acquireRetryAttempts" value="0" />
-
-		<!--重新尝试的时间间隔，默认为：1000毫秒 -->
-		<property name="acquireRetryDelay" value="1000" />
-
-		<!--关闭连接时，是否提交未提交的事务，默认为false，即关闭连接，回滚未提交的事务 -->
-		<property name="autoCommitOnClose" value="false" />
-
-		<!--如果为false，则获取连接失败将会引起所有等待连接池来获取连接的线程抛出异常，但是数据源仍有效保留，并在下次调用getConnection()的时候继续尝试获取连接。如果设为true，那么在尝试获取连接失败后该数据源将申明已断开并永久关闭。默认:
-			false -->
-		<property name="breakAfterAcquireFailure" value="false" />
-
-		<!--每60秒检查所有连接池中的空闲连接。默认值: 0，不检查 -->
-		<property name="idleConnectionTestPeriod" value="60" />
-		<!--c3p0全局的PreparedStatements缓存的大小。如果maxStatements与maxStatementsPerConnection均为0，则缓存不生效，只要有一个不为0，则语句的缓存就能生效。如果默认值:
-			0 -->
-		<property name="maxStatements" value="100" />
-		<!--maxStatementsPerConnection定义了连接池内单个连接所拥有的最大缓存statements数。默认值: 0 -->
-		<property name="maxStatementsPerConnection" value="10" />
-	</bean>
-
-	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-		<!-- 配置数据源 -->
-		<property name="dataSource" ref="dataSource" />
-		<!-- 扫描包 -->
-		<property name="packagesToScan" value="org.daxiang.resume.po"> </property>
-		<!--hibernate参数配置 -->
-		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.dialect"> org.hibernate.dialect.MySQLDialect </prop>
-				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</prop>
-				<prop key="jdbc.use_scrollable_resultset">false</prop>
-				<!-- <prop key="hibernate.hbm2ddl.auto">none</prop>
-					 <prop key="hibernate.jdbc.fetch_size">50</prop>
-					 <prop key="hibernate.jdbc.batch_size">30</prop> -->
-			</props>
-		</property>
-	</bean>
-```
-
-web.xml中加入
-
-```xml
-<!-- 配置Session -->
-<filter>
-<filter-name>openSession</filter-name>
-<filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>
-</filter>
-<filter-mapping>
-<filter-name>openSession</filter-name>
-<url-pattern>/*</url-pattern>
-</filter-mapping>
-```
-
-
-
-### 整合mybatis
-
-spring-mybatis配置文件
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-      http://www.springframework.org/schema/context
-      http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
-
-    <!-- 引入jdbc配置文件 -->
-    <context:property-placeholder location="classpath:jdbc.properties"/>
-
-    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
-          destroy-method="close">
-        <property name="driverClassName">
-            <value>${jdbc.driver}</value>
-        </property>
-        <property name="url">
-            <value>${jdbc.url}</value>
-        </property>
-        <property name="username">
-            <value>${jdbc.username}</value>
-        </property>
-        <property name="password">
-            <value>${jdbc.password}</value>
-        </property>
-        <!-- 连接池最大使用连接数 -->
-        <property name="maxActive">
-            <value>20</value>
-        </property>
-        <!-- 初始化连接大小 -->
-        <property name="initialSize">
-            <value>1</value>
-        </property>
-        <!-- 获取连接最大等待时间 -->
-        <property name="maxWait">
-            <value>60000</value>
-        </property>
-        <!-- 连接池最大空闲 -->
-        <property name="maxIdle">
-            <value>20</value>
-        </property>
-        <!-- 连接池最小空闲 -->
-        <property name="minIdle">
-            <value>3</value>
-        </property>
-        <!-- 自动清除无用连接 -->
-        <property name="removeAbandoned">
-            <value>true</value>
-        </property>
-        <!-- 清除无用连接的等待时间 -->
-        <property name="removeAbandonedTimeout">
-            <value>180</value>
-        </property>
-        <!-- 连接属性 -->
-        <property name="connectionProperties">
-            <value>clientEncoding=UTF-8</value>
-        </property>
-    </bean>
-
-    <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <!-- 加载mybatis的配置文件 -->
-        <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"></property>
-        <!-- 自动扫描mapping.xml文件 -->
-        <property name="mapperLocations" value="classpath:com/houmingjian/practice/dao/*.xml"></property>
-    </bean>
-
-    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-        <constructor-arg index="0" ref="sqlSessionFactory" />
-    </bean>
-
-    <!-- spring与mybatis整合配置，扫描所有dao -->
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
-          p:basePackage="com.houmingjian.practice.dao"
-          p:sqlSessionFactoryBeanName="sqlSessionFactory"/>
-
     <!-- 对数据源进行事务管理 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
           p:dataSource-ref="dataSource"/>
 
     <!-- 允许使用注解进行事务配置 -->
     <tx:annotation-driven transaction-manager="transactionManager" />
-
-</beans>
 ```
 
-引入mybatis相关的包
+然后在类的开头就可以加上注解 `@Transactional`
 
-```xml
-<!-- mybatis开始 -->
-<dependency>
-    <groupId>org.mybatis</groupId>
-    <artifactId>mybatis</artifactId>
-</dependency>
-<dependency>
-    <groupId>org.mybatis</groupId>
-    <artifactId>mybatis-spring</artifactId>
-</dependency>
-<dependency>
-    <groupId>org.mybatis.generator</groupId>
-    <artifactId>mybatis-generator-core</artifactId>
-    <version>1.3.2</version>
-</dependency>     
-```
+### 关于事务注解的一些坑点
 
-在resource文件夹下新建mybatis-config文件，里面存放的是mybatis的配置
+最近看了一下部分AOP的源码。。起初是因为想不通，为什么一个方法调用同一个类里面的带事务方法，事务不起作用。
 
-```xml
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE configuration
-        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-config.dtd">
-<configuration>
-    <!-- 别名 -->
-    <typeAliases>
-        <!-- 批量扫描domain别名 -->
-        <package name="com.houmingjian.practice.po"/>
-    </typeAliases>
-</configuration>
-```
+看了源码之后明白了。因为Spring创建代理对象，是在获取Bean的时候生成代替的。
 
-这篇讲得不错
+例如说A这个类，有不带事务的B方法和带事务的C方法。Spring发现你要调用A的B方法，于是他就去看看B需不需要被代理(通过AOP)，若发现不需要，就直接从Bean容器中给你返回了A类，然后调用带事务的C方法时，就是直接本类调用了。因为同类调用不需要向Spring获取Bean。
 
-http://hwak.iteye.com/blog/1611970
+### 事务注解和AOP注解
 
-# Spring事务配置
+当事务注解和自定义的AOP注解在同一个方法上面时，就需要自定义注解的顺序，在Spring中配置事务的地方有一个属性**order**，这个属性的值越小，则执行优先级最高，事务的默认级别是最高的。
 
-## AOP层控制事务
+## AOP层控制事务(不推荐)
 
-**不建议使用该方式，建议使用注解的方式来使用事务**
+不建议使用该方式，建议使用注解的方式来使用事务
+
+这种方式不好的地方有两点，第一点是，对刚接触业务的同事不透明，第二是，可能会导致一些不需要事务的方法，也加入了事务。
 
 ```xml
 <!-- 通知 -->
@@ -403,22 +62,7 @@ http://hwak.iteye.com/blog/1611970
 
 经过实践，发现*号的优先度是最低的。这样配置可以实现除了get，find，search，load等纯读取方法外，其余方法都是会开启事务。
 
-## 注解控制事务(推荐使用)
-
-spring配置文件中加入
-
-```xml
-    <!-- 对数据源进行事务管理 -->
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
-          p:dataSource-ref="dataSource"/>
-
-    <!-- 允许使用注解进行事务配置 -->
-    <tx:annotation-driven transaction-manager="transactionManager" />
-```
-
-然后在类的开头就可以加上注解 `@Transactional`
-
-如果想手工管理事务，则可以使用编程式事务管理。
+## 手工管理事务(不推荐)
 
 ```java
 @Autowired
@@ -438,72 +82,74 @@ try{
 
 ```
 
-# AOP使用
-**在这里就只是简单的列举一下实践，更多的使用以后再归纳整理。**
+# AOP的使用
+
+在这里就只是简单的列举一下实践，更多的使用以后再归纳整理。
+
 举个例子：
 首先，aop我们一般会放在service中，我们先定义一个接口名字，名字就叫ISleepServiceInter
+
 ```java
 public interface ISleepServiceInter {
-	public void sleep();
+    public void sleep();
 }
 ```
+
 然后，我们实现写一个他的实现类SleepServiceImpl
+
 ```java
 @Service
 public class SleepServiceImpl implements ISleepServiceInter{
 
-	@Override
-	public void sleep() {
-		System.out.println("蛤铪：睡觉ing。。。。。。");
-	}
+    @Override
+    public void sleep() {
+        System.out.println("蛤铪：睡觉ing。。。。。。");
+    }
 }
 ```
+
 然后我们开始写aop的类
+
 ```java
 public class SleepAop implements MethodBeforeAdvice, AfterReturningAdvice{
 
-	@Override
-	public void afterReturning(Object arg0, Method arg1, Object[] arg2, Object arg3) throws Throwable {
-		System.out.println("蛤铪：昨天搞的这个大新闻啊。。。。exicted！");
-	}
+    @Override
+    public void afterReturning(Object arg0, Method arg1, Object[] arg2, Object arg3) throws Throwable {
+        System.out.println("蛤铪：昨天搞的这个大新闻啊。。。。exicted！");
+    }
 
-	@Override
-	public void before(Method arg0, Object[] arg1, Object arg2) throws Throwable {
-		System.out.println("蛤铪：睡觉之前，先搞个大新闻！");
-	}
-
+    @Override
+    public void before(Method arg0, Object[] arg1, Object arg2) throws Throwable {
+        System.out.println("蛤铪：睡觉之前，先搞个大新闻！");
+    }
 }
-
 ```
+
 最后配置xml文件
+
 ```xml
     <!-- aop发生的地点 -->
     <bean id="sleepCutPoint" class="org.springframework.aop.support.JdkRegexpMethodPointcut">
-    	<property name="pattern" value=".*sleep" />
+        <property name="pattern" value=".*sleep" />
     </bean>
 
     <bean id="sleepAop" class="com.houmingjian.mblog.service.aop.SleepAop"></bean>  
 
     <bean id="sleepHelperAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
-     <property name="advice" ref="sleepAop"/>
-   	 <property name="pointcut" ref="sleepCutPoint"/>
-		</bean>
+        <property name="advice" ref="sleepAop"/>
+        <property name="pointcut" ref="sleepCutPoint"/>
+     </bean>
 
-	 <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>  
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>  
 ```
 
 当然也可以用注释的方法来做~
 
-最近看了一下部分AOP的源码。。起初是因为想不通，为什么一个方法调用同一个类里面的带事务方法，事务不起作用。看了源码之后明白了。因为Spring创建代理对象，是在获取Bean的时候生成代替的，例如说A这个类，有不带事务的B方法和带事务的C方法。Spring发现你要调用A的B方法，于是他就去看看B需不需要被代理，发现不需要，就直接从Bean容器中给你返回了A类，然后调用带事务的C方法时，就是直接本类调用了。因为同类调用不需要向Spring获取Bean。
-
-# 事务注解和AOP注解
-
-当事务注解和自定义的AOP注解在同一个方法上面时，就需要自定义注解的顺序，在Spring中配置事务的地方有一个属性**order**，这个属性的值越小，则执行优先级最高，事务的默认级别是最高的。
-
 # Spring-cache
 
-[注释驱动的 Spring cache 缓存介绍](https://www.ibm.com/developerworks/cn/opensource/os-cn-spring-cache/)
+2018-7-16更新：Spring-cache因为缺少时间
 
+[注释驱动的 Spring cache 缓存介绍](https://www.ibm.com/developerworks/cn/opensource/os-cn-spring-cache/)
 
 # Quartz定时任务
 
@@ -512,8 +158,8 @@ public class SleepAop implements MethodBeforeAdvice, AfterReturningAdvice{
 ```xml
 <!--定时任务-->
 <dependency>
-	<groupId>org.quartz-scheduler</groupId>
-	<artifactId>quartz</artifactId>
+    <groupId>org.quartz-scheduler</groupId>
+    <artifactId>quartz</artifactId>
 </dependency>
 ```
 
@@ -587,7 +233,7 @@ cronExpression表达式
 
 常见例子：
 
-```
+```java
 * * * * * ? //每一秒
 0/3 * * * * ? //每三秒一次
 0 0/3 * * * ?  //每三分钟一次
@@ -599,7 +245,7 @@ cronExpression表达式
 
 A主要是核心业务的代码实现，而B用于向外提供http服务和连接A项目。这两个项目都有spring，这时候我们一般是会将A打包成jar，然后供B调用。但这时候问题来了，B怎么才能同时接管A的spring呢
 
-这时候会用到spring配置文件中的<import>标签，将jar包中的spring配置文件引入到B中。
+这时候会用到spring配置文件中的 `<import>` 标签，将jar包中的spring配置文件引入到B中。
 
 ```java
 <import resource="classpath*:/spring/spring-common.xml" />
@@ -624,23 +270,23 @@ A主要是核心业务的代码实现，而B用于向外提供http服务和连�
 ```java
 public class SettingContext implements InitializingBean {
 
-	private static SettingService settingServiceStatic;
-	@Autowired
-	private SettingService settingService;
+    private static SettingService settingServiceStatic;
+    @Autowired
+    private SettingService settingService;
 
-	public static String getValue(String key,String... defaultValue) {
-		if (settingServiceStatic == null) {
-			if (defaultValue != null && defaultValue.length > 0)
-				return defaultValue[0];
-			return null;
-		}
-		return settingServiceStatic.getValue(key);
-	}
+    public static String getValue(String key,String... defaultValue) {
+        if (settingServiceStatic == null) {
+            if (defaultValue != null && defaultValue.length > 0)
+                return defaultValue[0];
+            return null;
+        }
+        return settingServiceStatic.getValue(key);
+    }
 
-	@Override
-	public  void afterPropertiesSet() throws Exception {
-		SettingContext.settingServiceStatic = appSettingService;
-	}
+    @Override
+    public  void afterPropertiesSet() throws Exception {
+        SettingContext.settingServiceStatic = appSettingService;
+    }
 }
 ```
 
@@ -649,6 +295,7 @@ public class SettingContext implements InitializingBean {
 # 自定义bean初始化后行为
 
 有三种方式可以自定义bean初始化后的行为
+
 1. 通过bean实现`InitializingBean`接口，重写`afterPropertiesSet`方法
 2. 在xml中定义`init-method`方法
 3. 通过`@PostConstruct`注解
