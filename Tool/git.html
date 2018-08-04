@@ -40,10 +40,10 @@
 <li><a href="#_6">还原本地所有代码</a></li>
 <li><a href="#commit">回退到某个commit版本</a></li>
 <li><a href="#git_1">查看某次git修改了哪些文件</a></li>
-<li><a href="#commit_1">修改commit内容</a></li>
+<li><a href="#commit_1">修改commit内容</a><ul>
+<li><a href="#git_2">git 分支</a></li>
 </ul>
 </li>
-<li><a href="#git_2">git 分支</a><ul>
 <li><a href="#_7">查看分支</a></li>
 <li><a href="#_8">切换分支</a></li>
 <li><a href="#_9">删除分支</a></li>
@@ -53,57 +53,53 @@
 <li><a href="#_13">暂存</a></li>
 <li><a href="#git_3">git强行回退分支版本</a></li>
 <li><a href="#_14">删除远程分支</a></li>
-</ul>
-</li>
 <li><a href="#git-bash">git bash 脚本</a></li>
-<li><a href="#sshgithub">使用SSH来连接GitHub</a><ul>
+<li><a href="#sshgithub">使用SSH来连接GitHub</a></li>
 <li><a href="#ssh">多个ssh使用</a></li>
-<li><a href="#_15">全局设置用户名和邮箱</a><ul>
+<li><a href="#_15">全局设置用户名和邮箱</a></li>
 <li><a href="#_16">查看全局设置</a></li>
-</ul>
-</li>
 <li><a href="#gitignore">gitignore</a></li>
 <li><a href="#git_4">git突然崩溃</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<h3 id="git">git命令</h3>
-<h4 id="_1">查看远程源</h4>
+<h1 id="git">git命令</h1>
+<h2 id="_1">查看远程源</h2>
 <div class="hlcode"><pre>git remote -v  //查看
 git remote rm &lt;name&gt; //移除
 git remote add &lt;name&gt; &lt;url&gt; //添加
 </pre></div>
 
 
-<h4 id="_2">查看被修改过的文件列表</h4>
+<h2 id="_2">查看被修改过的文件列表</h2>
 <div class="hlcode"><pre>git status
 </pre></div>
 
 
-<h4 id="git-add">添加当前目录文件 git add [目录]</h4>
+<h2 id="git-add">添加当前目录文件 git add [目录]</h2>
 <div class="hlcode"><pre>git add .
 </pre></div>
 
 
-<h4 id="git-add_1">撤销git add</h4>
+<h2 id="git-add_1">撤销git add</h2>
 <div class="hlcode"><pre>git reset
 </pre></div>
 
 
-<h4 id="_3">提交</h4>
+<h2 id="_3">提交</h2>
 <div class="hlcode"><pre>git commit -m <span class="s1">&#39;your comment&#39;</span>
 git commit -am <span class="s1">&#39;your comment&#39;</span>   <span class="c">#add+commit</span>
 </pre></div>
 
 
-<h4 id="_4">提交反悔</h4>
+<h2 id="_4">提交反悔</h2>
 <div class="hlcode"><pre>git reset --hard HASH <span class="c">#返回到某个节点，不保留修改。</span>
 git reset --soft HASH <span class="c">#返回到某个节点。保留修改</span>
 </pre></div>
 
 
-<h4 id="fork">更新远程fork的项目</h4>
+<h2 id="fork">更新远程fork的项目</h2>
 <p>首先，将被fork项目的源添加进来。</p>
 <div class="hlcode"><pre>git remote add <span class="o">[</span>upstream<span class="o">]</span> <span class="o">[</span>giturl<span class="o">]</span>
 git fetch <span class="o">[</span>upstream<span class="o">]</span>
@@ -113,7 +109,7 @@ git pull <span class="o">[</span>upstream<span class="o">]</span> master
 
 <p>相当于把远程源拉回来。<br />
 在这其中，可能会有冲突，如果有冲突，则将冲突解决掉之后，git add 冲突文件并且commit-&gt;push到服务器上。</p>
-<h4 id="git-add_2">git add恢复</h4>
+<h2 id="git-add_2">git add恢复</h2>
 <p>有时候我们把文件提交上去了，但是突然发现add错了文件，那怎么办呢</p>
 <p>我们可以恢复add之前的状态</p>
 <div class="hlcode"><pre>git reset head
@@ -125,72 +121,77 @@ git pull <span class="o">[</span>upstream<span class="o">]</span> master
 </pre></div>
 
 
-<h4 id="git-commit">git commit 恢复</h4>
+<h2 id="git-commit">git commit 恢复</h2>
 <div class="hlcode"><pre><span class="nx">git</span> <span class="nb">reset</span> <span class="o">--</span><span class="nx">soft</span> <span class="o">&lt;</span><span class="nx">commit_id</span><span class="o">&gt;</span>
 </pre></div>
 
 
-<h4 id="_5">解决冲突</h4>
+<h2 id="_5">解决冲突</h2>
 <p>当我们pull远程源merge然后发现有冲突的时候，git会提示我们某个文件需要解决冲突，一般来说，只要到本地种把冲突的文件修改，然后add commit掉，就可以了。</p>
-<h4 id="_6">还原本地所有代码</h4>
+<h2 id="_6">还原本地所有代码</h2>
 <p>本地所有修改，没有提交的，都返回到原来的状态</p>
 <div class="hlcode"><pre>git checkout .
 </pre></div>
 
 
-<h4 id="commit">回退到某个commit版本</h4>
+<h2 id="commit">回退到某个commit版本</h2>
 <div class="hlcode"><pre>git reset --hard &lt;commit_id&gt;
 </pre></div>
 
 
-<h4 id="git_1">查看某次git修改了哪些文件</h4>
+<h2 id="git_1">查看某次git修改了哪些文件</h2>
 <div class="hlcode"><pre>git show &lt;commit_id&gt;
 </pre></div>
 
 
-<h4 id="commit_1">修改commit内容</h4>
+<h2 id="commit_1">修改commit内容</h2>
 <div class="hlcode"><pre>git commit --amend
 </pre></div>
 
 
 <h3 id="git_2">git 分支</h3>
-<h4 id="_7">查看分支</h4>
+<h2 id="_7">查看分支</h2>
 <div class="hlcode"><pre>git branch  -va //查看本地和远程的分支
 git branch -a  //查看远程的分支  
 </pre></div>
 
 
-<h4 id="_8">切换分支</h4>
+<h2 id="_8">切换分支</h2>
 <div class="hlcode"><pre>git checkout &lt;branch_name&gt; //切换分支
 git checkout -b &lt;branch_name&gt; &lt;origin&gt;/&lt;origin_branch_name&gt;
 eg: checkout -b devlop origin/devlop
 </pre></div>
 
 
-<h4 id="_9">删除分支</h4>
+<h2 id="_9">删除分支</h2>
 <div class="hlcode"><pre>git branch -d &lt;branch_name&gt;
 </pre></div>
 
 
-<h4 id="_10">重命名本地分支</h4>
+<p>删除远程分支</p>
+<div class="hlcode"><pre>git push origin :&lt;branch_name&gt;
+</pre></div>
+
+
+<h2 id="_10">重命名本地分支</h2>
 <div class="hlcode"><pre>git branch -m &lt;old_name&gt; &lt;new_name&gt;
 </pre></div>
 
 
-<h4 id="_11">合并分支代码</h4>
+<h2 id="_11">合并分支代码</h2>
 <p>branch_name 为要合并的分支</p>
 <div class="hlcode"><pre>git merge &lt;branch_name&gt;
 </pre></div>
 
 
-<h4 id="_12">将分支推送到远程服务器上</h4>
+<h2 id="_12">将分支推送到远程服务器上</h2>
 <p>其中local_branch_name在本地中必须存在<br />
 第二个branch_name对应远程分支的名称。</p>
 <div class="hlcode"><pre>git push origin &lt;local_branch_name&gt;:&lt;branch_name&gt;
 </pre></div>
 
 
-<h4 id="_13">暂存</h4>
+<h2 id="_13">暂存</h2>
 <div class="hlcode"><pre>git stash <span class="c">#把所有没有提交的修改暂存到stash里面。</span>
 git stash pop <span class="c">#回复暂存区的代码。</span>
 git stash list <span class="c">#查看所有的暂存</span>
@@ -199,7 +200,7 @@ git stash save &lt;comment&gt; <span class="c">#有备注信息的暂存,强烈�
 </pre></div>
 
 
-<h4 id="git_3">git强行回退分支版本</h4>
+<h2 id="git_3">git强行回退分支版本</h2>
 <div class="hlcode"><pre>git log 
 git reset --hard &lt;commit_id&gt;
 git commmit -am <span class="s1">&#39;&#39;</span>
@@ -210,12 +211,12 @@ git push -f origin &lt;branch_name&gt;
 </pre></div>
 
 
-<h4 id="_14">删除远程分支</h4>
+<h2 id="_14">删除远程分支</h2>
 <div class="hlcode"><pre>git push origin :branch-name
 </pre></div>
 
 
-<h3 id="git-bash">git bash 脚本</h3>
+<h2 id="git-bash">git bash 脚本</h2>
 <p>在git的安装目录下新建文件，<code>git-xxx.sh</code> 然后编写该sh文件，示例如下：</p>
 <div class="hlcode"><pre>!/bin/sh
 git add .
@@ -230,7 +231,7 @@ git push
 
 
 <p>本wiki就是使用这个来做自动部署的</p>
-<h3 id="sshgithub">使用SSH来连接GitHub</h3>
+<h2 id="sshgithub">使用SSH来连接GitHub</h2>
 <p>因为之前写脚本的时候http方式连接在push的时候需要填写邮箱和密码，而ssh方式不用，所以才会接触到这块的东西。</p>
 <p>这一段摘自 <a href="http://blog.csdn.net/binyao02123202/article/details/20130891">github设置添加SSH</a></p>
 <blockquote>
@@ -243,38 +244,38 @@ git push
 <p>1、前者可以随意克隆github上的项目，而不管是谁的；而后者则是你必须是你要克隆的项目的拥有者或管理员，且需要先添加 SSH key ，否则无法克隆。<br />
 2、https url 在push的时候是需要验证用户名和密码的；而 SSH 在push的时候，是不需要输入用户名的，如果配置SSH key的时候设置了密码，则需要输入密码的，否则直接是不需要输入密码的</p>
 </blockquote>
-<h4 id="ssh">多个ssh使用</h4>
+<h2 id="ssh">多个ssh使用</h2>
 <p><a href="http://yijiebuyi.com/blog/f18d38eb7cfee860c117d629fdb16faf.html">同一个电脑多个sshkey管理</a></p>
-<h4 id="_15">全局设置用户名和邮箱</h4>
-<div class="hlcode"><pre><span class="nv">$ </span>git config --global user.name <span class="s2">&quot;wirelessqa&quot;</span>  
-<span class="nv">$ </span>git config --global user.email wirelessqa.me@gmail.com  
+<h2 id="_15">全局设置用户名和邮箱</h2>
+<div class="hlcode"><pre>git config --global user.name <span class="s2">&quot;wirelessqa&quot;</span>  
+git config --global user.email wirelessqa.me@gmail.com  
 </pre></div>
 
 
 <p>如果想单独某个项目设置，则去掉 --global 即可</p>
-<h5 id="_16">查看全局设置</h5>
-<div class="hlcode"><pre><span class="nv">$ </span>git config --list // 查看设置
+<h2 id="_16">查看全局设置</h2>
+<div class="hlcode"><pre>git config --list // 查看设置
 </pre></div>
 
 
-<h4 id="gitignore">gitignore</h4>
+<h2 id="gitignore">gitignore</h2>
 <p>隐藏idea文件</p>
-<div class="hlcode"><pre><span class="o">/</span><span class="p">.</span><span class="n">idea</span>
+<div class="hlcode"><pre>/.idea
 </pre></div>
 
 
 <p>隐藏特定iml后缀文件</p>
-<div class="hlcode"><pre><span class="o">*</span><span class="p">.</span><span class="n">iml</span>
+<div class="hlcode"><pre>*.iml
 </pre></div>
 
 
-<h4 id="git_4">git突然崩溃</h4>
+<h2 id="git_4">git突然崩溃</h2>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2018 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2018-07-18 00:00:09</p>
+        <p>Site Generated 2018-08-04 18:15:23</p>
       </span>
     </div>
 
