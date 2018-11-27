@@ -30,61 +30,115 @@
 <li><a href="#_1">常用</a><ul>
 <li><a href="#_2">解压</a></li>
 <li><a href="#_3">复制</a></li>
-<li><a href="#_4">查找文件</a></li>
-<li><a href="#_5">下载</a></li>
-<li><a href="#_6">查看文件大小</a></li>
-<li><a href="#_7">权限</a></li>
-<li><a href="#_8">查看端口占用</a></li>
-<li><a href="#_9">重命名文件</a></li>
-<li><a href="#_10">选择进程</a></li>
-<li><a href="#_11">杀死进程</a></li>
-<li><a href="#_12">下载文件</a></li>
-<li><a href="#_13">清屏</a></li>
-<li><a href="#_14">查看端口占用</a></li>
-<li><a href="#_15">查看目录文件详细</a></li>
-<li><a href="#_16">软连接</a></li>
-<li><a href="#_17">查找大文件</a></li>
-<li><a href="#_18">清空某个文件</a></li>
+<li><a href="#_4">查找文件</a><ul>
+<li><a href="#find">find</a></li>
+<li><a href="#grep">grep</a></li>
 </ul>
 </li>
+<li><a href="#_5">文件上传/下载</a></li>
+<li><a href="#_6">查看文件大小</a></li>
+<li><a href="#_7">重命名文件</a></li>
+<li><a href="#_8">权限</a></li>
+<li><a href="#_9">查看端口占用</a></li>
+<li><a href="#_10">查询进程</a></li>
+<li><a href="#_11">杀死进程</a></li>
+<li><a href="#_12">软连接</a></li>
+<li><a href="#_13">查找大文件</a></li>
+<li><a href="#_14">清空某个文件</a></li>
 <li><a href="#tomcat7">Tomcat7</a><ul>
 <li><a href="#tomcat">查看tomcat运行时日志</a></li>
+<li><a href="#_15">查看内存占用</a></li>
 </ul>
 </li>
-<li><a href="#_19">查看内存占用</a></li>
-<li><a href="#ssh">SSH</a></li>
+<li><a href="#ssh">SSH</a><ul>
 <li><a href="#scp">SCP跨主机传输文件</a></li>
+</ul>
+</li>
+<li><a href="#_16">文件搜索</a></li>
+<li><a href="#less">less命令</a><ul>
+<li><a href="#_17">命令行操作</a></li>
+</ul>
+</li>
+<li><a href="#_18">终端快捷键相关</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <p>一些基本的命令容易忘掉，所以写下来当备忘录。</p>
-<h3 id="_1">常用</h3>
-<h4 id="_2">解压</h4>
-<div class="hlcode"><pre>tar xvf wordpress.tar       <span class="c">####解压tar格式的文件####</span>
+<h1 id="_1">常用</h1>
+<h2 id="_2">解压</h2>
+<div class="hlcode"><pre>tar xvf wordpress.tar
 </pre></div>
 
 
-<h4 id="_3">复制</h4>
+<h2 id="_3">复制</h2>
 <div class="hlcode"><pre>cp -R file1path file2path
 </pre></div>
 
 
-<h4 id="_4">查找文件</h4>
-<div class="hlcode"><pre>find / -name &lt;file_name&gt; 
+<h2 id="_4">查找文件</h2>
+<h3 id="find">find</h3>
+<div class="hlcode"><pre><span class="c"># 精准搜索文件名</span>
+find &lt;path&gt; -name &lt;file_name&gt;
+
+<span class="c"># 模糊搜索</span>
+find &lt;path&gt; -name <span class="s1">&#39;*&lt;file_name&gt;*&#39;</span>
+
+<span class="c"># 查找txt结尾的文件，所有文件</span>
+find . -name <span class="s2">&quot;*.txt&quot;</span>
+
+<span class="c"># 查找大于100m的大文件</span>
+find . -size +100M -exec ls -lhG <span class="o">{}</span> <span class="se">\;</span>
+
+
+
+<span class="c"># 查找上下5行的内容</span>
+grep -C 5 foo file 显示file文件里匹配foo字串那行以及上下5行
+
+<span class="c"># 查看文件5-10行内容</span>
+sed -n <span class="s1">&#39;5,10p&#39;</span> filename
+
+
+<span class="c">## grep</span>
+
+搜索多个文件内容
 </pre></div>
 
 
-<h4 id="_5">下载</h4>
-<div class="hlcode"><pre>sudo wget &lt;url&gt;  
+<h3 id="grep">grep</h3>
+<div class="hlcode"><pre>grep <span class="s1">&#39;&lt;content&gt;&#39;</span> &lt;file_name or pattern&gt;
+
+ps:如果提示 binary file match 则加入参数 -a
+
+<span class="c"># 递归查找 -r 递归 -n 行号</span>
+grep <span class="s1">&#39;要查找的内容&#39;</span> home/sync -r -n
+</pre></div>
+
+
+<h2 id="_5">文件上传/下载</h2>
+<div class="hlcode"><pre><span class="c"># 下载文件到服务器</span>
+sudo wget &lt;url&gt;  
 sudo wget &lt;url&gt; -O &lt;file_name&gt; //指定文件下载名
+
+<span class="c"># 从服务器下载文件到本机</span>
+sz &lt;filename&gt; <span class="c"># 需要安装lrzsz</span>
+
+<span class="c"># 上传文件到服务器</span>
+rz
 </pre></div>
 
 
-<h4 id="_6">查看文件大小</h4>
+<h2 id="_6">查看文件大小</h2>
 <div class="hlcode"><pre>du &lt;file_name&gt;
 </pre></div>
 
 
-<h4 id="_7">权限</h4>
+<h2 id="_7">重命名文件</h2>
+<div class="hlcode"><pre>mv old_file_name new_file_name
+</pre></div>
+
+
+<h2 id="_8">权限</h2>
 <p>数字的代表含义：</p>
 <p>r ------------4</p>
 <p>w -----------2</p>
@@ -96,66 +150,42 @@ ls -l path/filename   // 查看权限
 </pre></div>
 
 
-<h4 id="_8">查看端口占用</h4>
+<h2 id="_9">查看端口占用</h2>
 <p>例如，我要查看8080端口的占用</p>
 <div class="hlcode"><pre>netstat -ap | grep 8080
+
+lsof -i:&lt;port&gt;
 </pre></div>
 
 
-<h4 id="_9">重命名文件</h4>
-<div class="hlcode"><pre>sudo mv old_file_name new_file_name
-</pre></div>
-
-
-<h4 id="_10">选择进程</h4>
+<h2 id="_10">查询进程</h2>
 <div class="hlcode"><pre>ps -aux | grep &lt;name&gt;
 </pre></div>
 
 
-<h4 id="_11">杀死进程</h4>
+<h2 id="_11">杀死进程</h2>
 <div class="hlcode"><pre><span class="nb">kill</span> -9 pid
 </pre></div>
 
 
-<h4 id="_12">下载文件</h4>
-<div class="hlcode"><pre>sz &lt;filename&gt; <span class="c"># 需要安装lrzsz</span>
-</pre></div>
-
-
-<h4 id="_13">清屏</h4>
-<div class="hlcode"><pre>clear   
-</pre></div>
-
-
-<h4 id="_14">查看端口占用</h4>
-<div class="hlcode"><pre>netstat -tunlp
-</pre></div>
-
-
-<h4 id="_15">查看目录文件详细</h4>
-<div class="hlcode"><pre>ls -lrsh  升序
-ls -lsh   降序
-</pre></div>
-
-
-<h4 id="_16">软连接</h4>
+<h2 id="_12">软连接</h2>
 <div class="hlcode"><pre>ln -s &lt;true_file_path&gt; &lt;link&gt;
 目标文件被破坏，软连接还是会存在
 </pre></div>
 
 
-<h4 id="_17">查找大文件</h4>
+<h2 id="_13">查找大文件</h2>
 <div class="hlcode"><pre>find . -type f -size +800M -exec ls -lh <span class="o">{}</span> <span class="se">\;</span>
 </pre></div>
 
 
-<h4 id="_18">清空某个文件</h4>
+<h2 id="_14">清空某个文件</h2>
 <div class="hlcode"><pre>cp /dev/null nohup.out
 </pre></div>
 
 
-<h3 id="tomcat7">Tomcat7</h3>
-<h4 id="tomcat">查看tomcat运行时日志</h4>
+<h2 id="tomcat7">Tomcat7</h2>
+<h3 id="tomcat">查看tomcat运行时日志</h3>
 <p>先进入logs目录</p>
 <div class="hlcode"><pre>tail -f catalina.out  <span class="c">#ctrl + c退出</span>
 也可以查看catalina.out.201x.xx.xx <span class="c">#当天的日志</span>
@@ -163,17 +193,17 @@ ls -lsh   降序
 
 
 <p>如果要将log进行筛选</p>
-<div class="hlcode"><pre><span class="n">tail</span> <span class="o">-</span><span class="n">f</span> <span class="n">catalina</span><span class="p">.</span><span class="n">out</span> <span class="o">|</span> <span class="n">grep</span> <span class="err">&#39;</span><span class="n">something</span><span class="err">&#39;</span>
+<div class="hlcode"><pre>tail -f catalina.out | grep <span class="s1">&#39;something&#39;</span>
 </pre></div>
 
 
-<h3 id="_19">查看内存占用</h3>
+<h3 id="_15">查看内存占用</h3>
 <div class="hlcode"><pre>free -m  <span class="c"># 看buffer的那一栏，第一列是使用的内存，第二列是还剩下多少内存</span>
 ps aux --sort -rss  <span class="c"># 查看内存占用大小，rss列为实际列</span>
 </pre></div>
 
 
-<h3 id="ssh">SSH</h3>
+<h2 id="ssh">SSH</h2>
 <div class="hlcode"><pre>ssh &lt;ip&gt; &lt;port&gt;
 </pre></div>
 
@@ -184,12 +214,50 @@ ps aux --sort -rss  <span class="c"># 查看内存占用大小，rss列为实际
 
 
 <p>从远程复制到本地的scp命令与上面的命令一样，只要将从本地复制到远程的命令后面2个参数互换顺序就行了。</p>
+<h2 id="_16">文件搜索</h2>
+<p>查找以trade_20180806开头的文件中，包含10002018080615310877684437的文件以及内容<br />
+grep '10002018080615310877684437' trade_20180806*</p>
+<h2 id="less">less命令</h2>
+<p>对于大文件的处理，要用less，vim会读取文件所有，很可能导致系统死掉。</p>
+<h3 id="_17">命令行操作</h3>
+<p>ctrl + F - 向前移动一屏<br />
+ctrl + B - 向后移动一屏</p>
+<p>j - 向前移动一行<br />
+k - 向后移动一行</p>
+<p>G - 移动到最后一行<br />
+g - 移动到第一行</p>
+<p>-n 显示行号</p>
+<h2 id="_18">终端快捷键相关</h2>
+<div class="hlcode"><pre><span class="n">ctrl</span> <span class="o">+</span> <span class="n">l</span>  <span class="err">清空当前屏幕</span>
+<span class="n">ctrl</span> <span class="o">+</span> <span class="n">u</span>  <span class="err">清空光标之前的字符</span>
+
+<span class="n">ctr</span><span class="o">+</span><span class="n">a</span><span class="err">：移动光标到命令行开始处（紧接命令提示符号）</span>  
+<span class="n">ctr</span><span class="o">+</span><span class="n">e</span><span class="err">：移动光标到命令行行尾</span>  
+
+<span class="n">ctr</span><span class="o">+</span><span class="n">k</span><span class="err">：删除光标到命令行行尾</span>  
+<span class="n">ctr</span><span class="o">+</span><span class="n">u</span><span class="err">：删除光标到命令行开始处</span>  
+
+<span class="n">ctr</span><span class="o">+</span><span class="n">h</span><span class="o">:</span> <span class="err">往后删除一字符</span>
+<span class="n">ctr</span><span class="o">+</span><span class="n">d</span><span class="o">:</span> <span class="err">往前删除一字符</span>  
+
+<span class="n">ctr</span><span class="o">+</span><span class="n">b</span><span class="o">:</span> <span class="err">光标往前</span>
+<span class="n">ctr</span><span class="o">+</span><span class="n">f</span><span class="o">:</span> <span class="err">往后</span>
+
+<span class="n">ctr</span><span class="o">+</span><span class="n">u</span><span class="o">:</span> <span class="err">删除到最前</span>
+<span class="n">ctr</span><span class="o">+</span><span class="n">K</span><span class="o">:</span> <span class="err">删除到最后</span>  
+
+<span class="n">ctr</span><span class="o">+</span><span class="n">a</span><span class="o">:</span> <span class="err">光标到最前</span>
+<span class="n">ctr</span><span class="o">+</span><span class="n">e</span><span class="o">:</span> <span class="err">光标到最后</span>  
+
+<span class="n">ctr</span><span class="o">+</span><span class="n">p</span><span class="o">:</span> <span class="err">往上一条历史命令</span>
+<span class="n">ctr</span><span class="o">+</span><span class="n">n</span><span class="o">:</span> <span class="err">往下一条命令</span>
+</pre></div>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2018 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2018-08-04 18:15:23</p>
+        <p>Site Generated 2018-11-28 00:35:50</p>
       </span>
     </div>
 

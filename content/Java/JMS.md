@@ -1,14 +1,14 @@
 ---
-title: JMS
+title: ActiveMQ
 date: 2016-7-21 09:15:06
 collection: JavaEE
 ---
 
+[TOC]
 
+# 简介
 
-#### 简介
-
-#### 安装ActiveMQ
+## 安装ActiveMQ
 
 从官网上下载最新的版本，解压后进入bin文件夹，会看到win64（64位系统），点击进入然后执行里面的activemq.bat文件。
 
@@ -16,20 +16,18 @@ collection: JavaEE
 
 web端口为8163
 
-#### Spring 中 JMS 模块实现
+## Spring 中 JMS 模块实现
 
 maven依赖
 
 ```xml
 <!--消息队列-->
 <dependency>
-	<groupId>org.apache.activemq</groupId>
-	<artifactId>activemq-core</artifactId>
-	<version>5.7.0</version>
+    <groupId>org.apache.activemq</groupId>
+    <artifactId>activemq-core</artifactId>
+    <version>5.7.0</version>
 </dependency>
 ```
-
-
 
 spring配置文件
 
@@ -82,8 +80,6 @@ spring配置文件
 </beans>
 ```
 
-
-
 生产者类
 
 ```java
@@ -111,14 +107,12 @@ public class ProducerServiceImpl {
 }
 ```
 
-
-
 消费者类
 
 ```java
 /**
  * 消费者
- * 
+ *
  * @author: 侯铭健  Date: 2016/7/20 Time: 17:55
  */
 public class ConsumerMessageListener implements MessageListener {
@@ -138,4 +132,3 @@ public class ConsumerMessageListener implements MessageListener {
 
 }
 ```
-
