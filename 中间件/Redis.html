@@ -16,7 +16,7 @@
     <div id="container">
       
 <div id="header">
-  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Book">Book</a>&nbsp;&#187;&nbsp;Redis
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#中间件">中间件</a>&nbsp;&#187;&nbsp;Redis
     <span class="updated">Page Updated&nbsp;
       2018-07-29 16:53:37
     </span></div>
@@ -26,8 +26,8 @@
 <div class="page_title">Redis</div>
 
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
-<li><a href="#redis">redis</a><ul>
-<li><a href="#redis_1">Redis简单介绍</a><ul>
+<li><a href="#redis">redis</a><ul>
+<li><a href="#redis_1">Redis简单介绍</a><ul>
 <li><a href="#redis_2">Redis特点</a></li>
 <li><a href="#_1">最常用的命令</a><ul>
 <li><a href="#_2">连接远程服务器</a></li>
@@ -52,9 +52,9 @@
 </li>
 </ul>
 </div>
-<h1 id="redis">redis</h1>
-<h2 id="redis_1">Redis简单介绍</h2>
-<p>Redis是一款高性能的key-value内存数据库，目前业界主要用途是拿来做缓存。</p>
+<h1 id="redis">redis</h1>
+<h2 id="redis_1">Redis简单介绍</h2>
+<p>Redis是一款高性能的key-value内存数据库，目前业界主要用途是拿来做缓存。</p>
 <h3 id="redis_2">Redis特点</h3>
 <ol>
 <li>
@@ -100,7 +100,7 @@
 <span class="err">输出</span> <span class="n">OK</span>
 
 <span class="err">输入</span> <span class="n">GET</span> <span class="n">egKey</span>
-<span class="err">输出</span> <span class="s">&quot;redis&quot;</span>
+<span class="err">输出</span> <span class="s">&quot;redis&quot;</span>
 </pre></div>
 
 
@@ -119,7 +119,7 @@
 <p>常用命令: hget/hset</p>
 <p>应用场景：存储一个用户的信息，其中包括用户的ID，姓名，年龄和生日，通过用户ID，我们希望可以获得该用户的姓名或者年林或者生日。</p>
 <h4 id="list">List</h4>
-<p>应用场景：list的应用场景非常多，如twitter的关注列表，粉丝列表，排行榜等，都可以用Redis的list结构来实现。</p>
+<p>应用场景：list的应用场景非常多，如twitter的关注列表，粉丝列表，排行榜等，都可以用Redis的list结构来实现。</p>
 <p>常用命令: lpush/rpush/lpop/rpop/lrange/lindex</p>
 <h4 id="set">Set</h4>
 <p>应用场景：set与list类似，但不同的是set的插入是无序的，但是set可以去重。当你需要存储一个列表数据，又不希望出现重复数据时，set是一个很好的选择。</p>
@@ -127,7 +127,7 @@
 <p>更多命令用法：<a href="http://doc.redisfans.com/index.html">命令参数</a></p>
 <h2 id="_3">常见用途</h2>
 <h3 id="_4">缓存</h3>
-<p>性能卓越，纯内存操作，非常适合用来做内存数据库。</p>
+<p>性能卓越，纯内存操作，非常适合用来做内存数据库。</p>
 <h3 id="_5">分布式锁</h3>
 <p>1.通过命令SETNX和EXPIRE组合，可以实现分布式锁。</p>
 <div class="hlcode"><pre><span class="n">SETNX</span> <span class="n">key</span> <span class="n">value</span>
@@ -147,7 +147,7 @@
 <p>当有新消息通过 PUBLISH 命令发送给频道 channel1 时， 这个消息就会被发送给订阅它的三个客户端：</p>
 <p><img alt="发送消息" src="http://www.runoob.com/wp-content/uploads/2014/11/pubsub2.png" /></p>
 <p>redis实现的mq功能比较简单，可管理型会比较差。</p>
-<p>目前公司老项目用的是自研的redis作为mq，新项目则转用rocketmq。</p>
+<p>目前公司老项目用的是自研的redis作为mq，新项目则转用rocketmq。</p>
 <h2 id="_6">分布式</h2>
 <p>codis，有兴趣的童鞋可以看看</p>
 <h2 id="redis_3">公司Redis组建的使用</h2>
@@ -157,7 +157,7 @@
       <span>
         <p>Copyright © 2018 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2018-08-04 18:15:23</p>
+        <p>Site Generated 2018-11-28 00:35:50</p>
       </span>
     </div>
 

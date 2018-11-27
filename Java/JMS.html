@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
-    <title>JMS - 心之所动，且就随缘而去吧</title>
+    <title>ActiveMQ - 心之所动，且就随缘而去吧</title>
     <meta name="keywords" content=""/>
     <meta name="description" content="侯铭健的个人wiki"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -16,21 +16,29 @@
     <div id="container">
       
 <div id="header">
-  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;JMS
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;ActiveMQ
     <span class="updated">Page Updated&nbsp;
       2016-07-21 09:15:06
     </span></div>
 </div>
 <div class="clearfix"></div>
 
-<div class="page_title">JMS</div>
+<div class="page_title">ActiveMQ</div>
 
-  <h4 id="_1">简介</h4>
-<h4 id="activemq">安装ActiveMQ</h4>
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#_1">简介</a><ul>
+<li><a href="#activemq">安装ActiveMQ</a></li>
+<li><a href="#spring-jms">Spring 中 JMS 模块实现</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h1 id="_1">简介</h1>
+<h2 id="activemq">安装ActiveMQ</h2>
 <p>从官网上下载最新的版本，解压后进入bin文件夹，会看到win64（64位系统），点击进入然后执行里面的activemq.bat文件。</p>
 <p>其默认监听port为61616</p>
 <p>web端口为8163</p>
-<h4 id="spring-jms">Spring 中 JMS 模块实现</h4>
+<h2 id="spring-jms">Spring 中 JMS 模块实现</h2>
 <p>maven依赖</p>
 <div class="hlcode"><pre><span class="c">&lt;!--消息队列--&gt;</span>
 <span class="nt">&lt;dependency&gt;</span>
@@ -120,7 +128,7 @@
 <p>消费者类</p>
 <div class="hlcode"><pre><span class="cm">/**</span>
 <span class="cm"> * 消费者</span>
-<span class="cm"> * </span>
+<span class="cm"> *</span>
 <span class="cm"> * @author: 侯铭健  Date: 2016/7/20 Time: 17:55</span>
 <span class="cm"> */</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConsumerMessageListener</span> <span class="kd">implements</span> <span class="n">MessageListener</span> <span class="o">{</span>
@@ -145,7 +153,7 @@
       <span>
         <p>Copyright © 2018 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2018-08-04 18:15:23</p>
+        <p>Site Generated 2018-11-28 00:35:50</p>
       </span>
     </div>
 

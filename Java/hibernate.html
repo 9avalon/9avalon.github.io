@@ -63,17 +63,17 @@ SessionFactory负责创建session，而SessionFactory是线程安全的，多个
 </ul>
 <p>负责执行各种数据库查询，一般都Session的createQuery方法创建。</p>
 <ul>
-<li>Configuration<br />
-用于读取hibernate配置文件，并生成SessionFactory对象</li>
+<li>Configuration</li>
 </ul>
+<p>用于读取hibernate配置文件，并生成SessionFactory对象</p>
 <h2 id="hibernate_2">Hibernate使用</h2>
 <p>1、应用程序通过Configuration读取配置文件并生成SessionFactory<br />
-<code>SessionFactory sessionFactory = new Configuration().configure().buildSessionfactory();</code><br />
-2、通过SessionFactory生成一个Session对象<br />
-<code>Session sesssion = sessionFactory.openSession();</code><br />
-3、创建事务<br />
-<code>Transaction t = session.beginTransaction()</code><br />
-4、session操作数据<br />
+<code>SessionFactory sessionFactory = new Configuration().configure().buildSessionfactory();</code></p>
+<p>2、通过SessionFactory生成一个Session对象<br />
+<code>Session sesssion = sessionFactory.openSession();</code></p>
+<p>3、创建事务<br />
+<code>Transaction t = session.beginTransaction()</code></p>
+<p>4、session操作数据<br />
 然后可以用session对象里面的各种方法操作数据,也可以通过session生成一个Query对象执行查询操作。</p>
 <p>下面是一个java使用的例子：</p>
 <div class="hlcode"><pre><span class="n">Configuration</span> <span class="n">cfg</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
@@ -93,7 +93,6 @@ SessionFactory负责创建session，而SessionFactory是线程安全的，多个
     <span class="n">session</span><span class="o">.</span><span class="na">beginTransaction</span><span class="o">();</span>
     <span class="n">session</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">bl</span><span class="o">);</span>
     <span class="n">session</span><span class="o">.</span><span class="na">getTransaction</span><span class="o">().</span><span class="na">commit</span><span class="o">();</span>
-
 <span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
     <span class="c1">//回滚事务</span>
     <span class="n">session</span><span class="o">.</span><span class="na">getTransaction</span><span class="o">().</span><span class="na">rollback</span><span class="o">();</span>
@@ -132,7 +131,7 @@ SessionFactory负责创建session，而SessionFactory是线程安全的，多个
       <span>
         <p>Copyright © 2018 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2018-08-04 18:15:23</p>
+        <p>Site Generated 2018-11-28 00:35:50</p>
       </span>
     </div>
 
