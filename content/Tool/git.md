@@ -263,4 +263,12 @@ git config --list // 查看设置
 
 ## git突然崩溃
 
-[git崩溃]: http://blog.csdn.net/michaeljy1991/article/details/50499202
+[git崩溃](http://blog.csdn.net/michaeljy1991/article/details/50499202)
+
+## 同步远程和本地的分支
+
+在远程删了分支后，发现本地使用`git branch -a`后还能看到远程的分支，这时候可以使用下面这个命令来进行更新
+
+```shell
+git remote prune origin
+```

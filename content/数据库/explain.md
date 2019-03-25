@@ -130,4 +130,4 @@ Select tables optimized away：这个值意味着仅通过使用索引，优化�
 
 ## 参考
 
-全文出处 [Mysql Explain](http://www.cnblogs.com/xuanzhi201111/p/4175635.html) 
+全文出处 [Mysql Explain](http://www.cnblogs.com/xuanzhi201111/p/4175635.html)
