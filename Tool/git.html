@@ -60,6 +60,7 @@
 <li><a href="#_16">查看全局设置</a></li>
 <li><a href="#gitignore">gitignore</a></li>
 <li><a href="#git_4">git突然崩溃</a></li>
+<li><a href="#_17">同步远程和本地的分支</a></li>
 </ul>
 </li>
 </ul>
@@ -270,12 +271,17 @@ git config --global user.email wirelessqa.me@gmail.com
 
 
 <h2 id="git_4">git突然崩溃</h2>
+<p><a href="http://blog.csdn.net/michaeljy1991/article/details/50499202">git崩溃</a></p>
+<h2 id="_17">同步远程和本地的分支</h2>
+<p>在远程删了分支后，发现本地使用<code>git branch -a</code>后还能看到远程的分支，这时候可以使用下面这个命令来进行更新</p>
+<div class="hlcode"><pre><span class="n">git</span> <span class="n">remote</span> <span class="n">prune</span> <span class="n">origin</span>
+</pre></div>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2019 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-03-25 13:34:33</p>
+        <p>Site Generated 2019-03-25 14:43:42</p>
       </span>
     </div>
 
