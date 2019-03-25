@@ -60,6 +60,9 @@
 </ul>
 </li>
 <li><a href="#_17">终端快捷键相关</a></li>
+<li><a href="#_18">文件比对</a></li>
+<li><a href="#_19">文件排序</a></li>
+<li><a href="#gz">.gz文件不解压处理</a></li>
 </ul>
 </li>
 </ul>
@@ -90,14 +93,14 @@ find . -name <span class="s2">&quot;*.txt&quot;</span>
 <span class="c"># 查找大于100m的大文件</span>
 find . -size +100M -exec ls -lhG <span class="o">{}</span> <span class="se">\;</span>
 
-
-
 <span class="c"># 查找上下5行的内容</span>
 grep -C 5 foo file 显示file文件里匹配foo字串那行以及上下5行
 
 <span class="c"># 查看文件5-10行内容</span>
 sed -n <span class="s1">&#39;5,10p&#39;</span> filename
 
+<span class="c"># grep和tail命令组合</span>
+grep <span class="s1">&#39;&#39;</span> &lt;file&gt; | tail -10f
 
 <span class="c">## grep</span>
 
@@ -252,12 +255,32 @@ g - 移动到第一行</p>
 <span class="n">ctr</span><span class="o">+</span><span class="n">p</span><span class="o">:</span> <span class="err">往上一条历史命令</span>
 <span class="n">ctr</span><span class="o">+</span><span class="n">n</span><span class="o">:</span> <span class="err">往下一条命令</span>
 </pre></div>
+
+
+<h2 id="_18">文件比对</h2>
+<div class="hlcode"><pre><span class="gh">diff -abyW &lt;file1&gt; &lt;file2&gt;</span>
+</pre></div>
+
+
+<h2 id="_19">文件排序</h2>
+<div class="hlcode"><pre><span class="c"># 对file排序，并输出到新的文件中</span>
+sort &lt;file&gt; &gt; &lt;new_file&gt;
+</pre></div>
+
+
+<h2 id="gz">.gz文件不解压处理</h2>
+<div class="hlcode"><pre><span class="err">#</span> <span class="err">不解压查看</span>
+<span class="nx">zcat</span> <span class="o">&lt;</span><span class="nb">file</span><span class="o">&gt;</span> <span class="o">|</span> <span class="nx">less</span>
+
+<span class="err">##</span> <span class="nx">grep</span><span class="err">搜索</span>
+<span class="nx">zgrep</span> <span class="s2">&quot;/api&quot;</span> <span class="nx">access_log.gz</span>
+</pre></div>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2019 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-01-09 13:26:08</p>
+        <p>Site Generated 2019-03-25 13:34:33</p>
       </span>
     </div>
 

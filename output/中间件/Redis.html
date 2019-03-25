@@ -42,11 +42,14 @@
 </li>
 <li><a href="#_3">常见用途</a><ul>
 <li><a href="#_4">缓存</a></li>
-<li><a href="#_5">分布式锁</a></li>
+<li><a href="#_5">分布式锁</a><ul>
+<li><a href="#_6">扩展</a></li>
+</ul>
+</li>
 <li><a href="#mq">消息队列（MQ）</a></li>
 </ul>
 </li>
-<li><a href="#_6">分布式</a></li>
+<li><a href="#_7">分布式</a></li>
 <li><a href="#redis_3">公司Redis组建的使用</a></li>
 </ul>
 </li>
@@ -140,6 +143,18 @@
 <p>设置成功，返回 1 。</p>
 <p>设置失败，返回 0 。</p>
 <p>风险点：因为SETNX和EXPIRE需要进行组合，导致无法保证其原子性，如果在SETNX后，程序被意外地kill掉，会导致当前的锁无过期时间，请求则会被一直阻塞，这时候可以在加锁前检查锁是否存在，且判断其是否有过期时间，如果无过期时间，则设置过期时间，且拒绝该次请求。</p>
+<p>20190122更新，上面提到的SETNX和EXPIRE不是原子性的问题，已经可以解决。</p>
+<div class="hlcode"><pre>SET resource_name my_random_value NX PX 30000
+</pre></div>
+
+
+<p>下图是高版本的Jedis实现</p>
+<p><img alt="Jedis实现" src="https://ws1.sinaimg.cn/large/005H7Wvygy1fzeo1r256dj30hp024mx9.jpg" /></p>
+<h4 id="_6">扩展</h4>
+<p>上面写的，只是单机下的Redis实现分布式锁，在分布式环境下，单机是很危险的，一旦单台Redis宕机，则分布式锁则会失效，因此一般会部署多台分布式机器，而Redis并不具备如ZK强一致性和特性。考虑使用主从的方式，但因为主从同步是异步的，也并不能保证key的一致性。针对这个问题，Redis的作者剔除了RedLock算法。具体可以了解一下。</p>
+<p>参考资料：</p>
+<p><a href="https://mp.weixin.qq.com/s/JTsJCDuasgIJ0j95K8Ay8w">基于Redis的分布式锁到底安全吗（上）</a></p>
+<p><a href="https://mp.weixin.qq.com/s/4CUe7OpM6y1kQRK8TOC_qQ">基于Redis的分布式锁到底安全吗（下）</a></p>
 <h3 id="mq">消息队列（MQ）</h3>
 <p>利用Redis的发布订阅功能</p>
 <p>下图展示了频道 channel1 ， 以及订阅这个频道的三个客户端 —— client2 、 client5 和 client1 之间的关系</p>
@@ -148,7 +163,7 @@
 <p><img alt="发送消息" src="http://www.runoob.com/wp-content/uploads/2014/11/pubsub2.png" /></p>
 <p>redis实现的mq功能比较简单，可管理型会比较差。</p>
 <p>目前公司老项目用的是自研的redis作为mq，新项目则转用rocketmq。</p>
-<h2 id="_6">分布式</h2>
+<h2 id="_7">分布式</h2>
 <p>codis，有兴趣的童鞋可以看看</p>
 <h2 id="redis_3">公司Redis组建的使用</h2>
 <p>wiki地址.....</p>
@@ -157,7 +172,7 @@
       <span>
         <p>Copyright © 2019 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-01-09 13:26:08</p>
+        <p>Site Generated 2019-03-25 13:34:33</p>
       </span>
     </div>
 

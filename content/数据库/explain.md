@@ -5,15 +5,17 @@ date: 2016-8-18 16:32:34
 
 [TOC]
 
-**这部分的东西，比较重要的是第四点type，查看sql语句是否使用到了索引语句。使用方法是sql语句前加explain**
+# Explain
 
+这部分的东西，比较重要的是第四点type，查看sql语句是否使用到了索引语句。使用方法是sql语句前加explain
 
+---
 
 在日常工作中，我们会有时会开慢查询去记录一些执行时间比较久的SQL语句，找出这些SQL语句并不意味着完事了，些时我们常常用到explain这个命令来查看一个这些SQL语句的执行计划，查看该SQL语句有没有使用上了索引，有没有做全表扫描，这都可以通过explain命令来查看。所以我们深入了解MySQL的基于开销的优化器，还可以获得很多可能被优化器考虑到的访问策略的细节，以及当运行SQL语句时哪种策略预计会被优化器采用。（QEP：sql生成一个执行计划query Execution plan）
 
 expain出来的信息有10列，分别是id、select_type、table、type、possible_keys、key、key_len、ref、rows、Extra,下面对这些字段出现的可能进行解释：
 
-#### 一、 id
+## 一、 id
 
 我的理解是SQL执行的顺序的标识,SQL从大到小的执行
 
@@ -23,8 +25,7 @@ expain出来的信息有10列，分别是id、select_type、table、type、possi
 
 3. .id如果相同，可以认为是一组，从上往下顺序执行；在所有组中，id值越大，优先级越高，越先执行
 
-
-#### 二、select_type
+## 二、select_type
 
 **      示查询中每个select子句的类型**
 
@@ -46,15 +47,11 @@ expain出来的信息有10列，分别是id、select_type、table、type、possi
 
 (9) UNCACHEABLE SUBQUERY(一个子查询的结果不能被缓存，必须重新评估外链接的第一行)
 
- 
-
-#### 三、table
+## 三、table
 
 显示这一行的数据是关于哪张表的，有时不是真实的表名字,看到的是derivedx(x是个数字,我的理解是第几步执行的结果)
 
-
-
-#### 四、type
+## 四、type
 
 表示MySQL在表中找到所需行的方式，又称“访问类型”。
 
@@ -74,46 +71,34 @@ const、system: 当MySQL对查询某部分进行优化，并转换为一个常�
 
 NULL: MySQL在优化过程中分解语句，执行时甚至不用访问表或索引，例如从一个索引列里选取最小值可以通过单独索引查找完成。
 
- 
-
-#### 五、possible_keys
+## 五、possible_keys
 
 指出MySQL能使用哪个索引在表中找到记录，查询涉及到的字段上若存在索引，则该索引将被列出，但不一定被查询使用
 
 该列完全独立于EXPLAIN输出所示的表的次序。这意味着在possible_keys中的某些键实际上不能按生成的表次序使用。
 如果该列是NULL，则没有相关的索引。在这种情况下，可以通过检查WHERE子句看是否它引用某些列或适合索引的列来提高你的查询性能。如果是这样，创造一个适当的索引并且再次用EXPLAIN检查查询
 
- 
-
-#### 六、Key
+## 六、Key
 
 key列显示MySQL实际决定使用的键（索引）
 
 如果没有选择索引，键是NULL。要想强制MySQL使用或忽视possible_keys列中的索引，在查询中使用FORCE INDEX、USE INDEX或者IGNORE INDEX。
 
- 
-
-#### 七、key_len
+## 七、key_len
 
 表示索引中使用的字节数，可通过该列计算查询中使用的索引的长度（key_len显示的值为索引字段的最大可能长度，并非实际使用长度，即key_len是根据表定义计算而得，不是通过表内检索出的）
 
 不损失精确性的情况下，长度越短越好 
 
- 
-
-#### 八、ref
+## 八、ref
 
 表示上述表的连接匹配条件，即哪些列或常量被用于查找索引列上的值
 
- 
-
-#### 九、rows
+## 九、rows
 
  表示MySQL根据表统计信息及索引选用情况，估算的找到所需的记录所需要读取的行数
 
- 
-
-#### 十、Extra
+## 十、Extra
 
 该列包含MySQL解决查询的详细信息,有以下几种情况：
 
@@ -129,10 +114,6 @@ Impossible where：这个值强调了where语句会导致没有符合条件的�
 
 Select tables optimized away：这个值意味着仅通过使用索引，优化器可能仅从聚合函数结果中返回一行
 
- 
-
- 
-
 总结
 
  EXPLAIN不会告诉你关于触发器、存储过程的信息或用户自定义函数对查询的影响情况
@@ -147,8 +128,6 @@ Select tables optimized away：这个值意味着仅通过使用索引，优化�
 
 其他操作要重写为SELECT后查看执行计划。
 
+## 参考
 
-
-#### 参考
-
-全文出处 http://www.cnblogs.com/xuanzhi201111/p/4175635.html 这里只做搬运
+全文出处 [Mysql Explain](http://www.cnblogs.com/xuanzhi201111/p/4175635.html) 

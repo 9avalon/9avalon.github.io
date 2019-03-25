@@ -39,14 +39,14 @@ find . -name "*.txt"
 # 查找大于100m的大文件
 find . -size +100M -exec ls -lhG {} \;
 
-
-
 # 查找上下5行的内容
 grep -C 5 foo file 显示file文件里匹配foo字串那行以及上下5行
 
 # 查看文件5-10行内容
 sed -n '5,10p' filename
 
+# grep和tail命令组合
+grep '' <file> | tail -10f
 
 ## grep
 
@@ -240,4 +240,27 @@ ctr+e: 光标到最后
 ctr+p: 往上一条历史命令
 ctr+n: 往下一条命令
 
+```
+
+## 文件比对
+
+```shell
+diff -abyW <file1> <file2>
+```
+
+## 文件排序
+
+```sh
+# 对file排序，并输出到新的文件中
+sort <file> > <new_file>
+```
+
+## .gz文件不解压处理
+
+```shell
+# 不解压查看
+zcat <file> | less
+
+## grep搜索
+zgrep "/api" access_log.gz
 ```

@@ -122,7 +122,28 @@ SETNX key value
 
 设置失败，返回 0 。
 
+
 风险点：因为SETNX和EXPIRE需要进行组合，导致无法保证其原子性，如果在SETNX后，程序被意外地kill掉，会导致当前的锁无过期时间，请求则会被一直阻塞，这时候可以在加锁前检查锁是否存在，且判断其是否有过期时间，如果无过期时间，则设置过期时间，且拒绝该次请求。
+
+20190122更新，上面提到的SETNX和EXPIRE不是原子性的问题，已经可以解决。
+
+```sh
+SET resource_name my_random_value NX PX 30000
+```
+
+下图是高版本的Jedis实现
+
+![Jedis实现](https://ws1.sinaimg.cn/large/005H7Wvygy1fzeo1r256dj30hp024mx9.jpg)
+
+#### 扩展
+
+上面写的，只是单机下的Redis实现分布式锁，在分布式环境下，单机是很危险的，一旦单台Redis宕机，则分布式锁则会失效，因此一般会部署多台分布式机器，而Redis并不具备如ZK强一致性和特性。考虑使用主从的方式，但因为主从同步是异步的，也并不能保证key的一致性。针对这个问题，Redis的作者剔除了RedLock算法。具体可以了解一下。
+
+参考资料：
+
+[基于Redis的分布式锁到底安全吗（上）](https://mp.weixin.qq.com/s/JTsJCDuasgIJ0j95K8Ay8w)
+
+[基于Redis的分布式锁到底安全吗（下）](https://mp.weixin.qq.com/s/4CUe7OpM6y1kQRK8TOC_qQ)
 
 ### 消息队列（MQ）
 
