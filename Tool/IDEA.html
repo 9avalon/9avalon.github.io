@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>IntelliJ IDEA - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Tool">Tool</a>&nbsp;&#187;&nbsp;IntelliJ IDEA
+    <span class="updated">Page Updated&nbsp;
+      2018-10-08 10:28:24
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">IntelliJ IDEA</div>
+
+  <h1 id="idea">IDEA常用技巧</h1>
+<div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#idea">IDEA常用技巧</a><ul>
+<li><a href="#_1">常用快捷键</a><ul>
+<li><a href="#_2">查找类</a></li>
+<li><a href="#_3">其他常用类</a></li>
+<li><a href="#_4">快速输出</a></li>
+</ul>
+</li>
+<li><a href="#idea_1">隐藏idea自动生成文件夹</a></li>
+<li><a href="#_5">单元测试挂代理</a></li>
+<li><a href="#_6">序列化自动完成提示</a></li>
+<li><a href="#bookmarks">书签(BookMarks)</a></li>
+<li><a href="#idea_2">IDEA调试技巧</a><ul>
+<li><a href="#coverage">善用coverage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p>推荐安装vim插件，提升开发效率</p>
+<p>还有一点就是将idea的控制台更改为git bash，当然，如果是osx的话，直接用item2就号</p>
+<h2 id="_1">常用快捷键</h2>
+<p>列举一些自己最近使用idea依赖，使用得比较频繁的快捷键。</p>
+<h3 id="_2">查找类</h3>
+<div class="hlcode"><pre><span class="n">Shift</span> <span class="o">+</span> <span class="n">Shift</span>              <span class="c1">// 快速查找，最频繁的一个键，可以搜索几乎所有的东西</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">Shift</span> <span class="o">+</span> <span class="n">F</span>           <span class="c1">// 全局搜索</span>
+
+<span class="n">Alt</span> <span class="o">+</span> <span class="n">F7</span>                   <span class="c1">// 查看调用关系</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">Alt</span> <span class="o">+</span> <span class="n">B</span>             <span class="c1">// 查看具体实现</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">P</span>                   <span class="c1">// 查看需要传入参数</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">Q</span>                   <span class="c1">// 查看类信息</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">E</span>                   <span class="c1">// 查看最近修改的类</span>
+</pre></div>
+
+
+<h3 id="_3">其他常用类</h3>
+<div class="hlcode"><pre><span class="n">Alt</span> <span class="o">+</span> <span class="n">Shift</span> <span class="o">+</span> <span class="n">C</span>            <span class="c1">// 最近的更改</span>
+
+<span class="n">Alt</span> <span class="o">+</span> <span class="n">Shift</span> <span class="o">+</span> <span class="n">Up</span><span class="o">/</span><span class="n">Down</span>      <span class="c1">// 向上或下移一行</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">Shift</span> <span class="o">+</span> <span class="n">Backspace</span>  <span class="c1">// 返回上一次修改的地方</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">Alt</span> <span class="o">+</span> <span class="n">Space</span>         <span class="c1">// 自动补全</span>
+
+<span class="n">Alt</span> <span class="o">+</span> <span class="n">Enter</span>                <span class="c1">// 自动导入</span>
+
+<span class="n">Alt</span> <span class="o">+</span> <span class="n">Insert</span>               <span class="c1">// 调出自动构造get、set，构造函数</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">Alt</span> <span class="o">+</span> <span class="n">O</span>             <span class="c1">// 去掉引入多余的包</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">Alt</span> <span class="o">+</span> <span class="n">L</span>             <span class="c1">// 自动格式化代码</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="o">/</span>                   <span class="c1">// 注释代码</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">Alt</span> <span class="o">+</span> <span class="n">T</span>             <span class="c1">// 自动生成try catch等等</span>
+
+<span class="n">Ctrl</span> <span class="o">+</span> <span class="n">Shift</span> <span class="o">+</span> <span class="n">A</span>           <span class="c1">// 搜索Action，可以做一些常用的操作，如Build Porject等，有些快捷键如果记不住，可以用这个先过渡一下</span>
+</pre></div>
+
+
+<h3 id="_4">快速输出</h3>
+<div class="hlcode"><pre><span class="n">sout</span> <span class="o">+</span> <span class="n">ENTER</span>              <span class="c1">// 快速打印System.out.println();</span>
+
+<span class="n">psvm</span> <span class="o">+</span> <span class="n">ENTER</span>              <span class="c1">// 快速打印main方法</span>
+</pre></div>
+
+
+<h2 id="idea_1">隐藏idea自动生成文件夹</h2>
+<p>项目中见到.idea文件有点不爽，把他隐藏掉。</p>
+<p><a href="http://jingyan.baidu.com/article/14bd256e79747dbb6d2612cb.html">隐藏文件夹</a></p>
+<h2 id="_5">单元测试挂代理</h2>
+<p>有些时候，对接银行需要走代理，可以通过下面的设置让单元测试走代理</p>
+<div class="hlcode"><pre><span class="o">-</span><span class="n">ea</span> <span class="o">-</span><span class="n">Dhttp</span><span class="p">.</span><span class="n">proxyHost</span><span class="o">=</span><span class="mf">10.201.5.16</span> <span class="o">-</span><span class="n">Dhttp</span><span class="p">.</span><span class="n">proxyPort</span><span class="o">=</span><span class="mi">3128</span>
+</pre></div>
+
+
+<h2 id="_6">序列化自动完成提示</h2>
+<div class="hlcode"><pre><span class="nl">http:</span><span class="c1">//blog.csdn.net/tiantiandjava/article/details/8781776</span>
+</pre></div>
+
+
+<h2 id="bookmarks">书签(BookMarks)</h2>
+<p>通过F11，可以给某段代码做一个标签。Shift+F11展示所有的BookMarks，然后可以对之前的标签重命名。</p>
+<p>可以在阅读源码的时候打个标记，方便后面回来看。工作的话，感觉不会太常用。</p>
+<h2 id="idea_2">IDEA调试技巧</h2>
+<p>包括放弃当前堆栈，远程调试，修改调试中变量值等实用功能</p>
+<p><a href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1538964762&amp;ver=1169&amp;signature=QU8wFqco2rm8ouHXodJagxz7cQbZnGwot2xbN3P7zLj9cyvl3k0RNeUEvDYqTnrrjLGjE5IdWsOeDqNsm6B3kCngtxRAT0TdIfArOClOyYKFQPha2HgcSnMRIbP6NgTi&amp;new=1">IDEA鲜为人知的调试技巧</a></p>
+<h3 id="coverage">善用coverage</h3>
+<p>使用IDEA检测自己改动的代码是否被单元测试给覆盖到。</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2019 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2019-03-25 13:21:04</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

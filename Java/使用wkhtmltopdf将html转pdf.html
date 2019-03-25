@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>html转pdf - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;html转pdf
+    <span class="updated">Page Updated&nbsp;
+      2016-06-23 17:14:57
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">html转pdf</div>
+
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#_1">需求</a></li>
+<li><a href="#_2">原理分析</a></li>
+<li><a href="#_3">使用</a></li>
+</ul>
+</div>
+<h4 id="_1">需求</h4>
+<p>最近在做简爱网站的时候，需要将做好的html简历转成pdf，找了一圈终于让我找到了一个比较好的实现库，<a href="http://wkhtmltopdf.org/">wkhtmltopdf</a></p>
+<h4 id="_2">原理分析</h4>
+<p>其实html转pdf最大的困难在于html里面可能会引用到许多的js或者css文件，而如果我们单纯从html源码解析的话是根本解析不来的，网上也有很多其他的html转pdf的包，但是那些包对于html标签的闭合度要求非常高，如果有一个标签没有闭合，那整个程序都跑不了了。所以wkhtmltopdf的思路是，内置一个webkit浏览器（无界面），通过这个webkit打开目标网站，再进行转换。</p>
+<h4 id="_3">使用</h4>
+<p>先到网站上把wkhtmltopdf下载下来<br />
+http://wkhtmltopdf.org<br />
+win和linux版都有，下载完成之后安装即可。（win版的注意把wkhtmltopdf的bin放到环境变量去，方便调用）<br />
+然后在编写java程序的时候，调用cmd命令</p>
+<div class="hlcode"><pre><span class="n">wkhtmltopdf</span> <span class="err">网址</span> <span class="err">输出地址</span>
+</pre></div>
+
+
+<p>而由于linux上文件的操作权限控制会比较强，所以建议用用root账号来启动tomcat7，不然会一直报权限不够的错误。</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2019 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2019-03-25 13:21:04</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

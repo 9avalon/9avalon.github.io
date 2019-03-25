@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>SSL-添加cer证书 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;SSL-添加cer证书
+    <span class="updated">Page Updated&nbsp;
+      2016-08-17 21:44:09
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">SSL-添加cer证书</div>
+
+  <h1 id="_1">错误提示</h1>
+<div class="hlcode"><pre><span class="n">Exception</span><span class="o">:</span><span class="n">sun</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">validator</span><span class="o">.</span><span class="na">ValidatorException</span><span class="o">:</span> <span class="n">PKIX</span> <span class="n">path</span> <span class="n">building</span> <span class="n">failed</span><span class="o">:</span> <span class="n">sun</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">provider</span><span class="o">.</span><span class="na">certpath</span><span class="o">.</span><span class="na">SunCertPathBuilderExc</span>
+<span class="n">eption</span><span class="o">:</span> <span class="n">unable</span> <span class="n">to</span> <span class="n">find</span> <span class="n">valid</span> <span class="n">certification</span> <span class="n">path</span> <span class="n">to</span> <span class="n">requested</span> <span class="n">target</span>
+</pre></div>
+
+
+<h1 id="_2">添加证书步骤</h1>
+<div class="hlcode"><pre><span class="c"># 进入security目录</span>
+usr/java/jdk1.8.0_111/jre/lib/security
+
+<span class="c"># 导入证书</span>
+keytool -import -alias server_tech -file /tmp/server_tech.cer -keystore cacerts -trustcacerts
+
+<span class="c"># 不需要重启，马上就可以生效</span>
+</pre></div>
+
+
+<h1 id="_3">关于证书复制</h1>
+<p>如果遇到jdk升级，或者服务证书迁移，可以直接复制拷贝证书文件。</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2019 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2019-03-25 13:21:04</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

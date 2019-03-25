@@ -1,0 +1,277 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>加密 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;加密
+    <span class="updated">Page Updated&nbsp;
+      2016-07-04 15:09:48
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">加密</div>
+
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#base64">Base64</a><ul>
+<li><a href="#_1">简单概述</a></li>
+<li><a href="#java">Java代码</a></li>
+</ul>
+</li>
+<li><a href="#md5">MD5</a><ul>
+<li><a href="#_2">特点</a></li>
+<li><a href="#_3">用途</a></li>
+<li><a href="#_4">长度</a></li>
+<li><a href="#java_1">Java实现</a></li>
+</ul>
+</li>
+<li><a href="#sha">SHA</a><ul>
+<li><a href="#_5">简单概述</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h3 id="base64">Base64</h3>
+<h4 id="_1">简单概述</h4>
+<p>Base64内容传送编码被设计用来把任意序列的8位字节描述为一种不易被人直接识别的形式。</p>
+<p>常见于邮件、http加密，截取http信息，你就会发现登录操作的用户名、密码字段通过BASE64加密的。</p>
+<h4 id="java">Java代码</h4>
+<div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Base64Utils</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">char</span><span class="o">[]</span> <span class="n">base64EncodeChars</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">char</span><span class="o">[]</span> <span class="o">{</span> <span class="sc">&#39;A&#39;</span><span class="o">,</span> <span class="sc">&#39;B&#39;</span><span class="o">,</span> <span class="sc">&#39;C&#39;</span><span class="o">,</span> <span class="sc">&#39;D&#39;</span><span class="o">,</span>
+            <span class="sc">&#39;E&#39;</span><span class="o">,</span> <span class="sc">&#39;F&#39;</span><span class="o">,</span> <span class="sc">&#39;G&#39;</span><span class="o">,</span> <span class="sc">&#39;H&#39;</span><span class="o">,</span> <span class="sc">&#39;I&#39;</span><span class="o">,</span> <span class="sc">&#39;J&#39;</span><span class="o">,</span> <span class="sc">&#39;K&#39;</span><span class="o">,</span> <span class="sc">&#39;L&#39;</span><span class="o">,</span> <span class="sc">&#39;M&#39;</span><span class="o">,</span> <span class="sc">&#39;N&#39;</span><span class="o">,</span> <span class="sc">&#39;O&#39;</span><span class="o">,</span> <span class="sc">&#39;P&#39;</span><span class="o">,</span> <span class="sc">&#39;Q&#39;</span><span class="o">,</span>
+            <span class="sc">&#39;R&#39;</span><span class="o">,</span> <span class="sc">&#39;S&#39;</span><span class="o">,</span> <span class="sc">&#39;T&#39;</span><span class="o">,</span> <span class="sc">&#39;U&#39;</span><span class="o">,</span> <span class="sc">&#39;V&#39;</span><span class="o">,</span> <span class="sc">&#39;W&#39;</span><span class="o">,</span> <span class="sc">&#39;X&#39;</span><span class="o">,</span> <span class="sc">&#39;Y&#39;</span><span class="o">,</span> <span class="sc">&#39;Z&#39;</span><span class="o">,</span> <span class="sc">&#39;a&#39;</span><span class="o">,</span> <span class="sc">&#39;b&#39;</span><span class="o">,</span> <span class="sc">&#39;c&#39;</span><span class="o">,</span> <span class="sc">&#39;d&#39;</span><span class="o">,</span>
+            <span class="sc">&#39;e&#39;</span><span class="o">,</span> <span class="sc">&#39;f&#39;</span><span class="o">,</span> <span class="sc">&#39;g&#39;</span><span class="o">,</span> <span class="sc">&#39;h&#39;</span><span class="o">,</span> <span class="sc">&#39;i&#39;</span><span class="o">,</span> <span class="sc">&#39;j&#39;</span><span class="o">,</span> <span class="sc">&#39;k&#39;</span><span class="o">,</span> <span class="sc">&#39;l&#39;</span><span class="o">,</span> <span class="sc">&#39;m&#39;</span><span class="o">,</span> <span class="sc">&#39;n&#39;</span><span class="o">,</span> <span class="sc">&#39;o&#39;</span><span class="o">,</span> <span class="sc">&#39;p&#39;</span><span class="o">,</span> <span class="sc">&#39;q&#39;</span><span class="o">,</span>
+            <span class="sc">&#39;r&#39;</span><span class="o">,</span> <span class="sc">&#39;s&#39;</span><span class="o">,</span> <span class="sc">&#39;t&#39;</span><span class="o">,</span> <span class="sc">&#39;u&#39;</span><span class="o">,</span> <span class="sc">&#39;v&#39;</span><span class="o">,</span> <span class="sc">&#39;w&#39;</span><span class="o">,</span> <span class="sc">&#39;x&#39;</span><span class="o">,</span> <span class="sc">&#39;y&#39;</span><span class="o">,</span> <span class="sc">&#39;z&#39;</span><span class="o">,</span> <span class="sc">&#39;0&#39;</span><span class="o">,</span> <span class="sc">&#39;1&#39;</span><span class="o">,</span> <span class="sc">&#39;2&#39;</span><span class="o">,</span> <span class="sc">&#39;3&#39;</span><span class="o">,</span>
+            <span class="sc">&#39;4&#39;</span><span class="o">,</span> <span class="sc">&#39;5&#39;</span><span class="o">,</span> <span class="sc">&#39;6&#39;</span><span class="o">,</span> <span class="sc">&#39;7&#39;</span><span class="o">,</span> <span class="sc">&#39;8&#39;</span><span class="o">,</span> <span class="sc">&#39;9&#39;</span><span class="o">,</span> <span class="sc">&#39;+&#39;</span><span class="o">,</span> <span class="sc">&#39;/&#39;</span> <span class="o">};</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">base64DecodeChars</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[]</span> <span class="o">{</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span>
+            <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span>
+            <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span>
+            <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">62</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">63</span><span class="o">,</span> <span class="mi">52</span><span class="o">,</span> <span class="mi">53</span><span class="o">,</span> <span class="mi">54</span><span class="o">,</span> <span class="mi">55</span><span class="o">,</span> <span class="mi">56</span><span class="o">,</span> <span class="mi">57</span><span class="o">,</span> <span class="mi">58</span><span class="o">,</span> <span class="mi">59</span><span class="o">,</span>
+            <span class="mi">60</span><span class="o">,</span> <span class="mi">61</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">9</span><span class="o">,</span>
+            <span class="mi">10</span><span class="o">,</span> <span class="mi">11</span><span class="o">,</span> <span class="mi">12</span><span class="o">,</span> <span class="mi">13</span><span class="o">,</span> <span class="mi">14</span><span class="o">,</span> <span class="mi">15</span><span class="o">,</span> <span class="mi">16</span><span class="o">,</span> <span class="mi">17</span><span class="o">,</span> <span class="mi">18</span><span class="o">,</span> <span class="mi">19</span><span class="o">,</span> <span class="mi">20</span><span class="o">,</span> <span class="mi">21</span><span class="o">,</span> <span class="mi">22</span><span class="o">,</span> <span class="mi">23</span><span class="o">,</span> <span class="mi">24</span><span class="o">,</span> <span class="mi">25</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span>
+            <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">26</span><span class="o">,</span> <span class="mi">27</span><span class="o">,</span> <span class="mi">28</span><span class="o">,</span> <span class="mi">29</span><span class="o">,</span> <span class="mi">30</span><span class="o">,</span> <span class="mi">31</span><span class="o">,</span> <span class="mi">32</span><span class="o">,</span> <span class="mi">33</span><span class="o">,</span> <span class="mi">34</span><span class="o">,</span> <span class="mi">35</span><span class="o">,</span> <span class="mi">36</span><span class="o">,</span> <span class="mi">37</span><span class="o">,</span>
+            <span class="mi">38</span><span class="o">,</span> <span class="mi">39</span><span class="o">,</span> <span class="mi">40</span><span class="o">,</span> <span class="mi">41</span><span class="o">,</span> <span class="mi">42</span><span class="o">,</span> <span class="mi">43</span><span class="o">,</span> <span class="mi">44</span><span class="o">,</span> <span class="mi">45</span><span class="o">,</span> <span class="mi">46</span><span class="o">,</span> <span class="mi">47</span><span class="o">,</span> <span class="mi">48</span><span class="o">,</span> <span class="mi">49</span><span class="o">,</span> <span class="mi">50</span><span class="o">,</span> <span class="mi">51</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span>
+            <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">};</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * 加密</span>
+<span class="cm">     * </span>
+<span class="cm">     * @param data</span>
+<span class="cm">     * @return</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">encode</span><span class="o">(</span><span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">StringBuffer</span> <span class="n">sb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuffer</span><span class="o">();</span>
+        <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">b1</span><span class="o">,</span> <span class="n">b2</span><span class="o">,</span> <span class="n">b3</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">b1</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="n">i</span><span class="o">++]</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">len</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">base64EncodeChars</span><span class="o">[</span><span class="n">b1</span> <span class="o">&gt;&gt;&gt;</span> <span class="mi">2</span><span class="o">]);</span>
+                <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">base64EncodeChars</span><span class="o">[(</span><span class="n">b1</span> <span class="o">&amp;</span> <span class="mh">0x3</span><span class="o">)</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span><span class="o">]);</span>
+                <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&quot;==&quot;</span><span class="o">);</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">b2</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="n">i</span><span class="o">++]</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">len</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">base64EncodeChars</span><span class="o">[</span><span class="n">b1</span> <span class="o">&gt;&gt;&gt;</span> <span class="mi">2</span><span class="o">]);</span>
+                <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">base64EncodeChars</span><span class="o">[((</span><span class="n">b1</span> <span class="o">&amp;</span> <span class="mh">0x03</span><span class="o">)</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span><span class="o">)</span>
+                        <span class="o">|</span> <span class="o">((</span><span class="n">b2</span> <span class="o">&amp;</span> <span class="mh">0xf0</span><span class="o">)</span> <span class="o">&gt;&gt;&gt;</span> <span class="mi">4</span><span class="o">)]);</span>
+                <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">base64EncodeChars</span><span class="o">[(</span><span class="n">b2</span> <span class="o">&amp;</span> <span class="mh">0x0f</span><span class="o">)</span> <span class="o">&lt;&lt;</span> <span class="mi">2</span><span class="o">]);</span>
+                <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&quot;=&quot;</span><span class="o">);</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">b3</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="n">i</span><span class="o">++]</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="o">;</span>
+            <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">base64EncodeChars</span><span class="o">[</span><span class="n">b1</span> <span class="o">&gt;&gt;&gt;</span> <span class="mi">2</span><span class="o">]);</span>
+            <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">base64EncodeChars</span><span class="o">[((</span><span class="n">b1</span> <span class="o">&amp;</span> <span class="mh">0x03</span><span class="o">)</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span><span class="o">)</span>
+                    <span class="o">|</span> <span class="o">((</span><span class="n">b2</span> <span class="o">&amp;</span> <span class="mh">0xf0</span><span class="o">)</span> <span class="o">&gt;&gt;&gt;</span> <span class="mi">4</span><span class="o">)]);</span>
+            <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">base64EncodeChars</span><span class="o">[((</span><span class="n">b2</span> <span class="o">&amp;</span> <span class="mh">0x0f</span><span class="o">)</span> <span class="o">&lt;&lt;</span> <span class="mi">2</span><span class="o">)</span>
+                    <span class="o">|</span> <span class="o">((</span><span class="n">b3</span> <span class="o">&amp;</span> <span class="mh">0xc0</span><span class="o">)</span> <span class="o">&gt;&gt;&gt;</span> <span class="mi">6</span><span class="o">)]);</span>
+            <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">base64EncodeChars</span><span class="o">[</span><span class="n">b3</span> <span class="o">&amp;</span> <span class="mh">0x3f</span><span class="o">]);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * 解密</span>
+<span class="cm">     * </span>
+<span class="cm">     * @param str</span>
+<span class="cm">     * @return</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">byte</span><span class="o">[]</span> <span class="nf">decode</span><span class="o">(</span><span class="n">String</span> <span class="n">str</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nf">decodePrivate</span><span class="o">(</span><span class="n">str</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">UnsupportedEncodingException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[]</span> <span class="o">{};</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">byte</span><span class="o">[]</span> <span class="nf">decodePrivate</span><span class="o">(</span><span class="n">String</span> <span class="n">str</span><span class="o">)</span>
+            <span class="kd">throws</span> <span class="n">UnsupportedEncodingException</span> <span class="o">{</span>
+        <span class="n">StringBuffer</span> <span class="n">sb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuffer</span><span class="o">();</span>
+        <span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">str</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="s">&quot;US-ASCII&quot;</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">b1</span><span class="o">,</span> <span class="n">b2</span><span class="o">,</span> <span class="n">b3</span><span class="o">,</span> <span class="n">b4</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="o">)</span> <span class="o">{</span>
+
+            <span class="k">do</span> <span class="o">{</span>
+                <span class="n">b1</span> <span class="o">=</span> <span class="n">base64DecodeChars</span><span class="o">[</span><span class="n">data</span><span class="o">[</span><span class="n">i</span><span class="o">++]];</span>
+            <span class="o">}</span> <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span> <span class="o">&amp;&amp;</span> <span class="n">b1</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">b1</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span>
+                <span class="k">break</span><span class="o">;</span>
+
+            <span class="k">do</span> <span class="o">{</span>
+                <span class="n">b2</span> <span class="o">=</span> <span class="n">base64DecodeChars</span><span class="o">[</span><span class="n">data</span><span class="o">[</span><span class="n">i</span><span class="o">++]];</span>
+            <span class="o">}</span> <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span> <span class="o">&amp;&amp;</span> <span class="n">b2</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">b2</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">((</span><span class="kt">char</span><span class="o">)</span> <span class="o">((</span><span class="n">b1</span> <span class="o">&lt;&lt;</span> <span class="mi">2</span><span class="o">)</span> <span class="o">|</span> <span class="o">((</span><span class="n">b2</span> <span class="o">&amp;</span> <span class="mh">0x30</span><span class="o">)</span> <span class="o">&gt;&gt;&gt;</span> <span class="mi">4</span><span class="o">)));</span>
+
+            <span class="k">do</span> <span class="o">{</span>
+                <span class="n">b3</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="n">i</span><span class="o">++];</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">b3</span> <span class="o">==</span> <span class="mi">61</span><span class="o">)</span>
+                    <span class="k">return</span> <span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">().</span><span class="na">getBytes</span><span class="o">(</span><span class="s">&quot;iso8859-1&quot;</span><span class="o">);</span>
+                <span class="n">b3</span> <span class="o">=</span> <span class="n">base64DecodeChars</span><span class="o">[</span><span class="n">b3</span><span class="o">];</span>
+            <span class="o">}</span> <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span> <span class="o">&amp;&amp;</span> <span class="n">b3</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">b3</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">((</span><span class="kt">char</span><span class="o">)</span> <span class="o">(((</span><span class="n">b2</span> <span class="o">&amp;</span> <span class="mh">0x0f</span><span class="o">)</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span><span class="o">)</span> <span class="o">|</span> <span class="o">((</span><span class="n">b3</span> <span class="o">&amp;</span> <span class="mh">0x3c</span><span class="o">)</span> <span class="o">&gt;&gt;&gt;</span> <span class="mi">2</span><span class="o">)));</span>
+
+            <span class="k">do</span> <span class="o">{</span>
+                <span class="n">b4</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="n">i</span><span class="o">++];</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">b4</span> <span class="o">==</span> <span class="mi">61</span><span class="o">)</span>
+                    <span class="k">return</span> <span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">().</span><span class="na">getBytes</span><span class="o">(</span><span class="s">&quot;iso8859-1&quot;</span><span class="o">);</span>
+                <span class="n">b4</span> <span class="o">=</span> <span class="n">base64DecodeChars</span><span class="o">[</span><span class="n">b4</span><span class="o">];</span>
+            <span class="o">}</span> <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span> <span class="o">&amp;&amp;</span> <span class="n">b4</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">b4</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">((</span><span class="kt">char</span><span class="o">)</span> <span class="o">(((</span><span class="n">b3</span> <span class="o">&amp;</span> <span class="mh">0x03</span><span class="o">)</span> <span class="o">&lt;&lt;</span> <span class="mi">6</span><span class="o">)</span> <span class="o">|</span> <span class="n">b4</span><span class="o">));</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">().</span><span class="na">getBytes</span><span class="o">(</span><span class="s">&quot;iso8859-1&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">code</span> <span class="o">=</span> <span class="n">encode</span><span class="o">(</span><span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="s">&quot;1231u312312&quot;</span><span class="o">).</span><span class="na">getBytes</span><span class="o">());</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">decode</span><span class="o">(</span><span class="n">code</span><span class="o">)));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<h3 id="md5">MD5</h3>
+<p>​   MD5的全称是Message-Digest Algorithm 5（信息-摘要算法），在90年代初由MIT Laboratory for Computer Science和RSA Data Security Inc的Ronald L. Rivest开发出来，经MD2、MD3和MD4发展而来。是一种不可逆的加密算法，目前是最牢靠的加密算法之一，尚没有能够逆运算的程序被开发出来，它对应任何字符串都可以加密成一段唯一的固定长度的代码。</p>
+<h4 id="_2">特点</h4>
+<p>不可逆，而且具有高度的离散性。<strong>因为md5实际上是摘要算法，摘要得到的信息是不完整的，所以通过摘要的数据，不能逆推出原数据。</strong>网上的解密一般都是通过彩虹表，即一些比较简单的字符串md5值，进行比对得出原数据。</p>
+<h4 id="_3">用途</h4>
+<p>一般认为MD5码可以唯一的代表原信息的特征，通常用于密码的加密存储，数字签名，文件完整性校验等</p>
+<h4 id="_4">长度</h4>
+<blockquote>
+<p>有人说md5,128位，32位，16位，到底md5多长？</p>
+<p>md5的长度，默认为128bit，也就是128个0和1的二进制串。</p>
+<p>这样表达是很不友好的。所以将二进制转成了16进制，每4个bit表示一个16进制，</p>
+<p>所以128/4 = 32 换成16进制表示后，为32位了。</p>
+</blockquote>
+<p>那为什么网上还会有16位的md5码呢？</p>
+<blockquote>
+<p>网上有很多帖子，md5 32位 16位 加密 区别。</p>
+<p>仔细观察admin生成的32位和16位的md5值……<br />
+ //查询结果<br />
+ md5(admin,32) = 21232f29<strong>7a57a5a743894a</strong>0e4a801fc3<br />
+ md5(admin,16) = 7a57a5a743894a0e<br />
+ 其实16位的长度，是从32位md5值来的。是将32位md5去掉前八位，去掉后八位得到的。</p>
+</blockquote>
+<h4 id="java_1">Java实现</h4>
+<div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Md5</span> <span class="o">{</span>
+    <span class="c1">//main测试类</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">result</span> <span class="o">=</span> <span class="n">getMD5</span><span class="o">(</span><span class="s">&quot;aaa&quot;</span><span class="o">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">err</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * 生成md5</span>
+<span class="cm">     * @param message</span>
+<span class="cm">     * @return</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">getMD5</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">md5str</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="c1">//1 创建一个提供信息摘要算法的对象，初始化为md5算法对象</span>
+            <span class="n">MessageDigest</span> <span class="n">md</span> <span class="o">=</span> <span class="n">MessageDigest</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="s">&quot;MD5&quot;</span><span class="o">);</span>
+
+            <span class="c1">//2 将消息变成byte数组</span>
+            <span class="kt">byte</span><span class="o">[]</span> <span class="n">input</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="na">getBytes</span><span class="o">();</span>
+
+            <span class="c1">//3 计算后获得字节数组,这就是那128位了</span>
+            <span class="kt">byte</span><span class="o">[]</span> <span class="n">buff</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="na">digest</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+
+            <span class="c1">//4 把数组每一字节（一个字节占八位）换成16进制连成md5字符串</span>
+            <span class="n">md5str</span> <span class="o">=</span> <span class="n">bytesToHex</span><span class="o">(</span><span class="n">buff</span><span class="o">);</span>
+
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">md5str</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * 二进制转十六进制</span>
+<span class="cm">     * @param bytes</span>
+<span class="cm">     * @return</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">bytesToHex</span><span class="o">(</span><span class="kt">byte</span><span class="o">[]</span> <span class="n">bytes</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">StringBuffer</span> <span class="n">md5str</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuffer</span><span class="o">();</span>
+        <span class="c1">//把数组每一字节换成16进制连成md5字符串</span>
+        <span class="kt">int</span> <span class="n">digital</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">bytes</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+             <span class="n">digital</span> <span class="o">=</span> <span class="n">bytes</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+
+            <span class="k">if</span><span class="o">(</span><span class="n">digital</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">digital</span> <span class="o">+=</span> <span class="mi">256</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">digital</span> <span class="o">&lt;</span> <span class="mi">16</span><span class="o">){</span>
+                <span class="n">md5str</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&quot;0&quot;</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">md5str</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">Integer</span><span class="o">.</span><span class="na">toHexString</span><span class="o">(</span><span class="n">digital</span><span class="o">));</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">md5str</span><span class="o">.</span><span class="na">toString</span><span class="o">().</span><span class="na">toUpperCase</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<h3 id="sha">SHA</h3>
+<h4 id="_5">简单概述</h4>
+<blockquote>
+<p>SHA(Secure Hash Algorithm，安全散列算法），数字签名等密码学应用中重要的工具，被广泛地应用于电子商务等信息安全领域。虽然，SHA与MD5通过碰撞法都被破解了， 但是SHA仍然是公认的安全加密算法，较之MD5更为安全。 </p>
+</blockquote>
+<p>SHA是由MD4基础上发展而来，比MD5更为安全。</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2019 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2019-03-25 13:21:04</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

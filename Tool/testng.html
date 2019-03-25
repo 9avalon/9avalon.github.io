@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>testng - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Tool">Tool</a>&nbsp;&#187;&nbsp;testng
+    <span class="updated">Page Updated&nbsp;
+      2016年10月20日11:03:30
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">testng</div>
+
+  <p>TestNG目前我应用到的情况是多线程的测试</p>
+<p>首先引入pom文件</p>
+<div class="hlcode"><pre>        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.testng<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>testng<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>6.9.10<span class="nt">&lt;/version&gt;</span>
+            <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+
+
+<p>与spring集成，直接继承该类即可，这里@Test是testng的</p>
+<div class="hlcode"><pre><span class="cm">/**</span>
+<span class="cm"> * TestNG 测试基类</span>
+<span class="cm"> *</span>
+<span class="cm"> * @version 1.0</span>
+<span class="cm"> * @author: 侯铭健</span>
+<span class="cm"> * @email mingjian_hou@kingdee.com</span>
+<span class="cm"> * @time 2016/10/19</span>
+<span class="cm"> */</span>
+<span class="nd">@ContextConfiguration</span><span class="o">(</span><span class="n">locations</span> <span class="o">=</span> <span class="o">{</span> <span class="s">&quot;classpath:spring/*.xml&quot;</span> <span class="o">})</span>
+<span class="nd">@ActiveProfiles</span><span class="o">(</span><span class="s">&quot;devjunit&quot;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleNGTest</span> <span class="kd">extends</span> <span class="n">AbstractTestNGSpringContextTests</span> <span class="o">{</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * 例子</span>
+<span class="cm">     * invocationCount 方法执行的次数， threadPoolSize 线程数</span>
+<span class="cm">     * @throws Exception</span>
+<span class="cm">     */</span>
+<span class="c1">//    @Test(invocationCount = 20, threadPoolSize = 10)</span>
+<span class="c1">//    public void testRun() throws Exception {</span>
+<span class="c1">//    }</span>
+<span class="o">}</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2019 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2019-03-25 13:21:04</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

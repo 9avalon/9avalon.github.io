@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>Redis - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;Redis
+    <span class="updated">Page Updated&nbsp;
+      2017-9-14 19:41
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">Redis</div>
+
+  <h1 id="key">查找大key</h1>
+<p>redis-cli --bigkeys </p>
+<div class="hlcode"><pre><span class="p">.</span><span class="o">/</span><span class="n">redis</span><span class="o">-</span><span class="n">cli</span> <span class="o">-</span><span class="n">p</span> <span class="mi">9803</span> <span class="o">--</span><span class="n">bigkeys</span>
+<span class="cp"># Scanning the entire keyspace to find biggest keys as well as</span>
+<span class="cp"># average sizes per key type. You can use -i 0.1 to sleep 0.1 sec</span>
+<span class="cp"># per 100 SCAN commands (not usually needed).</span>
+<span class="p">[</span><span class="mf">00.00</span><span class="o">%</span><span class="p">]</span> <span class="n">Biggest</span> <span class="n">string</span> <span class="n">found</span> <span class="n">so</span> <span class="n">far</span> <span class="err">&#39;</span><span class="n">MQS</span><span class="o">:</span><span class="mi">700000</span><span class="o">-</span><span class="n">restful_srv_log</span><span class="o">-</span><span class="mi">600000</span><span class="o">-</span><span class="n">run</span><span class="err">&#39;</span> <span class="n">with</span> <span class="mi">9</span> <span class="n">bytes</span>
+<span class="p">[</span><span class="mf">00.00</span><span class="o">%</span><span class="p">]</span> <span class="n">Biggest</span> <span class="n">list</span> <span class="n">found</span> <span class="n">so</span> <span class="n">far</span> <span class="err">&#39;</span><span class="n">mq</span><span class="o">:</span><span class="n">msg_ack_queue</span><span class="o">-</span><span class="mi">600000</span><span class="o">-</span><span class="n">uat</span><span class="err">&#39;</span> <span class="n">with</span> <span class="mi">27371754</span> <span class="n">items</span>
+<span class="o">--------</span> <span class="n">summary</span> <span class="o">-------</span>
+<span class="n">Sampled</span> <span class="mi">71</span> <span class="n">keys</span> <span class="n">in</span> <span class="n">the</span> <span class="n">keyspace</span><span class="o">!</span>
+<span class="n">Total</span> <span class="n">key</span> <span class="n">length</span> <span class="n">in</span> <span class="n">bytes</span> <span class="n">is</span> <span class="mi">2747</span> <span class="p">(</span><span class="n">avg</span> <span class="n">len</span> <span class="mf">38.69</span><span class="p">)</span>
+<span class="n">Biggest</span> <span class="n">string</span> <span class="n">found</span> <span class="err">&#39;</span><span class="n">MQS</span><span class="o">:</span><span class="mi">700000</span><span class="o">-</span><span class="n">restful_srv_log</span><span class="o">-</span><span class="mi">600000</span><span class="o">-</span><span class="n">run</span><span class="err">&#39;</span> <span class="n">has</span> <span class="mi">9</span> <span class="n">bytes</span>
+<span class="n">Biggest</span> <span class="n">list</span> <span class="n">found</span> <span class="err">&#39;</span><span class="n">mq</span><span class="o">:</span><span class="n">msg_ack_queue</span><span class="o">-</span><span class="mi">600000</span><span class="o">-</span><span class="n">uat</span><span class="err">&#39;</span> <span class="n">has</span> <span class="mi">27371754</span> <span class="n">items</span>
+<span class="mi">53</span> <span class="n">strings</span> <span class="n">with</span> <span class="mi">239</span> <span class="n">bytes</span> <span class="p">(</span><span class="mf">74.65</span><span class="o">%</span> <span class="n">of</span> <span class="n">keys</span><span class="p">,</span> <span class="n">avg</span> <span class="n">size</span> <span class="mf">4.51</span><span class="p">)</span>
+<span class="mi">18</span> <span class="n">lists</span> <span class="n">with</span> <span class="mi">27376047</span> <span class="n">items</span> <span class="p">(</span><span class="mf">25.35</span><span class="o">%</span> <span class="n">of</span> <span class="n">keys</span><span class="p">,</span> <span class="n">avg</span> <span class="n">size</span> <span class="mf">1520891.50</span><span class="p">)</span>
+<span class="mi">0</span> <span class="n">sets</span> <span class="n">with</span> <span class="mi">0</span> <span class="n">members</span> <span class="p">(</span><span class="mf">00.00</span><span class="o">%</span> <span class="n">of</span> <span class="n">keys</span><span class="p">,</span> <span class="n">avg</span> <span class="n">size</span> <span class="mf">0.00</span><span class="p">)</span>
+<span class="mi">0</span> <span class="n">hashs</span> <span class="n">with</span> <span class="mi">0</span> <span class="n">fields</span> <span class="p">(</span><span class="mf">00.00</span><span class="o">%</span> <span class="n">of</span> <span class="n">keys</span><span class="p">,</span> <span class="n">avg</span> <span class="n">size</span> <span class="mf">0.00</span><span class="p">)</span>
+<span class="mi">0</span> <span class="n">zsets</span> <span class="n">with</span> <span class="mi">0</span> <span class="n">members</span> <span class="p">(</span><span class="mf">00.00</span><span class="o">%</span> <span class="n">of</span> <span class="n">keys</span><span class="p">,</span> <span class="n">avg</span> <span class="n">size</span> <span class="mf">0.00</span><span class="p">)</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2019 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2019-03-25 13:21:04</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
