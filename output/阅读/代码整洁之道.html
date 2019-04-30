@@ -26,20 +26,16 @@
 <div class="page_title">代码整洁之道</div>
 
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
-<li><a href="#_1">代码整洁之道</a><ul>
-<li><a href="#_2">变量</a></li>
-<li><a href="#_3">函数</a></li>
-<li><a href="#_4">注释</a></li>
-<li><a href="#_5">代码分片</a></li>
-<li><a href="#_6">错误异常处理</a></li>
-<li><a href="#_7">系统</a></li>
+<li><a href="#_1">变量</a></li>
+<li><a href="#_2">函数</a></li>
+<li><a href="#_3">注释</a></li>
+<li><a href="#_4">代码分片</a></li>
+<li><a href="#_5">错误异常处理</a></li>
+<li><a href="#_6">系统</a></li>
 <li><a href="#todo">最大的谎言 TODO</a></li>
 </ul>
-</li>
-</ul>
 </div>
-<h1 id="_1">代码整洁之道</h1>
-<h2 id="_2">变量</h2>
+<h2 id="_1">变量</h2>
 <ol>
 <li>命名原则是“见名知意”，尽量使用通俗易懂的变量名，而且这个变量名最好是不能有歧义。</li>
 <li>好的命名方式，就等于给代码加了一行注释。</li>
@@ -47,11 +43,13 @@
 </ol>
 <p>2017-08:为了通俗易懂，最近的变量名真是越来越长了，如最近在做的换卡功能。一般来说，变量名越长，就越能体现出变量的含义，但是相对的，长变量会带来一定的麻烦，由于变量名变长，一行代码的长度也会相应地变长。往往因为变量名太长了，导致一行代码写不了多少就要换行了。</p>
 <p>2017-08:另外一点就是，各个模块之间的变量名应该尽量地统一，不然后面找代码都会被自己绕晕掉。最近在做换卡换号的时候。差点被各种命名绕晕了。</p>
-<p>一开始觉得换卡换号的变量就应该以<code>ChangeBankCard</code>开头，但是后面想了下，除了换卡还有换号，所以后面就又变成了<code>ChangeBankCardInfo</code>，再到后面导致变量名也贼长，eg:<code>ChangeBankCardInfoBizRespDTO</code>，后面应该要将所有的DTO给统一精简一下。<br />
-1. 审核类 <code>AuditChangeCard</code><br />
-2. 换卡流程类 <code>ChangeCard</code><br />
-3. 证件资料类 <code>ChangeCardProve</code></p>
-<h2 id="_3">函数</h2>
+<p>一开始觉得换卡换号的变量就应该以<code>ChangeBankCard</code>开头，但是后面想了下，除了换卡还有换号，所以后面就又变成了<code>ChangeBankCardInfo</code>，再到后面导致变量名也贼长，eg:<code>ChangeBankCardInfoBizRespDTO</code>，后面应该要将所有的DTO给统一精简一下。</p>
+<ol>
+<li>审核类 <code>AuditChangeCard</code></li>
+<li>换卡流程类 <code>ChangeCard</code></li>
+<li>证件资料类 <code>ChangeCardProve</code></li>
+</ol>
+<h2 id="_2">函数</h2>
 <p>1、函数应该只做一件事。<br />
 2、函数的抽象层次一致。</p>
 <p>简单来说，就是函数里面不要啥都干。比如下面这样一段业务代码，从方法名上看，这段代码应该是做 <strong>计算金额</strong> 相关的动作的，可是在方法体里面却操作了DB。这种情况应该把db的操作移到方法外去操作，而这个方法体内只专注于金额计算。</p>
@@ -68,11 +66,11 @@
 <blockquote>
 <p>函数中混杂不同的抽象层次，往往让人迷惑，读者可能无法判断某个表达式是基础概念还是细节，更恶劣的是，就像破损的窗户，一旦细节与基础概念混杂，更多的细节就会在函数中纠结起来。</p>
 </blockquote>
-<h2 id="_4">注释</h2>
+<h2 id="_3">注释</h2>
 <p>1、注释不是对劣质代码的补救<br />
 2、注释应该是为什么这样做，而不是单单的说明</p>
 <p>注释太少也不行哦，毕竟现在写的一般都是 <strong>业务</strong> 代码，不熟悉业务的人看你写的代码会痛苦的！</p>
-<h2 id="_5">代码分片</h2>
+<h2 id="_4">代码分片</h2>
 <p>这个是我个人的代码风格，我比较喜欢这样的代码，如下图，即方法内，每做完一个操作，就进行换行。</p>
 <div class="hlcode"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">changeCardProcess</span><span class="o">(){</span>
   <span class="c1">// 换卡事务</span>
@@ -87,12 +85,12 @@
 </pre></div>
 
 
-<h2 id="_6">错误异常处理</h2>
+<h2 id="_5">错误异常处理</h2>
 <ol>
 <li>对错误的处理不要和正常的业务混杂在一起，异常不应该打断业务。</li>
 <li>不要返回空，你每返回一个空，那调用这个函数的人都要去做一层空判断。</li>
 </ol>
-<h2 id="_7">系统</h2>
+<h2 id="_6">系统</h2>
 <p>工厂：封装对象的构造，隐藏构造的细节，使得外部调用者不需要知道生成该类的具体实现。</p>
 <p>扩容：</p>
 <blockquote>
@@ -109,7 +107,7 @@
       <span>
         <p>Copyright © 2019 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-03-26 00:00:02</p>
+        <p>Site Generated 2019-04-30 17:24:22</p>
       </span>
     </div>
 
