@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>CAP - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#分布式">分布式</a>&nbsp;&#187;&nbsp;CAP
+    <span class="updated">Page Updated&nbsp;
+      2019-05-05 22:07:36
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">CAP</div>
+
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#cap">CAP理论</a><ul>
+<li><a href="#consistency">Consistency(一致性)</a></li>
+<li><a href="#availability">Availability(可用性)</a></li>
+<li><a href="#partition-tolerance">Partition tolerance(分区容忍性)</a></li>
+</ul>
+</li>
+<li><a href="#_1">关于一致性和可用性的矛盾</a></li>
+<li><a href="#cap_1">常见的CAP应用</a></li>
+</ul>
+</div>
+<h2 id="cap">CAP理论</h2>
+<h3 id="consistency">Consistency(一致性)</h3>
+<p>在分布式环境下，用户访问不同的服务器，返回的数据要一致。</p>
+<h3 id="availability">Availability(可用性)</h3>
+<p>在分布式环境下，只要收到用户的请求，服务器就必须给出回应。</p>
+<h3 id="partition-tolerance">Partition tolerance(分区容忍性)</h3>
+<p>分布式环境的基础，不同网络之间的通讯有可能失败。</p>
+<h2 id="_1">关于一致性和可用性的矛盾</h2>
+<p>因为分区的存在，如果要保证一致性，那么修改数据后同步到各个节点时，会导致未同步的节点不能读，导致没有了可用性。</p>
+<h2 id="cap_1">常见的CAP应用</h2>
+<p>zookeeper: CP</p>
+<p>eureka: AP</p>
+<p>常常会看到注册中心应该选择哪个组件较为合适，网上的普遍论调是，使用AP的eureka会更合适，因为分布式服务中，注册中心暂时的不一致，对服务并多多大影响和妨碍。(当时也并不是zk就不好，得看场景)</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2019 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2019-05-05 22:18:28</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
