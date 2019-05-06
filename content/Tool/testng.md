@@ -1,6 +1,7 @@
 ---
 title : TestNG
 date : 2016年10月20日11:03:30
+collection: 常用
 ---
 
 TestNG目前我应用到的情况是多线程的测试

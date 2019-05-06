@@ -1,6 +1,7 @@
 ---
 title: Vim
 date: 2016-6-24 18:16:49
+collection: 常用
 ---
 
 [TOC]

@@ -1,6 +1,7 @@
 ---
 title : Postman
 date : 2018-9-17 10:38:51
+collection: 常用
 ---
 
 ## PostMan
