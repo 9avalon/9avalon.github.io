@@ -25,14 +25,14 @@
 
 <div class="page_title">自定义注解</div>
 
-  <h1 id="retention">@Retention：注解的保留位置</h1>
+  <h2 id="retention">@Retention：注解的保留位置</h2>
 <div class="hlcode"><pre><span class="nd">@Retention</span><span class="o">(</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="na">SOURCE</span><span class="o">)</span>   <span class="c1">//注解仅存在于源码中，在class字节码文件中不包含</span>
 <span class="nd">@Retention</span><span class="o">(</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="na">CLASS</span><span class="o">)</span>     <span class="c1">// 默认的保留策略，注解会在class字节码文件中存在，但运行时无法获得，</span>
 <span class="nd">@Retention</span><span class="o">(</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>  <span class="c1">// 注解会在class字节码文件中存在，在运行时可以通过反射获取到</span>
 </pre></div>
 
 
-<h1 id="target">@Target注解的作用目标</h1>
+<h2 id="target">@Target注解的作用目标</h2>
 <div class="hlcode"><pre><span class="nd">@Target</span><span class="o">(</span><span class="n">ElementType</span><span class="o">.</span><span class="na">TYPE</span><span class="o">)</span>   <span class="c1">//接口、类、枚举、注解</span>
 <span class="nd">@Target</span><span class="o">(</span><span class="n">ElementType</span><span class="o">.</span><span class="na">FIELD</span><span class="o">)</span> <span class="c1">//字段、枚举的常量</span>
 <span class="nd">@Target</span><span class="o">(</span><span class="n">ElementType</span><span class="o">.</span><span class="na">METHOD</span><span class="o">)</span> <span class="c1">//方法</span>
@@ -47,7 +47,7 @@
       <span>
         <p>Copyright © 2019 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-05-05 22:36:12</p>
+        <p>Site Generated 2019-05-06 18:23:47</p>
       </span>
     </div>
 

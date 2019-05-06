@@ -1,9 +1,9 @@
 ---
-title : arthas
+title : Arthas
 date : 2019-03-11 19:41:11
 ---
 
-# 需要重启的热部署(不依赖arthas)
+## 需要重启的热部署(不依赖arthas)
 
 第一步先本地把改好的代码编译为class。
 
@@ -23,7 +23,7 @@ jar -uvf xxx-1.0.1-SNAPSHOT.jar com/xxx/xxx/xxx/xxx.class
 
 替换成功后，重启服务，确认。
 
-# 不需要升级的热部署(依赖arthas)
+## 不需要升级的热部署(依赖arthas)
 
 可以利用arthas的热部署功能。
 
