@@ -26,24 +26,20 @@
 <div class="page_title">零碎读书标记</div>
 
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
-<li><a href="#_1">书籍标记</a><ul>
 <li><a href="#effect-java">Effect Java</a><ul>
-<li><a href="#_2">初始化类</a></li>
+<li><a href="#_1">初始化类</a></li>
 </ul>
 </li>
 <li><a href="#mysql-innodb">Mysql技术内幕-InnoDB存储引擎</a><ul>
-<li><a href="#_3">锁</a></li>
-<li><a href="#_4">关于索引</a></li>
-</ul>
-</li>
+<li><a href="#_2">锁</a></li>
+<li><a href="#_3">关于索引</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<h1 id="_1">书籍标记</h1>
 <p>大多数时候，看完一本书，心得蛮少的，又或者比较懒，不想专门为书开个新的文档，所以将一些读书后的笔记写在这。</p>
 <h2 id="effect-java">Effect Java</h2>
-<h3 id="_2">初始化类</h3>
+<h3 id="_1">初始化类</h3>
 <ol>
 <li>JavaBean模式</li>
 <li>构造方法</li>
@@ -55,7 +51,7 @@
 
 <p>推荐使用<code>Lombok</code></p>
 <h2 id="mysql-innodb">Mysql技术内幕-InnoDB存储引擎</h2>
-<h3 id="_3">锁</h3>
+<h3 id="_2">锁</h3>
 <p>1、讲解的B+tree例子不错，深入浅出，强烈推荐</p>
 <p>2、关于死锁的问题，除了AB-BA这种互相等待的死锁外，还有另外一种死锁</p>
 <ul>
@@ -67,7 +63,7 @@
 <li>InnoDB不存在锁升级的问题，因为其是根据事务访问的每个页对锁进行管理的。即页锁。</li>
 </ul>
 <p>4、如果一个列里面重复数据特别多，那就不适合加索引。</p>
-<h3 id="_4">关于索引</h3>
+<h3 id="_3">关于索引</h3>
 <p>1、索引要建立在区分度较大的字段上，如果是那种只有0 1 2的就不要建立索引了，可以考虑建联合索引</p>
 <p>2017-08 并不是说只有0，1，2就不要建立索引，而是如果0，1，2的数据分布都很均匀，则没必要建立索引。</p>
 <p>2、联合索引要把区分度大的放前面，如联合索引AB，如果只查B的话是不会走索引的。只有查 A或者AB会走索</p>
@@ -76,7 +72,7 @@
       <span>
         <p>Copyright © 2019 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-05-06 20:03:11</p>
+        <p>Site Generated 2019-05-06 20:07:53</p>
       </span>
     </div>
 
