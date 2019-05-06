@@ -1,13 +1,13 @@
 ---
-title : mybatis
+title : Mybatis
 date : 2017-8-29 14:19
 updated : 2017-8-29 14:20
 collection : Java框架
 ---
 
-# mybatis
+## mybatis
 
-## xml中特殊字符转义
+### xml中特殊字符转义
 
 ```
 &lt;       <   小于

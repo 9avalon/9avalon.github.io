@@ -1,11 +1,10 @@
 ---
-title: volatile
+title: Volatile
 date: 2016-8-17 21:44:09
-collection: JavaSE
+collection: Java基础
 ---
 
 最近读《并发编程实战》的时候，或多或少地接触到了volatile这个关键字，但是一直都不是很清楚这个关键字到底是用来干啥的。现在就结合百度来解释一下这个关键字。
-
 
 volatile的作用是，作为指令关键字，确保本指令条不会因为编译器优化而省略，而且要求每次直接读值。
 
@@ -42,11 +41,9 @@ public class Single {
 
 所以为了防止jvm的“优化”，我们会给变量加上volatile关键字，告诉jvm这个变量你得小心翼翼的，不要搞优化。
 
-```
+```java
 private volatile static Single single;
 ```
-
-
 
 一旦一个共享变量（类的成员变量、类的静态成员变量）被volatile修饰之后，那么就具备了两层语义：
 
@@ -54,9 +51,7 @@ private volatile static Single single;
 
 2）禁止进行指令重排序。
 
-
-
-####  参考
+## 参考
 
 下面这篇文章写得非常好，强烈推荐。。。虽然有个例子解释地不是很清楚。。。但是只要记住这一点，volatile不能保持原子性，但能保证可见性和禁止指令重排序就好了。
 

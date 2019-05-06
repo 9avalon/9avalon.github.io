@@ -1,5 +1,5 @@
 ---
-title : hibernate
+title : Hibernate
 date : 2016-6-23 23:58
 updated : 2017-8-28 20:06
 collection: Java框架

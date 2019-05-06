@@ -1,5 +1,5 @@
 ---
-title : jaxb
+title : Jaxb
 date : 2017-8-28 20:14
 updated : 2017-8-28 20:14
 collection : JavaSE

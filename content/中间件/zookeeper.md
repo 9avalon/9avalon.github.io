@@ -6,8 +6,6 @@ updated : 2017-09-16 11:19
 
 [TOC]
 
-# Zookeeper
-
 ## zookepper 功能与使用场景
 
 ### 配置管理

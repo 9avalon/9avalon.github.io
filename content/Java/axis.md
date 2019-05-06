@@ -1,5 +1,5 @@
 ---
-title : axis
+title : Axis
 date : 2017-8-31 12:25
 updated : 2017-8-31 12:25
 collection : JavaSE
@@ -7,17 +7,19 @@ collection : JavaSE
 
 [TOC]
 
-# axis
+## axis
+
 最近接的几家第三方机构都需要通过WebService来连接，所以会解除到这方面相关的知识
 
-## 简介
+### 简介
 
 **aixs**是开发WebService应用的利器，通过它，可以方便地发布服务或接收WebService请求。
 
 一般WebService可以配合JAXB使用
-## 使用
 
-### 引入相关pom包
+### 使用
+
+#### 引入相关pom包
 
 ```xml
         <dependency>
@@ -42,7 +44,7 @@ collection : JavaSE
         </dependency>
 ```
 
-### 请求工具类
+#### 请求工具类
 
 ```java
 /**

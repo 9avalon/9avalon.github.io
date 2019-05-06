@@ -1,5 +1,5 @@
 ---
-title: log4j
+title: Log4j
 date: 2016-8-28 14:53
 collection: JavaEE
 ---

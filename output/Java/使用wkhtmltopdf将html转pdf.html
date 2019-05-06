@@ -31,11 +31,11 @@
 <li><a href="#_3">使用</a></li>
 </ul>
 </div>
-<h4 id="_1">需求</h4>
+<h2 id="_1">需求</h2>
 <p>最近在做简爱网站的时候，需要将做好的html简历转成pdf，找了一圈终于让我找到了一个比较好的实现库，<a href="http://wkhtmltopdf.org/">wkhtmltopdf</a></p>
-<h4 id="_2">原理分析</h4>
+<h2 id="_2">原理分析</h2>
 <p>其实html转pdf最大的困难在于html里面可能会引用到许多的js或者css文件，而如果我们单纯从html源码解析的话是根本解析不来的，网上也有很多其他的html转pdf的包，但是那些包对于html标签的闭合度要求非常高，如果有一个标签没有闭合，那整个程序都跑不了了。所以wkhtmltopdf的思路是，内置一个webkit浏览器（无界面），通过这个webkit打开目标网站，再进行转换。</p>
-<h4 id="_3">使用</h4>
+<h2 id="_3">使用</h2>
 <p>先到网站上把wkhtmltopdf下载下来<br />
 http://wkhtmltopdf.org<br />
 win和linux版都有，下载完成之后安装即可。（win版的注意把wkhtmltopdf的bin放到环境变量去，方便调用）<br />
@@ -50,7 +50,7 @@ win和linux版都有，下载完成之后安装即可。（win版的注意把wkh
       <span>
         <p>Copyright © 2019 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-05-06 19:48:48</p>
+        <p>Site Generated 2019-05-06 20:03:11</p>
       </span>
     </div>
 

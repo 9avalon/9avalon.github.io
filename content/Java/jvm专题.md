@@ -1,6 +1,7 @@
 ---
 title: JVM专题
 date: 2018-07-07 21:05:16
+collection: Java基础
 ---
 
 [TOC]
