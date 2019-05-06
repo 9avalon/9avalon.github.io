@@ -1,5 +1,5 @@
 ---
-title: git
+title: Git
 date: 2016-6-23 18:31:49
 collection: 项目代码控制
 ---
