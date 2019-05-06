@@ -1,27 +1,21 @@
 ---
-title : docker
+title : Docker
 draft : true
 ---
 
 [TOC]
 
-
-
-#### Centos安装docker
+## Centos安装docker
 
 centos安装docker版本有点麻烦，因为现在主流的centos版本都是6.3-6.5，这些版本的linux内核有点旧，docker支持不了，需要升级内核
 
-
-
-#### 查看docker版本
+## 查看docker版本
 
 ```sh
 docker version
 ```
 
-
-
-#### 基本命令
+## 基本命令
 
 ```sh
 # 搜索镜像
@@ -56,9 +50,7 @@ docker rm <id>
 docker rm $(docker ps -a -q)
 ```
 
-
-
-#### 其他
+## 其他
 
 1、更换阿里源
 

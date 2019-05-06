@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
-    <title>ubuntu - Miguel's Wiki</title>
+    <title>Ubuntu - Miguel's Wiki</title>
     <meta name="keywords" content=""/>
     <meta name="description" content="侯铭健的个人wiki"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -16,27 +16,27 @@
     <div id="container">
       
 <div id="header">
-  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Linux">Linux</a>&nbsp;&#187;&nbsp;ubuntu
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Linux">Linux</a>&nbsp;&#187;&nbsp;Ubuntu
     <span class="updated">Page Updated&nbsp;
       2016-06-24 18:06:23
     </span></div>
 </div>
 <div class="clearfix"></div>
 
-<div class="page_title">ubuntu</div>
+<div class="page_title">Ubuntu</div>
 
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
 <li><a href="#java">安装java</a></li>
 <li><a href="#mysql">安装mysql</a><ul>
 <li><a href="#_1">修改中文编码</a></li>
-<li><a href="#_2">添加远程账号</a></li>
-<li><a href="#_3">修改登陆后的默认位置</a></li>
 </ul>
 </li>
-<li><a href="#tomcat"># 安装tomcat</a></li>
+<li><a href="#_2">添加远程账号</a></li>
+<li><a href="#_3">修改登陆后的默认位置</a></li>
+<li><a href="#tomcat">安装tomcat</a></li>
 </ul>
 </div>
-<h3 id="java">安装java</h3>
+<h2 id="java">安装java</h2>
 <p>首先到官网下载jdk，注意x86和x64的版本下载</p>
 <p>然后创建一个目录/usr/lib/jvm以便于把下载解压后的包放到这个目录<br />
     sudo mkdir /usr/lib/jvm</p>
@@ -60,42 +60,81 @@ export PATH=<span class="cp">${</span><span class="n">JAVA_HOME</span><span clas
     source ~/.bashrc</p>
 <p>测试，出现如下结果则安装好，你就可以尽情的编写Java程序了。<br />
     java -version</p>
-<h3 id="mysql">安装mysql</h3>
-<p>直接命令行下载<br />
-    sudo apt-get install mysql-server<br />
-    apt-get isntall mysql-client<br />
-    sudo apt-get install libmysqlclient-dev</p>
-<p>检查有无安装成功<br />
-    sudo netstat -tap | grep mysql</p>
-<h4 id="_1">修改中文编码</h4>
-<p>进入 /etc/mysql/my.cnf,打开mysql配置文件：<br />
-    vim/etc/mysql/my.cnf<br />
-在[client]下追加：<br />
-    default-character-set=utf8<br />
-在[mysqld]下追加：<br />
-    character-set-server=utf8<br />
-在[mysql]下追加：<br />
-    default-character-set=utf8<br />
-保存并退出,重启服务<br />
-    sudo service mysql restart<br />
-进入mysql控制台查看编码<br />
-    mysql&gt;show variables like 'character%'<br />
-看到没有latian1则大功告成</p>
-<h4 id="_2">添加远程账号</h4>
-<p>第一步：<br />
-    vim /etc/MySQL/my.cnf找到bind-address = 127.0.0.1<br />
-注释掉这行<br />
-    #bind-address = 127.0.0.1<br />
-或者改为，这样修改的意思是允许任意的ip访问，或者自己指定一个ip地址<br />
-    bind-address = 0.0.0.0<br />
-重启 mysql<br />
-    sudo /etc/init.d/mysql restart<br />
-第二步：<br />
-授权用户能进行远程连接<br />
-    grant all privileges on [database].* to [用户名]@"%" identified by "[password]" with grant option;<br />
-刷新<br />
-    flush privileges;</p>
-<h4 id="_3">修改登陆后的默认位置</h4>
+<h2 id="mysql">安装mysql</h2>
+<p>直接命令行下载</p>
+<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">mysql</span><span class="o">-</span><span class="n">server</span>
+<span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">isntall</span> <span class="n">mysql</span><span class="o">-</span><span class="n">client</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">libmysqlclient</span><span class="o">-</span><span class="n">dev</span>
+</pre></div>
+
+
+<p>检查有无安装成功</p>
+<p>sudo netstat -tap | grep mysql</p>
+<h3 id="_1">修改中文编码</h3>
+<p>进入 /etc/mysql/my.cnf,打开mysql配置文件：</p>
+<div class="hlcode"><pre><span class="n">vim</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span><span class="n">my</span><span class="p">.</span><span class="n">cnf</span>
+</pre></div>
+
+
+<p>在[client]下追加：</p>
+<div class="hlcode"><pre><span class="k">default</span><span class="o">-</span><span class="n">character</span><span class="o">-</span><span class="n">set</span><span class="o">=</span><span class="n">utf8</span>
+</pre></div>
+
+
+<p>在[mysqld]下追加：</p>
+<div class="hlcode"><pre><span class="n">character</span><span class="o">-</span><span class="n">set</span><span class="o">-</span><span class="n">server</span><span class="o">=</span><span class="n">utf8</span>
+</pre></div>
+
+
+<p>在[mysql]下追加：</p>
+<div class="hlcode"><pre><span class="k">default</span><span class="o">-</span><span class="n">character</span><span class="o">-</span><span class="n">set</span><span class="o">=</span><span class="n">utf8</span>
+</pre></div>
+
+
+<p>保存并退出,重启服务</p>
+<div class="hlcode"><pre><span class="n">sudo</span> <span class="n">service</span> <span class="n">mysql</span> <span class="n">restart</span>
+</pre></div>
+
+
+<p>进入mysql控制台查看编码</p>
+<div class="hlcode"><pre><span class="n">mysql</span><span class="o">&gt;</span><span class="n">show</span> <span class="n">variables</span> <span class="n">like</span> <span class="err">&#39;</span><span class="n">character</span><span class="o">%</span><span class="err">&#39;</span>
+</pre></div>
+
+
+<p>看到没有latian1则大功告成</p>
+<h2 id="_2">添加远程账号</h2>
+<p>第一步：</p>
+<div class="hlcode"><pre><span class="n">vim</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">MySQL</span><span class="o">/</span><span class="n">my</span><span class="p">.</span><span class="n">cnf</span><span class="err">找到</span><span class="n">bind</span><span class="o">-</span><span class="n">address</span> <span class="o">=</span> <span class="mf">127.0.0.1</span>
+</pre></div>
+
+
+<p>注释掉这行</p>
+<div class="hlcode"><pre><span class="c">#bind-address = 127.0.0.1</span>
+</pre></div>
+
+
+<p>或者改为，这样修改的意思是允许任意的ip访问，或者自己指定一个ip地址</p>
+<div class="hlcode"><pre><span class="n">bind</span><span class="o">-</span><span class="n">address</span> <span class="o">=</span> <span class="mf">0.0.0.0</span>
+</pre></div>
+
+
+<p>重启 mysql</p>
+<div class="hlcode"><pre><span class="n">sudo</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">init</span><span class="p">.</span><span class="n">d</span><span class="o">/</span><span class="n">mysql</span> <span class="n">restart</span>
+</pre></div>
+
+
+<p>第二步：</p>
+<p>授权用户能进行远程连接</p>
+<div class="hlcode"><pre><span class="n">grant</span> <span class="n">all</span> <span class="n">privileges</span> <span class="n">on</span> <span class="p">[</span><span class="n">database</span><span class="p">].</span><span class="o">*</span> <span class="n">to</span> <span class="p">[</span><span class="err">用户名</span><span class="p">]</span><span class="s">@&quot;%&quot;</span> <span class="n">identified</span> <span class="n">by</span> <span class="s">&quot;[password]&quot;</span> <span class="n">with</span> <span class="n">grant</span> <span class="n">option</span><span class="p">;</span>
+</pre></div>
+
+
+<p>刷新</p>
+<div class="hlcode"><pre><span class="n">flush</span> <span class="n">privileges</span><span class="p">;</span>
+</pre></div>
+
+
+<h2 id="_3">修改登陆后的默认位置</h2>
 <p>编辑配置文件</p>
 <div class="hlcode"><pre>vi /etc/passwd
 </pre></div>
@@ -112,14 +151,14 @@ export PATH=<span class="cp">${</span><span class="n">JAVA_HOME</span><span clas
 
 
 <p>保存退出</p>
-<h3 id="tomcat"># 安装tomcat</h3>
+<h2 id="tomcat">安装tomcat</h2>
 <p>从官网处下载tomcat的包，然后放到linux下解压</p>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2019 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-05-06 20:15:24</p>
+        <p>Site Generated 2019-05-06 20:18:57</p>
       </span>
     </div>
 

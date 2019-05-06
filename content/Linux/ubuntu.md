@@ -1,11 +1,11 @@
 ---
-title: ubuntu
+title: Ubuntu
 date: 2016-6-24 18:06:23
 ---
 
 [TOC]
 
-### 安装java
+## 安装java
 
 首先到官网下载jdk，注意x86和x64的版本下载
 
@@ -36,46 +36,75 @@ date: 2016-6-24 18:06:23
 测试，出现如下结果则安装好，你就可以尽情的编写Java程序了。
     java -version
 
-### 安装mysql
+## 安装mysql
 
 直接命令行下载
+
     sudo apt-get install mysql-server
     apt-get isntall mysql-client
     sudo apt-get install libmysqlclient-dev
 
 检查有无安装成功
-	sudo netstat -tap | grep mysql
 
-#### 修改中文编码
+sudo netstat -tap | grep mysql
+
+### 修改中文编码
+
 进入 /etc/mysql/my.cnf,打开mysql配置文件：
-	vim/etc/mysql/my.cnf
+
+    vim/etc/mysql/my.cnf
+
 在[client]下追加：
+
     default-character-set=utf8
+
 在[mysqld]下追加：
+
     character-set-server=utf8
+
 在[mysql]下追加：
+
     default-character-set=utf8
+
 保存并退出,重启服务
+
     sudo service mysql restart
+
 进入mysql控制台查看编码
+
     mysql>show variables like 'character%'
+
 看到没有latian1则大功告成
 
-#### 添加远程账号
+## 添加远程账号
+
 第一步：
+
     vim /etc/MySQL/my.cnf找到bind-address = 127.0.0.1
+
 注释掉这行
+
     #bind-address = 127.0.0.1
+
 或者改为，这样修改的意思是允许任意的ip访问，或者自己指定一个ip地址
+
     bind-address = 0.0.0.0
+
 重启 mysql
+
     sudo /etc/init.d/mysql restart
+
 第二步：
+
 授权用户能进行远程连接
+
     grant all privileges on [database].* to [用户名]@"%" identified by "[password]" with grant option;
+
 刷新
+
     flush privileges;
-#### 修改登陆后的默认位置
+
+## 修改登陆后的默认位置
 
 编辑配置文件
 
@@ -97,9 +126,6 @@ root:x:0:0:root:<path>:/bin/bash
 
 保存退出
 
-
-
-### # 安装tomcat
+## 安装tomcat
 
 从官网处下载tomcat的包，然后放到linux下解压
-
