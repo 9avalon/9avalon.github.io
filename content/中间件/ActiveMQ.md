@@ -1,12 +1,10 @@
 ---
 title: ActiveMQ
 date: 2016-7-21 09:15:06
-collection: JavaEE
+collection: MQ
 ---
 
 [TOC]
-
-# 简介
 
 ## 安装ActiveMQ
 

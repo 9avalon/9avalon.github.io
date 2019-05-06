@@ -1,6 +1,7 @@
 ---
 title : RabbitMQ
 date : 2019-01-09 01:23:41
+collection: MQ
 ---
 
 ## RabbitMQ

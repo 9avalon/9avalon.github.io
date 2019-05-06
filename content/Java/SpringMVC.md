@@ -1,5 +1,5 @@
 ---
-title: spring mvc
+title: SpringMVC
 date: 2016-6-24 16:43:41
 collection: Java框架
 ---
