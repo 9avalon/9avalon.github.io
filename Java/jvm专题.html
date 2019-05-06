@@ -70,7 +70,7 @@
 </li>
 </ul>
 </div>
-<h1 id="_1">主要内容</h1>
+<h2 id="_1">主要内容</h2>
 <ul>
 <li>JVM内存结构</li>
 <li>类加载机制</li>
@@ -78,24 +78,24 @@
 <li>JVM命令行工具使用</li>
 <li>JVM参数调优</li>
 </ul>
-<h1 id="jvm">JVM内存结构</h1>
-<h2 id="_2">本地方法栈区</h2>
+<h2 id="jvm">JVM内存结构</h2>
+<h3 id="_2">本地方法栈区</h3>
 <p>存放native方法</p>
-<h2 id="_3">程序计数器</h2>
+<h3 id="_3">程序计数器</h3>
 <p>可以被看作是当前程序所执行的字节码所在行号的指示器。cpu切换线程时，找到程序计数器指向的字节码，继续执行程序。</p>
-<h2 id="_4">栈</h2>
+<h3 id="_4">栈</h3>
 <p>虚拟机栈的生命周期与线程是一样的，为线程私有的。</p>
 <p>每个方法都会产生一个栈帧，里面存放局部变量，变量引用，方法出入口等等。</p>
 <p>每个方法从开始被调用到结束调用，就意味着一个栈帧在虚拟机栈中入栈到出栈的过程。</p>
-<h2 id="_5">堆</h2>
+<h3 id="_5">堆</h3>
 <p>存放所有对象的区域，被所有线程共享。</p>
-<h2 id="_6">方法区</h2>
+<h3 id="_6">方法区</h3>
 <p>各个线程共享的区域，用于存储已被虚拟机加载的类信息，常量，静态变量等。</p>
 <p>运行时常量池也在方法区</p>
 <p>别名叫【非堆】，方法区也在堆区。</p>
-<h1 id="_7">垃圾回收</h1>
-<h2 id="_8">判断对象是否可以被回收</h2>
-<h3 id="_9">计数法</h3>
+<h2 id="_7">垃圾回收</h2>
+<h3 id="_8">判断对象是否可以被回收</h3>
+<h4 id="_9">计数法</h4>
 <p>最简单的一种判断对象是否可回收的方法是计数法，当对象有被引用时，计数器加一，不被引用时，减一，当触发GC时，若计数器为0，则该对象可以被回收。但是，虽然该方法看似简单有效，但是不能解决对象循环依赖的问题。如以下代码:</p>
 <div class="hlcode"><pre><span class="n">Object</span> <span class="n">instanceA</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Obj</span><span class="o">();</span>
 <span class="n">Object</span> <span class="n">instanceB</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Obj</span><span class="o">();</span>
@@ -110,7 +110,7 @@
 
 
 <p>instanceA和instanceB互相引用，计数器不为0，不能被回收。</p>
-<h3 id="_10">可达性分析</h3>
+<h4 id="_10">可达性分析</h4>
 <p>因此，现在主流的JVM虚拟机是通过 <em>【可达性分析】</em> 来判断对象是否可被回收。</p>
 <p><img alt="可达性分析" src="https://ws1.sinaimg.cn/mw690/005H7Wvygy1ft1nak0pz3j31ag0ss7gy.jpg" /></p>
 <p>那么那些对象可以作为GC Roots呢？</p>
@@ -120,32 +120,32 @@
 <li>方法区中常量引用的对象</li>
 <li>JNI引用的对象</li>
 </ul>
-<h2 id="_11">垃圾回收算法</h2>
-<h3 id="-">标记-清理算法</h3>
+<h3 id="_11">垃圾回收算法</h3>
+<h4 id="-">标记-清理算法</h4>
 <p>基本原理，标记需要清除的对象，在标记完成后，进行统一回收。优点是速度快，但是会导致内存区域产生大量不连续的内存碎片，导致后续分配内存时候，容易导致无可用区域块而需要重新分配内存。</p>
-<h3 id="_12">复制算法</h3>
+<h4 id="_12">复制算法</h4>
 <p>基本原理，将内存分为两块，GC时候，将需要回收的对象直接清除，不需要回收的对象挪到另外的内存区里面。优点是内存区域整齐，不容易产生小碎片段，但是因为需要划分两块内存，会造成内存浪费。</p>
 <p>目前主流的JVM，年轻代回收算法使用的是复制算法，对年轻代分为三个区域，分别为一个eden区和两个suivivor区，eden区与suivivor内存大小比一般为8:1:1，一般年轻代进行回收时，eden区90%的对象都会被回收，没被回收的对象进入suivior区，如果对象两次gc后，还在suivior区，就会进入到老年代里面。</p>
-<h3 id="-_1">标记-整理算法</h3>
+<h4 id="-_1">标记-整理算法</h4>
 <p>因为老年代内存较大，如果按年轻代一样使用复制算法的话，需要划分两块内存，会造成较大的空间浪费。而且老年代里面，对象的存活率较高，复制带来的成本也会变大。所以，老年代一般不使用复制算法。</p>
 <p>目前老年代主流的算法为标记整理方法，这个方法是与标记-清理算法不一样的是，先对要清理的对象进行清除，清除完毕后，再将老年代里面的对象进行整理，减少不连续的内存区域。</p>
-<h2 id="_13">垃圾收集器</h2>
-<h3 id="serial">Serial收集器(新生代)</h3>
+<h3 id="_13">垃圾收集器</h3>
+<h4 id="serial">Serial收集器(新生代)</h4>
 <p>由JVM后台单独起一个线程(单线程)进行收集回收，此时其他线程都需要停顿。是最原始的收集器。</p>
-<h3 id="parnew">ParNew收集器(新生代)</h3>
+<h4 id="parnew">ParNew收集器(新生代)</h4>
 <p>Serial收集器的多线程版本，提升了效率。</p>
-<h3 id="parallel-old">Parallel Old(新生代)</h3>
+<h4 id="parallel-old">Parallel Old(新生代)</h4>
 <p>复制方法</p>
-<h3 id="serial-old">Serial Old收集器（老年代）</h3>
+<h4 id="serial-old">Serial Old收集器（老年代）</h4>
 <p>Serial收集器的老年代版本</p>
-<h3 id="parallel-old_1">Parallel Old(老年代)</h3>
+<h4 id="parallel-old_1">Parallel Old(老年代)</h4>
 <p>吞吐量优先，标记-整理算法</p>
-<h3 id="cms">CMS(老年代)</h3>
+<h4 id="cms">CMS(老年代)</h4>
 <p>并发收集，低停顿</p>
-<h3 id="g1">G1（目前最先进）</h3>
+<h4 id="g1">G1（目前最先进）</h4>
 <p>jdk1.7正式商用。</p>
-<h2 id="jvm_1">JVM命令行工具使用</h2>
-<h3 id="jps">jps</h3>
+<h3 id="jvm_1">JVM命令行工具使用</h3>
+<h4 id="jps">jps</h4>
 <p>查看虚拟机进程</p>
 <div class="hlcode"><pre><span class="n">jps</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span> <span class="p">{</span><span class="n">hostid</span><span class="p">}</span>
 
@@ -155,7 +155,7 @@
 
 
 <p>-v 输出虚拟机进程进程启动时的JVM参数</p>
-<h3 id="jstat">jstat</h3>
+<h4 id="jstat">jstat</h4>
 <div class="hlcode"><pre><span class="n">jstat</span> <span class="o">[</span> <span class="n">option</span> <span class="n">vmid</span> <span class="o">[]</span><span class="n">interval</span><span class="o">[</span><span class="n">s</span><span class="o">|</span><span class="n">ms</span><span class="o">]</span> <span class="o">[</span><span class="n">count</span><span class="o">]</span> <span class="o">]</span>
 
 <span class="err">比如，需要</span><span class="mi">250</span><span class="err">毫秒查询一次进程</span><span class="mi">2764</span><span class="err">垃圾收集情况，那命令格式为</span>
@@ -164,7 +164,7 @@
 
 
 <p><img alt="jstat执行样例" src="https://ws1.sinaimg.cn/mw690/005H7Wvygy1ft1rxw4epyj31cw0mmwqt.jpg" /></p>
-<h3 id="jmap">jmap</h3>
+<h4 id="jmap">jmap</h4>
 <p>jmap用于生成堆转储快照，我们经常用jamp来获取dump文件，用于分析异常情况。</p>
 <div class="hlcode"><pre><span class="n">jmap</span> <span class="p">[</span><span class="n">option</span><span class="p">]</span> <span class="n">vmid</span>
 
@@ -173,7 +173,7 @@
 </pre></div>
 
 
-<h3 id="jstack">jstack</h3>
+<h4 id="jstack">jstack</h4>
 <p>用来查看当前线程的快照</p>
 <div class="hlcode"><pre><span class="n">jstack</span> <span class="p">[</span><span class="n">option</span><span class="p">]</span> <span class="n">vmid</span>
 
@@ -181,7 +181,7 @@
 </pre></div>
 
 
-<h3 id="jvm_2">JVM参数配置调优</h3>
+<h4 id="jvm_2">JVM参数配置调优</h4>
 <ul>
 <li>-xms,-xmx</li>
 </ul>
@@ -194,7 +194,7 @@
 <li>-XX:PermSize</li>
 </ul>
 <p>持久区大小，存放静态类，常量池等。一般为内存的六十四分之一。10g机器，156m</p>
-<h3 id="_14">官方推荐</h3>
+<h4 id="_14">官方推荐</h4>
 <p>Java整个堆大小设置，Xmx 和 Xms设置为老年代存活对象的3-4倍，即FullGC之后的老年代内存占用的3-4倍</p>
 <p>永久代 PermSize和MaxPermSize设置为老年代存活对象的1.2-1.5倍。</p>
 <p>年轻代Xmn的设置为老年代存活对象的1-1.5倍。</p>
@@ -204,7 +204,7 @@
       <span>
         <p>Copyright © 2019 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-05-05 22:36:12</p>
+        <p>Site Generated 2019-05-06 18:23:01</p>
       </span>
     </div>
 

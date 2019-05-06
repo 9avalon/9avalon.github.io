@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>同步异步&阻塞非阻塞 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;同步异步&阻塞非阻塞
+    <span class="updated">Page Updated&nbsp;
+      2019年05月06日15:52:14
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">同步异步&阻塞非阻塞</div>
+
+  <h2 id="java-nio">Java NIO 到底是异步还是同步，阻塞还是非阻塞？</h2>
+<p>同步非阻塞，同步体现在 selector 仍然要去轮循判断 channel 是否准备好，非阻塞体现在这个过程中处理线程不会一直在等待，可以去做其他的事情。</p>
+<p>同步异步关注点是你问内核数据有没有准备好，还是内核主动通知你数据有没有准备好。阻塞非阻塞关注点是你的处理线程在数据没有准备好的时候是一直在等待状态还是可以去做其他的事情。</p>
+<h2 id="_1">同步&amp;异步</h2>
+<p>需要站在宏观的角度来看</p>
+<p>同步：比如请求某个服务，是请求后只能等待或者主动轮询，不能继续下一件事。</p>
+<p>异步：请求后可以做其他事情，异步回调通知</p>
+<h2 id="_2">阻塞和非阻塞</h2>
+<p>阻塞：不能做其他事情，只能一直等待。</p>
+<p>非阻塞：可以做其他事情。</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2019 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2019-05-06 18:23:01</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
