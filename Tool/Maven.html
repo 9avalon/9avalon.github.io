@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
-    <title>maven - Miguel's Wiki</title>
+    <title>Maven - Miguel's Wiki</title>
     <meta name="keywords" content=""/>
     <meta name="description" content="侯铭健的个人wiki"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -16,18 +16,18 @@
     <div id="container">
       
 <div id="header">
-  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Tool">Tool</a>&nbsp;&#187;&nbsp;maven
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Tool">Tool</a>&nbsp;&#187;&nbsp;Maven
     <span class="updated">Page Updated&nbsp;
       2016-06-23 17:09:20
     </span></div>
 </div>
 <div class="clearfix"></div>
 
-<div class="page_title">maven</div>
+<div class="page_title">Maven</div>
 
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
 <li><a href="#maven">maven是什么</a></li>
-<li><a href="#maven_1">maven安装和下载</a></li>
+<li><a href="#maven_1">maven安装和下载</a><ul>
 <li><a href="#_1">下载</a></li>
 <li><a href="#_2">安装</a></li>
 <li><a href="#_3">创建工程</a><ul>
@@ -36,18 +36,19 @@
 </ul>
 </li>
 <li><a href="#_5">常用命令</a></li>
-<li><a href="#springmvcspringmybatis">配置springmvc+spring+mybatis</a></li>
 <li><a href="#_6">参考阅读</a></li>
 </ul>
+</li>
+</ul>
 </div>
-<h4 id="maven">maven是什么</h4>
+<h2 id="maven">maven是什么</h2>
 <p>maven是一个项目管理和整合工具，其简化了工程的构建过程。并且提高了重用性。。。<br />
 当然maven给我最大的感受是处理jar包很方便，只需要把项目需要的包写到pom中，maven就会自动帮你把jar下载到仓库中，再也不用到苦逼地到处找包了。</p>
-<h4 id="maven_1">maven安装和下载</h4>
-<h4 id="_1">下载</h4>
-<p>http://maven.apache.org/download.cgi <br />
-下载页面写到，需要注意的是maven3.3需要用到jdk1.7及以上。最近做的好多项目需要用到的最新jar包都已经不支持jdk1.6了，所以现在项目还是用1.7会比较好。</p>
-<h4 id="_2">安装</h4>
+<h2 id="maven_1">maven安装和下载</h2>
+<h3 id="_1">下载</h3>
+<p><a href="http://maven.apache.org/download.cgi">下载地址</a></p>
+<p>下载页面写到，需要注意的是maven3.3需要用到jdk1.7及以上。最近做的好多项目需要用到的最新jar包都已经不支持jdk1.6了，所以现在项目还是用1.7会比较好。</p>
+<h3 id="_2">安装</h3>
 <p>设置Maven系统环境变量</p>
 <div class="hlcode"><pre><span class="n">M2_HOME</span> <span class="o">=</span> <span class="n">D</span><span class="o">:</span><span class="err">\</span><span class="n">Program</span> <span class="n">Files</span><span class="err">\</span><span class="n">apache</span><span class="o">-</span><span class="n">maven</span><span class="o">-</span><span class="mf">3.0.5</span>
 </pre></div>
@@ -64,8 +65,8 @@
 
 
 <p>提示Maven version 3.0.5即安装成功。</p>
-<h4 id="_3">创建工程</h4>
-<h5 id="_4">命令行创建工程</h5>
+<h3 id="_3">创建工程</h3>
+<h4 id="_4">命令行创建工程</h4>
 <p>创建命令:  </p>
 <div class="hlcode"><pre><span class="n">mvn</span> <span class="n">archetype</span><span class="o">:</span><span class="n">generate</span>
 </pre></div>
@@ -117,11 +118,11 @@
 </pre></div>
 
 
-<h5 id="myeclipseweb">myeclipse创建web工程。</h5>
+<h4 id="myeclipseweb">myeclipse创建web工程。</h4>
 <p>需要配置好myeclipse的maven环境，具体的百度上很多。<br />
 new-&gt;other-&gt;maven project-&gt;（不要勾选create a simple project）next-&gt; 选择maven-archetype-webapp</p>
 <p>这种方法创建的工程会只有src/main/resource源文件夹，需要自己手动添加src/main/java,并且将这个文件夹的classes文件设置好。</p>
-<h4 id="_5">常用命令</h4>
+<h3 id="_5">常用命令</h3>
 <p>打包：mvn package</p>
 <p>编译：mvn compile</p>
 <p>编译测试程序：mvn test-compile</p>
@@ -131,17 +132,14 @@ new-&gt;other-&gt;maven project-&gt;（不要勾选create a simple project）nex
 <p>生成站点目录并发布：mvn site-deploy</p>
 <p>安装当前工程的输出文件到本地仓库: mvn install</p>
 <p>工作中比较常用的是mvn clean install 这个命令，可以清空工程target文件然后重新编译生成。</p>
-<h4 id="springmvcspringmybatis">配置springmvc+spring+mybatis</h4>
-<p>这是我配置好的一个ssm工程。</p>
-<p>http://pan.baidu.com/s/1boJAOOJ</p>
-<h4 id="_6">参考阅读</h4>
+<h3 id="_6">参考阅读</h3>
 <p><a href="“https://my.oschina.net/huangyong/blog/194583”">maven的那些事儿</a></p>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2019 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-05-06 18:30:41</p>
+        <p>Site Generated 2019-05-06 19:48:48</p>
       </span>
     </div>
 
