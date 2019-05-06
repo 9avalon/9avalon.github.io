@@ -4,8 +4,6 @@ date: 2017-09-20 00:28
 collection: 微服务
 ---
 
-# Spring Boot
-
 [TOC]
 
 暂时只收录一些遇到的坑
@@ -13,6 +11,7 @@ collection: 微服务
 ## 不使用默认的Spring Boot parent模板
 
 在parent的pom中，`<dependencyManagement>`节点中增减下面的代码即可。
+
 ```xml
 <!-- spring boot-->
 <dependency>
@@ -24,5 +23,3 @@ collection: 微服务
     <scope>import</scope>
 </dependency>
 ```
-
-

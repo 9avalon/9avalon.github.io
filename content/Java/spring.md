@@ -1,18 +1,14 @@
 ---
-title: spring
+title: Spring
 date: 2016-6-24 16:57:46
 collection: Java框架
 ---
 
 [TOC]
 
-# 搭建Spring环境
+## Spring事务
 
-2018-7-16 移除了spring搭建的相关内容，因为搭环境这些，一般配合网上的一些教程资源，既可以轻松搭建。
-
-# Spring事务
-
-## 注解控制事务(**推荐**)
+### 注解控制事务(**推荐**)
 
 spring配置文件中加入
 
@@ -39,50 +35,7 @@ spring配置文件中加入
 
 当事务注解和自定义的AOP注解在同一个方法上面时，就需要自定义注解的顺序，在Spring中配置事务的地方有一个属性**order**，这个属性的值越小，则执行优先级最高，事务的默认级别是最高的。
 
-## AOP层控制事务(不推荐)
-
-不建议使用该方式，建议使用注解的方式来使用事务
-
-这种方式不好的地方有两点，第一点是，对刚接触业务的同事不透明，第二是，可能会导致一些不需要事务的方法，也加入了事务。
-
-```xml
-<!-- 通知 -->
-<tx:advice id="txAdvice" transaction-manager="transactionManager">
-  <tx:attributes>
-  <!-- 传播行为 -->
-  <!-- 顺序，*优先级最低，处理查询数据的操作默认不开启事务 -->
-  <tx:method name="get*" propagation="SUPPORTS" read-only="true" />
-  <tx:method name="find*" propagation="SUPPORTS" read-only="true" />
-  <tx:method name="search*" propagation="SUPPORTS" read-only="true" />
-  <tx:method name="load*" propagation="SUPPORTS" read-only="true" />
-  <tx:method name="*" propagation="REQUIRED" />
-  </tx:attributes>
-</tx:advice>
-```
-
-经过实践，发现*号的优先度是最低的。这样配置可以实现除了get，find，search，load等纯读取方法外，其余方法都是会开启事务。
-
-## 手工管理事务(不推荐)
-
-```java
-@Autowired
-private DataSourceTransactionManager txManager;
-```
-
-```java
-DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-// 开启事务
-TransactionStatus status = txManager.getTransaction(def);
-try{
-  txManager.commit(status);
-}catch(Exception e){
-  txManager.rollback(status);
-}
-
-```
-
-# AOP的使用
+## AOP的使用
 
 在这里就只是简单的列举一下实践，更多的使用以后再归纳整理。
 
@@ -145,13 +98,13 @@ public class SleepAop implements MethodBeforeAdvice, AfterReturningAdvice{
 
 当然也可以用注释的方法来做~
 
-# Spring-cache
+## Spring-cache
 
 2018-7-16更新：Spring-cache因为缺少时间
 
 [注释驱动的 Spring cache 缓存介绍](https://www.ibm.com/developerworks/cn/opensource/os-cn-spring-cache/)
 
-# Quartz定时任务
+## Quartz定时任务
 
 添加jar包依赖
 
@@ -239,7 +192,7 @@ cronExpression表达式
 0 0/3 * * * ?  //每三分钟一次
 ```
 
-# spring引用jar包里面的配置文件
+## spring引用jar包里面的配置文件
 
 我们使用maven进行多模块开发时，一般会进行多模块开发。这里举个例子，我们现在有两个模块，分别是A和B，其中A是服务层，B是web层。
 
@@ -253,7 +206,7 @@ A主要是核心业务的代码实现，而B用于向外提供http服务和连�
 <import resource="classpath*:/spring/spring-jms.xml" />
 ```
 
-# Spring Test回滚
+## Spring Test回滚
 
 若想执行测试用例的时候回滚，则在测试用例的头部加入
 
@@ -261,7 +214,7 @@ A主要是核心业务的代码实现，而B用于向外提供http服务和连�
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 ```
 
-# Spring加载顺序比静态类加载慢的问题
+## Spring加载顺序比静态类加载慢的问题
 
 这是我在17-2-20日碰到的一个小坑，记录下来看看。
 
@@ -292,7 +245,7 @@ public class SettingContext implements InitializingBean {
 
 上面的代码会有一个问题，当启动应用时，会先加载静态类，后加载spring容器，当spring容器还没加载完全时，settingService为空时，刚好有一个服务会调用到静态的getValue方法，导致settingServiceStatic被置为空了。服务就会出现异常。
 
-# 自定义bean初始化后行为
+## 自定义bean初始化后行为
 
 有三种方式可以自定义bean初始化后的行为
 
