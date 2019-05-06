@@ -1,11 +1,12 @@
 ---
-title: navicat
+title: Navicat
 date: 2016-8-18 11:30:44
 collection: 数据库可视化工具
 ---
+
 [TOC]
 
-#### 快捷键
+## 快捷键
 
 ctrl+q           打开查询窗口
 

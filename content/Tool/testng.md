@@ -1,11 +1,9 @@
 ---
-title : testng
+title : TestNG
 date : 2016年10月20日11:03:30
 ---
 
 TestNG目前我应用到的情况是多线程的测试
-
-
 
 首先引入pom文件
 
@@ -17,8 +15,6 @@ TestNG目前我应用到的情况是多线程的测试
 			<scope>test</scope>
 		</dependency>
 ```
-
-
 
 与spring集成，直接继承该类即可，这里@Test是testng的
 

@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
-    <title>svn - Miguel's Wiki</title>
+    <title>SVN - Miguel's Wiki</title>
     <meta name="keywords" content=""/>
     <meta name="description" content="侯铭健的个人wiki"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -16,31 +16,30 @@
     <div id="container">
       
 <div id="header">
-  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Tool">Tool</a>&nbsp;&#187;&nbsp;svn
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Tool">Tool</a>&nbsp;&#187;&nbsp;SVN
     <span class="updated">Page Updated&nbsp;
       2016-06-23 18:33:22
     </span></div>
 </div>
 <div class="clearfix"></div>
 
-<div class="page_title">svn</div>
+<div class="page_title">SVN</div>
 
   <div class="toc"><span class="toctitle">Table of Contents</span><ul>
 <li><a href="#svn">SVN</a><ul>
-<li><a href="#svn_1">什么是svn</a><ul>
+<li><a href="#svn_1">什么是svn</a></li>
 <li><a href="#_1">在服务器中新建仓库</a></li>
 <li><a href="#_2">设置同步更新</a></li>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
 </div>
-<h1 id="svn">SVN</h1>
+<h2 id="svn">SVN</h2>
 <p>2017-08:已经转到git一年了，git有一个好的地方是有分支管理，一个完整的gitflow流很适合互联网快速迭代。</p>
-<h2 id="svn_1">什么是svn</h2>
+<p>2019-05:转用git三年，已经完全忘记svn怎么用了哈哈。。</p>
+<h3 id="svn_1">什么是svn</h3>
 <p>svn和git是目前使用最广泛的版本管理工具，知道github的朋友肯定也知道git并且使用过git，但其实svn也是一款很优秀的版本管理工具，与git的分布式不同的是，svn是集中式管理，拥有更细致的按照目录级别的权限控制。</p>
-<h4 id="_1">在服务器中新建仓库</h4>
+<h3 id="_1">在服务器中新建仓库</h3>
 <p>下面的操作步骤我都是默认服务器环境中已经搭建好svn了，有时候新建svn仓库的命令我会忘记掉，所以就只记录下新建svn仓库的步骤了。</p>
 <p>首先创建仓库文件夹，然后执行下面命令</p>
 <div class="hlcode"><pre><span class="n">svnadmin</span> <span class="n">create</span> <span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">svn</span><span class="o">/</span><span class="n">projectname</span>
@@ -72,11 +71,13 @@
 
 
 <p>修改完后保存就可以了。</p>
-<h4 id="_2">设置同步更新</h4>
+<h3 id="_2">设置同步更新</h3>
 <p>同步更新的意思是，在服务器也把代码检出来，然后设置同步更新后，在本地提交更新后，服务器上检出的代码也会随着一起更新掉。我使用这个来部署tomcat的项目。</p>
-<p>先在服务器检出svn仓库，注意这里的仓库地址是远程地址<br />
-​  <br />
-    svn co 仓库地址  </p>
+<p>先在服务器检出svn仓库，注意这里的仓库地址是远程地址</p>
+<div class="hlcode"><pre><span class="n">svn</span> <span class="n">co</span> <span class="err">仓库地址</span>
+</pre></div>
+
+
 <p>在linux仓库地址的hook文件夹下新建post-commit，这里的仓库地址是linux上的地址。</p>
 <div class="hlcode"><pre><span class="c">#!/bin/sh</span>
 <span class="nb">export </span><span class="nv">LANG</span><span class="o">=</span>zh_CN.UTF-8
@@ -91,14 +92,13 @@ svn update 检出的仓库地址 --username 账号 --password 密码 --no-auth-c
 </pre></div>
 
 
-<p>ok<br />
-​       </p>
+<p>ok!</p>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2019 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-05-06 18:30:41</p>
+        <p>Site Generated 2019-05-06 19:48:48</p>
       </span>
     </div>
 

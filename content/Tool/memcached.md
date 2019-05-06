@@ -1,13 +1,14 @@
 ---
-title: memcached
+title: Memcached
 date: 2016-8-23 18:00:37
 draft: true
 ---
-#### 安装
+
+## 安装
 
 sudo apt-get install memcached
 
-#### 启动服务
+## 启动服务
 
 memcached -d -m 128 -p 11111 -u root
 
@@ -38,7 +39,7 @@ memcached -d -m 128 -p 11111 -u root
 
 -h 显示帮助
 
-#### xmemcached连接
+## xmemcached连接
 
 pom
 
@@ -68,7 +69,7 @@ public void connMemcached() {
 
 
 
-#### 限制ip
+## 限制ip
 
 memcached本身是没有登陆密码和账号的，因为缓存一般都是用在内网中，不对向外开放，所以要限制外网访问要可以通过限制ip的方式来做限制。
 
