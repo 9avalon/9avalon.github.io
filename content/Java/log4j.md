@@ -1,7 +1,7 @@
 ---
 title: Log4j
 date: 2016-8-28 14:53
-collection: JavaEE
+collection: Java框架
 ---
 
 # log4j
