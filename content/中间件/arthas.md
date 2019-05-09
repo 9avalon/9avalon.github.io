@@ -28,12 +28,3 @@ jar -uvf xxx-1.0.1-SNAPSHOT.jar com/xxx/xxx/xxx/xxx.class
 可以利用arthas的热部署功能。
 
 [Arthas实践--jad/mc/redefine线上热更新一条龙](https://github.com/alibaba/arthas/issues/537)
-
-简单来说，步骤
-
-
- [INFO ] 2019-03-15 03:09:06,592 -1800- [XNIO-2 task-64] [com.bluepay.voucher.controller.RestfulController] 请求入参=======>ReqQueryVoucher(customerId=CHGZZ9Q5T208, userId=null, paymentChannel=1,-2,0,5,6,7,11,12, cardType=3,4, status=0, producerId=3, limitStart=null, li
-mit=null, rankByExpiredTime=asc, encrypt=a5f9ca9a25d7e719aad0549c12d934d1)
- [INFO ] 2019-03-15 03:09:06,602 -1800- [XNIO-2 task-64] [com.bluepay.voucher.data.service.bus.QueryService] 根据规则查询的结果为===>>voucherInfoList = []
- [INFO ] 2019-03-15 03:09:06,602 -1800- [XNIO-2 task-64] [com.bluepay.voucher.data.service.bus.QueryService] 开始解查询的得到的卡号=====>>
- [INFO ] 2019-03-15 03:09:06,602 -1800- [XNIO-2 task-64] [com.bluepay.voucher.controller.RestfulController] 请求出参=======>{"result":[],"status":200}
