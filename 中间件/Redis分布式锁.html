@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>Redis分布式锁 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#中间件">中间件</a>&nbsp;&#187;&nbsp;Redis分布式锁
+    <span class="updated">Page Updated&nbsp;
+      2019-05-09 14:42:39
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">Redis分布式锁</div>
+
+  <h2 id="_1">简单实现</h2>
+<p>注：<br />
+1.Redis的服务自行注入。<br />
+2.单点Redis没问题，Redis集群需考虑使用RedLock优化</p>
+<div class="hlcode"><pre><span class="cm">/**</span>
+<span class="cm"> * 简单的分布式锁实现</span>
+<span class="cm"> *</span>
+<span class="cm"> * @author Miguel.hou</span>
+<span class="cm"> * @version v1.0</span>
+<span class="cm"> * @date 2018/11/21</span>
+<span class="cm"> */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DistributedLock</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">DEFAULT_REDIS_KEY_EXPIRE_SECOND</span> <span class="o">=</span> <span class="mi">60</span><span class="o">;</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * 分布式锁</span>
+<span class="cm">     *</span>
+<span class="cm">     * 如果redis异常，为不影响业务，默认会返回成功，当无事发生</span>
+<span class="cm">     * @return</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">lock</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">lock</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">DEFAULT_REDIS_KEY_EXPIRE_SECOND</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * 分布式锁</span>
+<span class="cm">     *</span>
+<span class="cm">     * 如果redis异常，为不影响业务，默认会返回成功，当无事发生</span>
+<span class="cm">     * @return</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">lock</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">Integer</span> <span class="n">expireSecond</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">boolean</span> <span class="n">ret</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="c1">// 存入当前时间</span>
+            <span class="n">String</span> <span class="n">currentTime</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">());</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="n">RedisDataOperat</span><span class="o">.</span><span class="na">setNxAndExpire</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">currentTime</span><span class="o">,</span> <span class="n">expireSecond</span><span class="o">);</span>
+
+            <span class="c1">// 如果ret失败，判断当前锁是否已经超时，若锁已经超时，则将锁删除，这里不继续塞锁，而是返回原结果。</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">ret</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">String</span> <span class="n">keyInDB</span> <span class="o">=</span> <span class="n">RedisDataOperat</span><span class="o">.</span><span class="na">getStringFromJedis</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">StringUtils</span><span class="o">.</span><span class="na">isNotBlank</span><span class="o">(</span><span class="n">keyInDB</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="n">Long</span> <span class="n">redisTimes</span> <span class="o">=</span> <span class="n">Long</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">keyInDB</span><span class="o">);</span>
+                    <span class="n">Long</span> <span class="n">currentMills</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+                    <span class="n">Long</span> <span class="n">diffMills</span> <span class="o">=</span> <span class="n">currentMills</span> <span class="o">-</span> <span class="o">(</span><span class="n">redisTimes</span> <span class="o">+</span> <span class="o">(</span><span class="n">expireSecond</span> <span class="o">*</span> <span class="mi">1000</span><span class="o">));</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">diffMills</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">RedisDataOperat</span><span class="o">.</span><span class="na">delKeyFromJedis</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&quot;redis operator error ...... key={}&quot;</span><span class="o">,</span> <span class="n">key</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">ret</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * 释放分布式锁</span>
+<span class="cm">     *</span>
+<span class="cm">     * 如果redis异常，为不影响业务，默认会返回成功，当无事发生</span>
+<span class="cm">     * @return</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">release</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="kt">long</span> <span class="n">effectRow</span> <span class="o">=</span> <span class="n">RedisDataOperat</span><span class="o">.</span><span class="na">delKeyFromJedis</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&quot;redis delete key error ...... key={}&quot;</span><span class="o">,</span> <span class="n">key</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2019 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2019-05-09 14:49:17</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
