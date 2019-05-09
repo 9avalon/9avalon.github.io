@@ -1,6 +1,7 @@
 ---
-title : Redis
+title : Redis基础
 date : 2018-07-29 16:53:37
+collection: 缓存
 ---
 
 [TOC]
