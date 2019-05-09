@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
-    <title>多个线程循环打印ABC - Miguel's Wiki</title>
+    <title>多线程循环打印ABC - Miguel's Wiki</title>
     <meta name="keywords" content=""/>
     <meta name="description" content="侯铭健的个人wiki"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -16,18 +16,18 @@
     <div id="container">
       
 <div id="header">
-  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#并发">并发</a>&nbsp;&#187;&nbsp;多个线程循环打印ABC
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#并发">并发</a>&nbsp;&#187;&nbsp;多线程循环打印ABC
     <span class="updated">Page Updated&nbsp;
       2016-12-11 13:48:22
     </span></div>
 </div>
 <div class="clearfix"></div>
 
-<div class="page_title">多个线程循环打印ABC</div>
+<div class="page_title">多线程循环打印ABC</div>
 
   <p>据说是迅雷的原题目，题目要求是，用三个线程按顺序循环打印abc三个字母，比如abcabcabc<br />
 用sync或者lock解决</p>
-<h4 id="sync">Sync</h4>
+<h2 id="sync">Sync</h2>
 <div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ForEachPrint</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
     <span class="kd">private</span> <span class="kd">static</span> <span class="n">Object</span> <span class="n">lockObj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">();</span>
 
@@ -62,7 +62,7 @@
 </pre></div>
 
 
-<h4 id="lock">Lock</h4>
+<h2 id="lock">Lock</h2>
 <div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ForEachPrint</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
     <span class="kd">private</span> <span class="kd">static</span> <span class="n">Lock</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReentrantLock</span><span class="o">();</span>
     <span class="kd">private</span> <span class="kd">static</span> <span class="n">Condition</span> <span class="n">condition</span> <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="na">newCondition</span><span class="o">();</span>
@@ -117,7 +117,7 @@
       <span>
         <p>Copyright © 2019 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-05-06 20:21:17</p>
+        <p>Site Generated 2019-05-09 12:13:35</p>
       </span>
     </div>
 

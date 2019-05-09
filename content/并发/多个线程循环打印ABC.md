@@ -1,11 +1,12 @@
 ---
-title : 多个线程循环打印ABC
+title : 多线程循环打印ABC
 date : 2016-12-11 13:48:22
 ---
+
 据说是迅雷的原题目，题目要求是，用三个线程按顺序循环打印abc三个字母，比如abcabcabc
 用sync或者lock解决
 
-#### Sync
+## Sync
 
 ```java
 public class ForEachPrint implements Runnable {
@@ -41,9 +42,7 @@ public class ForEachPrint implements Runnable {
 }
 ```
 
-
-
-#### Lock
+## Lock
 
 ```java
 public class ForEachPrint implements Runnable {
@@ -79,10 +78,6 @@ public class ForEachPrint implements Runnable {
     }
 }
 ```
-
-
-
-
 
 ```java
 public class ForEachPrintDemo {
