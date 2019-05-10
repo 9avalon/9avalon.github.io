@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>Docker - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Linux">Linux</a>&nbsp;&#187;&nbsp;Docker
+    <span class="updated">Page Updated&nbsp;
+      2019-05-10 14:24:34
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">Docker</div>
+
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#centosdocker">Centos安装docker</a></li>
+<li><a href="#docker">查看docker版本</a></li>
+<li><a href="#_1">基本命令</a></li>
+<li><a href="#_2">其他</a></li>
+</ul>
+</div>
+<h2 id="centosdocker">Centos安装docker</h2>
+<p>centos安装docker版本有点麻烦，因为现在主流的centos版本都是6.3-6.5，这些版本的linux内核有点旧，docker支持不了，需要升级内核</p>
+<h2 id="docker">查看docker版本</h2>
+<div class="hlcode"><pre>docker version
+</pre></div>
+
+
+<h2 id="_1">基本命令</h2>
+<div class="hlcode"><pre><span class="c"># 搜索镜像</span>
+docker search &lt;resource&gt;
+<span class="c"># 下载镜像</span>
+docker pull &lt;resource&gt;
+<span class="c"># 查看镜像</span>
+docker images
+<span class="c"># 删除镜像</span>
+docker rmi &lt;IMAGE&gt; | &lt;IMAGE_ID&gt;
+
+
+<span class="c"># 启动容器</span>
+docker run -it &lt;container&gt;
+<span class="c"># 查看容器</span>
+docker ps
+<span class="c"># 查看所有容器</span>
+docker ps -l
+<span class="c"># 守护状态运行容器</span>
+docker run -d &lt;container&gt;
+<span class="c"># 进入容器</span>
+docker <span class="nb">exec</span> -ti &lt;id&gt; <span class="o">{</span>/bin/bash指定程序<span class="o">}</span>
+<span class="c"># 查看容器log</span>
+docker logs &lt;id&gt;
+<span class="c"># 终止容器</span>
+docker stop &lt;id&gt;
+<span class="c"># 保存容器做的修改</span>
+docker commit &lt;id&gt; &lt;name&gt;
+<span class="c"># 删除容器</span>
+docker rm &lt;id&gt;
+<span class="c"># 清理所有已经停止的容器</span>
+docker rm <span class="k">$(</span>docker ps -a -q<span class="k">)</span>
+</pre></div>
+
+
+<h2 id="_2">其他</h2>
+<p>1、更换阿里源</p>
+<div class="hlcode"><pre>sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak <span class="c">#备份</span>
+sudo vim /etc/apt/sources.list <span class="c">#修改</span>
+sudo apt-get update <span class="c">#更新列表</span>
+</pre></div>
+
+
+<div class="hlcode"><pre>deb http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty-proposed main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty-proposed main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2019 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2019-05-10 14:30:40</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

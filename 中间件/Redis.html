@@ -35,6 +35,7 @@
 <li><a href="#hash">Hash</a></li>
 <li><a href="#list">List</a></li>
 <li><a href="#set">Set</a></li>
+<li><a href="#key_1">批量删除key</a></li>
 </ul>
 </li>
 </ul>
@@ -50,7 +51,7 @@
 </li>
 <li><a href="#_7">分布式</a></li>
 <li><a href="#redis_2">公司Redis组建的使用</a></li>
-<li><a href="#key_1">查找大KEY</a></li>
+<li><a href="#key_2">查找大KEY</a></li>
 </ul>
 </div>
 <h2 id="redis">Redis简单介绍</h2>
@@ -124,7 +125,21 @@
 <h4 id="set">Set</h4>
 <p>应用场景：set与list类似，但不同的是set的插入是无序的，但是set可以去重。当你需要存储一个列表数据，又不希望出现重复数据时，set是一个很好的选择。</p>
 <p>常用命令：sadd/spop/smembers/sunion</p>
-<p>更多命令用法：<a href="http://doc.redisfans.com/index.html">命令参数</a></p>
+<h4 id="key_1">批量删除key</h4>
+<div class="hlcode"><pre><span class="n">redis</span><span class="o">-</span><span class="n">cli</span> <span class="n">keys</span> <span class="err">“</span><span class="o">*</span><span class="err">”</span> <span class="o">|</span> <span class="n">xargs</span> <span class="n">redis</span><span class="o">-</span><span class="n">cli</span> <span class="n">del</span>
+
+<span class="n">redis</span><span class="o">-</span><span class="n">cli</span> <span class="o">-</span><span class="n">p</span> <span class="mi">6379</span> <span class="n">keys</span> <span class="s">&quot;ACCOUNT*&quot;</span>
+<span class="n">redis</span><span class="o">-</span><span class="n">cli</span> <span class="o">-</span><span class="n">h</span> <span class="mf">127.0.0.1</span> <span class="o">-</span><span class="n">p</span> <span class="mi">6379</span> <span class="n">keys</span> <span class="o">*</span><span class="n">ACCOUNT</span><span class="o">*</span> <span class="o">|</span> <span class="n">xargs</span> <span class="n">redis</span><span class="o">-</span><span class="n">cli</span> <span class="o">-</span><span class="n">p</span> <span class="mi">6379</span> <span class="n">del</span>
+<span class="n">redis</span><span class="o">-</span><span class="n">cli</span> <span class="o">-</span><span class="n">p</span> <span class="mi">9200</span> <span class="n">keys</span> <span class="o">*</span><span class="n">ACCOUNT</span><span class="o">*</span> <span class="o">|</span> <span class="n">xargs</span> <span class="n">redis</span><span class="o">-</span><span class="n">cli</span> <span class="o">-</span><span class="n">p</span> <span class="mi">9200</span> <span class="n">del</span>
+</pre></div>
+
+
+<div class="hlcode"><pre><span class="n">redis</span><span class="o">-</span><span class="n">cli</span> <span class="o">-</span><span class="n">p</span> <span class="mi">9200</span> <span class="n">keys</span> <span class="o">*</span><span class="n">ACCOUNT_next_</span><span class="o">*</span> <span class="o">|</span> <span class="n">xargs</span> <span class="n">redis</span><span class="o">-</span><span class="n">cli</span> <span class="o">-</span><span class="n">p</span> <span class="mi">9200</span> <span class="n">del</span>
+<span class="n">redis</span><span class="o">-</span><span class="n">cli</span> <span class="o">-</span><span class="n">p</span> <span class="mi">9200</span> <span class="n">keys</span> <span class="o">*</span><span class="n">ACCOUNT_first_</span><span class="o">*</span> <span class="o">|</span> <span class="n">xargs</span> <span class="n">redis</span><span class="o">-</span><span class="n">cli</span> <span class="o">-</span><span class="n">p</span> <span class="mi">9200</span> <span class="n">del</span>
+<span class="n">redis</span><span class="o">-</span><span class="n">cli</span> <span class="o">-</span><span class="n">p</span> <span class="mi">9200</span> <span class="n">keys</span> <span class="o">*</span><span class="n">ACCOUNT_pay_channel</span><span class="o">*</span> <span class="o">|</span> <span class="n">xargs</span> <span class="n">redis</span><span class="o">-</span><span class="n">cli</span> <span class="o">-</span><span class="n">p</span> <span class="mi">9200</span> <span class="n">del</span>
+</pre></div>
+
+
 <h2 id="_3">常见用途</h2>
 <h3 id="_4">缓存</h3>
 <p>性能卓越，纯内存操作，非常适合用来做内存数据库。</p>
@@ -164,7 +179,7 @@
 <p>codis，有兴趣的童鞋可以看看</p>
 <h2 id="redis_2">公司Redis组建的使用</h2>
 <p>wiki地址.....</p>
-<h2 id="key_1">查找大KEY</h2>
+<h2 id="key_2">查找大KEY</h2>
 <div class="hlcode"><pre><span class="n">redis</span><span class="o">-</span><span class="n">cli</span> <span class="o">--</span><span class="n">bigkeys</span>
 
 <span class="p">.</span><span class="o">/</span><span class="n">redis</span><span class="o">-</span><span class="n">cli</span> <span class="o">-</span><span class="n">p</span> <span class="mi">9803</span> <span class="o">--</span><span class="n">bigkeys</span>
@@ -189,7 +204,7 @@
       <span>
         <p>Copyright © 2019 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-05-10 14:22:29</p>
+        <p>Site Generated 2019-05-10 14:30:40</p>
       </span>
     </div>
 

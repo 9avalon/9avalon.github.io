@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>Memcached - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Tool">Tool</a>&nbsp;&#187;&nbsp;Memcached
+    <span class="updated">Page Updated&nbsp;
+      2016-08-23 18:00:37
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">Memcached</div>
+
+  <h2 id="_1">安装</h2>
+<p>sudo apt-get install memcached</p>
+<h2 id="_2">启动服务</h2>
+<p>memcached -d -m 128 -p 11111 -u root</p>
+<p>启动参数</p>
+<p>-p 监听的端口</p>
+<p>-l 连接的IP地址, 默认是本机</p>
+<p>-d start 启动memcached服务</p>
+<p>-d restart 重起memcached服务</p>
+<p>-d stop|shutdown 关闭正在运行的memcached服务</p>
+<p>-d install 安装memcached服务</p>
+<p>-d uninstall 卸载memcached服务</p>
+<p>-u 以的身份运行 (仅在以root运行的时候有效)</p>
+<p>-m 最大内存使用，单位MB。默认64MB</p>
+<p>-M 内存耗尽时返回错误，而不是删除项<br />
+-c 最大同时连接数，默认是1024</p>
+<p>-f 块大小增长因子，默认是1.25-n 最小分配空间，key+value+flags默认是48</p>
+<p>-h 显示帮助</p>
+<h2 id="xmemcached">xmemcached连接</h2>
+<p>pom</p>
+<div class="hlcode"><pre><span class="c">&lt;!-- memcached Java客户端 --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.googlecode.xmemcached<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>xmemcached<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+
+
+<p>java</p>
+<div class="hlcode"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">connMemcached</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="n">MemcachedClient</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">XMemcachedClient</span><span class="o">(</span><span class="s">&quot;121.42.51.33&quot;</span><span class="o">,</span> <span class="mi">11111</span><span class="o">);</span>
+        <span class="n">client</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&quot;key&quot;</span><span class="o">,</span> <span class="mi">3600</span><span class="o">,</span> <span class="s">&quot;this is the first key&quot;</span><span class="o">);</span>
+        <span class="n">Object</span> <span class="n">someObject</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;key&quot;</span><span class="o">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;[key值]:&quot;</span> <span class="o">+</span> <span class="n">someObject</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<h2 id="ip">限制ip</h2>
+<p>memcached本身是没有登陆密码和账号的，因为缓存一般都是用在内网中，不对向外开放，所以要限制外网访问要可以通过限制ip的方式来做限制。</p>
+<p><a href="http://www.tuicool.com/articles/bEZVbaU">限制ip</a></p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2019 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2019-05-10 14:30:40</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
