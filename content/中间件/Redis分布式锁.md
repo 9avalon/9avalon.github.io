@@ -8,7 +8,8 @@ collection: 缓存
 
 注：
 1.Redis的服务自行注入。
-2.单点Redis没问题，Redis集群需考虑使用RedLock优化
+2.单点Redis没问题，Redis集群需考虑使用RedLock优化。
+3.如果单点Redis故障，为保障业务，分布式锁会失效。
 
 ```java
 /**
