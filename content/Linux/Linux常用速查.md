@@ -2,6 +2,7 @@
 title: Linux命令速查
 date: 2016-6-24 18:04
 updated: 2018-11-28 00:47:06
+collection: 运维
 ---
 
 [TOC]

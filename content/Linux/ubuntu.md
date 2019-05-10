@@ -1,6 +1,7 @@
 ---
 title: Ubuntu
 date: 2016-6-24 18:06:23
+collection: 运维
 ---
 
 [TOC]

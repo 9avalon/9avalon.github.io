@@ -1,7 +1,7 @@
 ---
 title: Memcached
 date: 2016-8-23 18:00:37
-draft: true
+collection: 缓存
 ---
 
 ## 安装
@@ -67,15 +67,8 @@ public void connMemcached() {
 }
 ```
 
-
-
 ## 限制ip
 
 memcached本身是没有登陆密码和账号的，因为缓存一般都是用在内网中，不对向外开放，所以要限制外网访问要可以通过限制ip的方式来做限制。
 
 [限制ip](http://www.tuicool.com/articles/bEZVbaU)
-
-
-
-
-

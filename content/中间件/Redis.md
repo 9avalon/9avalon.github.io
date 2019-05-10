@@ -95,7 +95,21 @@ INCR egIntKey
 
 常用命令：sadd/spop/smembers/sunion
 
-更多命令用法：[命令参数](http://doc.redisfans.com/index.html)
+#### 批量删除key
+
+```shell
+redis-cli keys “*” | xargs redis-cli del
+
+redis-cli -p 6379 keys "ACCOUNT*"
+redis-cli -h 127.0.0.1 -p 6379 keys *ACCOUNT* | xargs redis-cli -p 6379 del
+redis-cli -p 9200 keys *ACCOUNT* | xargs redis-cli -p 9200 del
+```
+
+```shell
+redis-cli -p 9200 keys *ACCOUNT_next_* | xargs redis-cli -p 9200 del
+redis-cli -p 9200 keys *ACCOUNT_first_* | xargs redis-cli -p 9200 del
+redis-cli -p 9200 keys *ACCOUNT_pay_channel* | xargs redis-cli -p 9200 del
+```
 
 ## 常见用途
 
@@ -120,7 +134,6 @@ SETNX key value
 设置成功，返回 1 。
 
 设置失败，返回 0 。
-
 
 风险点：因为SETNX和EXPIRE需要进行组合，导致无法保证其原子性，如果在SETNX后，程序被意外地kill掉，会导致当前的锁无过期时间，请求则会被一直阻塞，这时候可以在加锁前检查锁是否存在，且判断其是否有过期时间，如果无过期时间，则设置过期时间，且拒绝该次请求。
 
