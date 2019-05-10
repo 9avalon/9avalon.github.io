@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>线程池 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;线程池
+    <span class="updated">Page Updated&nbsp;
+      2019-05-10 14:17:34
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">线程池</div>
+
+  <h2 id="_1">自定义线程池</h2>
+<div class="hlcode"><pre><span class="cm">/**</span>
+<span class="cm"> * 线程池配置</span>
+<span class="cm"> *</span>
+<span class="cm"> * @author Miguel.hou</span>
+<span class="cm"> * @version v1.0</span>
+<span class="cm"> * @date 2019-03-28</span>
+<span class="cm"> */</span>
+<span class="nd">@Configuration</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ThreadPoolConfig</span> <span class="o">{</span>
+
+    <span class="nd">@Resource</span>
+    <span class="kd">private</span> <span class="n">TradeProperty</span> <span class="n">tradeProperty</span><span class="o">;</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * 日志收集线程池</span>
+<span class="cm">     * @return</span>
+<span class="cm">     */</span>
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">ThreadPoolTaskExecutor</span> <span class="nf">logCollectExecutor</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">ThreadPoolTaskExecutor</span> <span class="n">taskExecutor</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ThreadPoolTaskExecutor</span><span class="o">();</span>
+        <span class="c1">// 核心池大小</span>
+        <span class="n">taskExecutor</span><span class="o">.</span><span class="na">setCorePoolSize</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+        <span class="c1">// 最大池大小</span>
+        <span class="n">taskExecutor</span><span class="o">.</span><span class="na">setMaxPoolSize</span><span class="o">(</span><span class="mi">20</span><span class="o">);</span>
+        <span class="c1">// 线程池等待队列最大长度</span>
+        <span class="n">taskExecutor</span><span class="o">.</span><span class="na">setQueueCapacity</span><span class="o">(</span><span class="mi">500</span><span class="o">);</span>
+        <span class="n">taskExecutor</span><span class="o">.</span><span class="na">setThreadNamePrefix</span><span class="o">(</span><span class="s">&quot;THREAD-POOL&quot;</span><span class="o">);</span>
+        <span class="c1">// 等待队列满后策略</span>
+        <span class="n">taskExecutor</span><span class="o">.</span><span class="na">setRejectedExecutionHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">ThreadPoolExecutor</span><span class="o">.</span><span class="na">AbortPolicy</span><span class="o">());</span>
+
+        <span class="k">return</span> <span class="n">taskExecutor</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2019 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2019-05-10 14:22:29</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

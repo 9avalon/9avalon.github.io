@@ -28,7 +28,8 @@
   <h2 id="_1">简单实现</h2>
 <p>注：<br />
 1.Redis的服务自行注入。<br />
-2.单点Redis没问题，Redis集群需考虑使用RedLock优化</p>
+2.单点Redis没问题，Redis集群需考虑使用RedLock优化。<br />
+3.如果单点Redis故障，为保障业务，分布式锁会失效。</p>
 <div class="hlcode"><pre><span class="cm">/**</span>
 <span class="cm"> * 简单的分布式锁实现</span>
 <span class="cm"> *</span>
@@ -104,7 +105,7 @@
       <span>
         <p>Copyright © 2019 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-05-09 14:49:17</p>
+        <p>Site Generated 2019-05-10 14:22:29</p>
       </span>
     </div>
 
