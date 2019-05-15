@@ -1,7 +1,7 @@
 ---
 title: SpringBoot
 date: 2017-09-20 00:28
-collection: Java框架
+collection: Spring
 ---
 
 [TOC]

@@ -1,7 +1,7 @@
 ---
 title: Spring基础
 date: 2016-6-24 16:57:46
-collection: Java框架
+collection: Spring
 ---
 
 [TOC]
