@@ -26,40 +26,42 @@
 
 <div class="page_title">Mybatis</div>
 
-  <h2 id="mybatis">mybatis</h2>
-<h3 id="xml">xml中特殊字符转义</h3>
-<div class="hlcode"><pre><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span>       <span class="o">&lt;</span>   <span class="err">小于</span>
+  <h3 id="xml">xml中特殊字符转义</h3>
+<div class="hlcode"><pre>&amp;lt;       &lt;   小于
 
-<span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span>      <span class="o">&lt;=</span>   <span class="err">小于或等于</span>
+&amp;lt;=      &lt;=   小于或等于
 
-<span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span>       <span class="o">&gt;</span>    <span class="err">大于</span>
+&amp;gt;       &gt;    大于
 
-<span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">=</span>      <span class="o">&gt;=</span>    <span class="err">大于或等于</span>
+&amp;gt;=      &gt;=    大于或等于
 
-<span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span>   <span class="o">&lt;&gt;</span>   <span class="err">不等于</span>
+&amp;lt;&amp;gt;   &lt;&gt;   不等于
 
-<span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span>      <span class="o">&amp;</span> 
+&amp;amp;      &amp;
 
-<span class="o">&amp;</span><span class="n">apos</span><span class="p">;</span>     <span class="err">&#39;</span>
+&amp;apos;     &#39;
 
-<span class="o">&amp;</span><span class="n">quot</span><span class="p">;</span>     <span class="s">&quot;</span>
+&amp;quot;     &quot;
 </pre></div>
 
 
 <p>也可以使用&lt;[CDATA[ ]]&gt;符号进行说明，将此类符号不进行解析 比如写 &lt; &gt; = 等</p>
-<div class="hlcode"><pre><span class="o">&lt;!</span><span class="p">[</span><span class="n">CDATA</span><span class="p">[</span> <span class="err">这里写你的</span><span class="n">sql</span> <span class="p">]]</span><span class="o">&gt;</span>  
+<div class="hlcode"><pre><span class="cp">&lt;![CDATA[ 这里写你的sql ]]&gt;</span>  
 </pre></div>
 
 
 <p>mysql like的写法</p>
-<div class="hlcode"><pre>like concat(&#39;%&#39;,#{param},&#39;%&#39;)  或者 like &#39;%<span class="cp">${</span><span class="n">param</span><span class="cp">}</span>%&#39; ，推荐使用前者，可以避免sql注入。
+<div class="hlcode"><pre><span class="k">like</span> <span class="n">concat</span><span class="p">(</span><span class="s1">&#39;%&#39;</span><span class="p">,</span><span class="o">#</span><span class="err">{</span><span class="n">param</span><span class="err">}</span><span class="p">,</span><span class="s1">&#39;%&#39;</span><span class="p">)</span>  <span class="err">或者</span> <span class="k">like</span> <span class="s1">&#39;%${param}%&#39;</span> <span class="err">，推荐使用前者，可以避免</span><span class="k">sql</span><span class="err">注入。</span>
 </pre></div>
+
+
+<p><a href="https://blog.csdn.net/u014330421/article/details/78805087">IDEA中使用Mybatis Generator</a></p>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2019 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-05-15 11:07:20</p>
+        <p>Site Generated 2019-06-17 13:11:15</p>
       </span>
     </div>
 
