@@ -25,7 +25,7 @@ collection: Java框架
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CheckBalanceReportModel extends BaseRowModel {
+public class Model extends BaseRowModel {
 
     @ExcelProperty(value = "ID" ,index = 0)
     private String id;
@@ -38,18 +38,18 @@ public class CheckBalanceReportModel extends BaseRowModel {
 #### 生成代码
 
 ```java
-private String report(CheckBalanceReportEntity checkBalanceReportEntity) throws FileNotFoundException {
+private String report(ExamleClass examleClass) throws FileNotFoundException {
     String filePath = getFileFullPath();
     OutputStream out = new FileOutputStream(filePath);
     try {
         ExcelWriter writer = new ExcelWriter(out, ExcelTypeEnum.XLSX,false);
-        Sheet sheet1 = new Sheet(1, 0, CheckBalanceReportModel.class);
+        Sheet sheet1 = new Sheet(1, 0, Model.class);
         sheet1.setSheetName("sheet1");
-        writer.write(checkBalanceReportEntity.getAccountNotExistList(), sheet1);
+        writer.write(examleClass.getList1(), sheet1);
 
-        Sheet sheet2 = new Sheet(2, 0, CheckBalanceReportModel.class);
+        Sheet sheet2 = new Sheet(2, 0, Model.class);
         sheet2.setSheetName("sheet2");
-        writer.write(checkBalanceReportEntity.getBalanceNotFixListList(), sheet2);
+        writer.write(examleClass.getList2(), sheet2);
 
         writer.finish();
     } catch (Exception e) {
