@@ -11,7 +11,7 @@ collection : Java框架
 
 ```sh
 // 非springboot
--Dlogback.configurationFile=/Users/sakiri/bluepay/code/logback/mc-logback.xml
+-Dlogback.configurationFile=/Users/sakiri/xxx/code/logback/mc-logback.xml
 // springboot
--Dlogging.config=/Users/sakiri/bluepay/code/logback/mc-logback.xml
+-Dlogging.config=/Users/sakiri/xxx/code/logback/mc-logback.xml
 ```
