@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>Spring-Retry - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="侯铭健的个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;Spring-Retry
+    <span class="updated">Page Updated&nbsp;
+      2019-07-03 10:25:37
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">Spring-Retry</div>
+
+  <p>很实用的一个重试组件</p>
+<h2 id="pom">引入POM</h2>
+<div class="hlcode"><pre><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.retry<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-retry<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+
+
+<h2 id="application">Application启动类</h2>
+<p>添加 <em>@EnableRetry</em> 注解</p>
+<h2 id="_1">编写服务</h2>
+<p>在需要重试的方法上面，添加该注解</p>
+<div class="hlcode"><pre><span class="nd">@Retryable</span><span class="o">(</span><span class="n">value</span><span class="o">=</span> <span class="o">{</span><span class="n">IOException</span><span class="o">.</span><span class="na">class</span><span class="o">},</span><span class="n">maxAttempts</span> <span class="o">=</span> <span class="mi">5</span><span class="o">,</span><span class="n">backoff</span> <span class="o">=</span> <span class="nd">@Backoff</span><span class="o">(</span><span class="n">delay</span> <span class="o">=</span> <span class="mi">5000L</span><span class="o">,</span><span class="n">multiplier</span> <span class="o">=</span> <span class="mi">1</span><span class="o">))</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2019 侯铭健.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2019-07-05 14:53:49</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
