@@ -1,7 +1,6 @@
 ---
 title: 《Mysql技术内幕-Innodb存储引擎》读书笔记
 date: 2019-07-14 14:52:04
-draft: true
 ---
 
 [TOC]
