@@ -23,7 +23,7 @@ date: 2019-07-14 14:52:04
 
 首先是第一章，简单介绍了Mysql的体系架构。
 
-![](https://ws1.sinaimg.cn/large/005H7Wvygy1g4zffibczdj31be0sc7wh.jpg)
+![](https://ws3.sinaimg.cn/large/005H7Wvygy1g4zffibczdj31be0sc7wh.jpg)
 
 可以看出来，Mysql表存储引擎是做成插件化的，可选择性很多。与其他数据库相比，InnoDB有以下特点
 
@@ -35,7 +35,7 @@ date: 2019-07-14 14:52:04
 
 先看一下InnoDB的简单体系图
 
-![](https://ws1.sinaimg.cn/large/005H7Wvygy1g4zfvs1s81j314w0muq98.jpg)
+![InnoDB体系图](https://ws3.sinaimg.cn/large/005H7Wvygy1g4zfvs1s81j314w0muq98.jpg)
 
 从图中可以看到，InnoDB的体系简单分为三块，分别是后台线程，内存池，文件。
 
@@ -68,7 +68,7 @@ date: 2019-07-14 14:52:04
 
 我们都知道内存操作的速度是远远大于磁盘操作速度的。所以Innodb采用缓冲池来提高数据库的性能。
 
-![](https://ws1.sinaimg.cn/large/005H7Wvygy1g4zi3b38gkj315w0hmn4r.jpg)
+![InnoDB内存数据对象](https://ws3.sinaimg.cn/large/005H7Wvygy1g4zi3b38gkj315w0hmn4r.jpg)
 
 #### 页的读取
 
@@ -156,7 +156,7 @@ InnoDB的自优化，InnoDB会监控表上索引页的查询，如果发现建�
 
 tablespace(表空间) -> segment(段) -> extend(区) -> page(页) -> row(行)
 
-![](https://ws1.sinaimg.cn/large/005H7Wvygy1g4vsbs0t58j31640sck32.jpg)
+![InnoDB逻辑存储结构](https://ws3.sinaimg.cn/large/005H7Wvygy1g4vsbs0t58j31640sck32.jpg)
 
 ## 索引与算法
 
@@ -164,7 +164,7 @@ InnoDB支持三种索引，分别是B+树索引，全文索引，Hash索引。�
 
 ### B+树
 
-![B+树示例](https://ws1.sinaimg.cn/large/005H7Wvygy1g4ztelxo4mj31eu0f2q8q.jpg)
+![B+树示例](https://ws3.sinaimg.cn/large/005H7Wvygy1g4ztelxo4mj31eu0f2q8q.jpg)
 
 上图是书中举例的一棵B+树，可以看下它有以下特点
 
