@@ -1,7 +1,10 @@
 ---
 title: Mysql技术内幕-InnoDB存储引擎
 date: 2019-07-03 10:25:37
+draft: true
 ---
+
+[详细总结](https://blog.csdn.net/tanliqing2010/article/details/81509539)
 
 ## mysql引擎
 
