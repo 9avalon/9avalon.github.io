@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
-    <title>Mysql技术内幕 - Miguel's Wiki</title>
+    <title>Mysql技术内幕-InnoDB存储引擎 - Miguel's Wiki</title>
     <meta name="keywords" content=""/>
     <meta name="description" content="侯铭健的个人wiki"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -16,14 +16,14 @@
     <div id="container">
       
 <div id="header">
-  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Book">Book</a>&nbsp;&#187;&nbsp;Mysql技术内幕
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Book">Book</a>&nbsp;&#187;&nbsp;Mysql技术内幕-InnoDB存储引擎
     <span class="updated">Page Updated&nbsp;
       2019-07-03 10:25:37
     </span></div>
 </div>
 <div class="clearfix"></div>
 
-<div class="page_title">Mysql技术内幕</div>
+<div class="page_title">Mysql技术内幕-InnoDB存储引擎</div>
 
   <h2 id="mysql">mysql引擎</h2>
 <p>1.InnoDB - 支持事务，行锁，非锁定读</p>
@@ -61,7 +61,12 @@
 <h3 id="innodb_1">InnoDB逻辑存储结构</h3>
 <p>摘自书中截图</p>
 <p><img alt="" src="https://ws1.sinaimg.cn/large/005H7Wvygy1g4vsbs0t58j31640sck32.jpg" /></p>
-<h2 id="_5">锁</h2>
+<h2 id="_5">关于索引</h2>
+<p>1、索引要建立在区分度较大的字段上，如果是那种只有0 1 2的就不要建立索引了，可以考虑建联合索引</p>
+<p>2、联合索引要把区分度大的放前面，如联合索引AB，如果只查B的话是不会走索引的。只有查 A或者AB会走索</p>
+<p>3.B+Tree的讲解</p>
+<p><a href="https://blog.csdn.net/qq_26222859/article/details/80631121">漫画解B+Tree</a></p>
+<h2 id="_6">锁</h2>
 <p>1、讲解的B+tree例子不错，深入浅出，强烈推荐</p>
 <p>2、关于死锁的问题，除了AB-BA这种互相等待的死锁外，还有另外一种死锁</p>
 <ul>
@@ -73,16 +78,9 @@
 <li>InnoDB不存在锁升级的问题，因为其是根据事务访问的每个页对锁进行管理的。即页锁。</li>
 </ul>
 <p>4、如果一个列里面重复数据特别多，那就不适合加索引。</p>
-<h2 id="_6">关于索引</h2>
-<p>1、索引要建立在区分度较大的字段上，如果是那种只有0 1 2的就不要建立索引了，可以考虑建联合索引</p>
-<p>2、联合索引要把区分度大的放前面，如联合索引AB，如果只查B的话是不会走索引的。只有查 A或者AB会走索</p>
-<p>3.B+Tree的讲解</p>
-<p><a href="https://blog.csdn.net/qq_26222859/article/details/80631121">漫画解B+Tree</a></p>
-<h2 id="_7">锁</h2>
-<h3 id="_8">一致性非锁定读</h3>
+<h3 id="_7">一致性非锁定读</h3>
 <p>InnoDB通过多版本控制读取当前执行时间数据库中行的数据。如果读取的行正在执行DELETE和UPDATE操作，这时候读取操作不会等待行上锁释放，而是去读快照版本。</p>
-<h3 id="_9">锁的算法</h3>
-<h2 id="_10">疑问</h2>
+<h2 id="_8">疑问</h2>
 <p>缓冲池中</p>
 <p>1.数据页和索引页是以什么形式存储在里面。</p>
 <p>2.事务处理的时候，大事务如何做到快速提交 ==&gt; 先写重做日志，回滚重做日志</p>
@@ -92,7 +90,7 @@
       <span>
         <p>Copyright © 2019 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-07-13 22:26:38</p>
+        <p>Site Generated 2019-07-14 13:24:14</p>
       </span>
     </div>
 
