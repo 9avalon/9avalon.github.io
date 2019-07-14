@@ -74,7 +74,7 @@
 <p>总体来说，读完这本书后，能对Innodb存储引擎有个大概的认识，能初略了解其实现原理。里面很多原理设计都是十分经典，很值得学习。</p>
 <h2 id="mysql">Mysql体系结构和存储引擎</h2>
 <p>首先是第一章，简单介绍了Mysql的体系架构。</p>
-<p><img alt="" src="https://ws1.sinaimg.cn/large/005H7Wvygy1g4zffibczdj31be0sc7wh.jpg" /></p>
+<p><img alt="" src="https://ws3.sinaimg.cn/large/005H7Wvygy1g4zffibczdj31be0sc7wh.jpg" /></p>
 <p>可以看出来，Mysql表存储引擎是做成插件化的，可选择性很多。与其他数据库相比，InnoDB有以下特点</p>
 <ol>
 <li>支持事务</li>
@@ -83,7 +83,7 @@
 </ol>
 <h2 id="innodb">InnoDB存储引擎</h2>
 <p>先看一下InnoDB的简单体系图</p>
-<p><img alt="" src="https://ws1.sinaimg.cn/large/005H7Wvygy1g4zfvs1s81j314w0muq98.jpg" /></p>
+<p><img alt="InnoDB体系图" src="https://ws3.sinaimg.cn/large/005H7Wvygy1g4zfvs1s81j314w0muq98.jpg" /></p>
 <p>从图中可以看到，InnoDB的体系简单分为三块，分别是后台线程，内存池，文件。</p>
 <h3 id="_2">后台线程</h3>
 <p>后台线程主要作用</p>
@@ -112,7 +112,7 @@
 <p>// TODO AIO的实现由Linux内核支持，但是具体的实现原理，还有待后续探究。</p>
 <h3 id="_3">缓冲池</h3>
 <p>我们都知道内存操作的速度是远远大于磁盘操作速度的。所以Innodb采用缓冲池来提高数据库的性能。</p>
-<p><img alt="" src="https://ws1.sinaimg.cn/large/005H7Wvygy1g4zi3b38gkj315w0hmn4r.jpg" /></p>
+<p><img alt="InnoDB内存数据对象" src="https://ws3.sinaimg.cn/large/005H7Wvygy1g4zi3b38gkj315w0hmn4r.jpg" /></p>
 <h4 id="_4">页的读取</h4>
 <p>数据库读取页的时候，会先判断缓冲池中是否已经存在该页，如果存在，就直接使用缓冲池中的页，如果不存在，就从磁盘中进行读取。</p>
 <h4 id="_5">页的修改</h4>
@@ -171,11 +171,11 @@
 <p>这章简单略过，主要是介绍表的存储结构。主要看下图就可以了。InnoDB的数据结构都是用B+Tree来组织的。</p>
 <p>粒度从左到右逐渐变细，需要注意的是页是InnoDB管理磁盘的最小单位，InnoDB从磁盘中读数据都是按页读的。</p>
 <p>tablespace(表空间) -&gt; segment(段) -&gt; extend(区) -&gt; page(页) -&gt; row(行)</p>
-<p><img alt="" src="https://ws1.sinaimg.cn/large/005H7Wvygy1g4vsbs0t58j31640sck32.jpg" /></p>
+<p><img alt="InnoDB逻辑存储结构" src="https://ws3.sinaimg.cn/large/005H7Wvygy1g4vsbs0t58j31640sck32.jpg" /></p>
 <h2 id="_10">索引与算法</h2>
 <p>InnoDB支持三种索引，分别是B+树索引，全文索引，Hash索引。全文索引和Hash索引就不详细些了，主要写B+树索引。</p>
 <h3 id="b">B+树</h3>
-<p><img alt="B+树示例" src="https://ws1.sinaimg.cn/large/005H7Wvygy1g4ztelxo4mj31eu0f2q8q.jpg" /></p>
+<p><img alt="B+树示例" src="https://ws3.sinaimg.cn/large/005H7Wvygy1g4ztelxo4mj31eu0f2q8q.jpg" /></p>
 <p>上图是书中举例的一棵B+树，可以看下它有以下特点</p>
 <ol>
 <li>所有数据都在叶子节点，非叶子节点不存储数据</li>
@@ -223,7 +223,7 @@
       <span>
         <p>Copyright © 2019 侯铭健.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-07-15 00:54:15</p>
+        <p>Site Generated 2019-07-15 01:00:31</p>
       </span>
     </div>
 
