@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>JWT - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;JWT
+    <span class="updated">Page Updated&nbsp;
+      2019-10-23 22:53:18
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">JWT</div>
+
+  <h2 id="jwt">关于JWT的介绍</h2>
+<p><a href="http://www.ruanyifeng.com/blog/2018/07/json_web_token-tutorial.html">JSON Web Token入门教程</a></p>
+<h2 id="_1">实践</h2>
+<p>1.引入pom文件</p>
+<div class="hlcode"><pre><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.auth0<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>java-jwt<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>2.2.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+
+
+<p>2.工具类</p>
+<div class="hlcode"><pre><span class="cm">/**</span>
+<span class="cm"> * @author Miguel.hou</span>
+<span class="cm"> * @version v1.0</span>
+<span class="cm"> * @date 2019-10-10</span>
+<span class="cm"> */</span>
+<span class="nd">@Component</span>
+<span class="nd">@Slf4j</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">JWTUtils</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">EXP</span> <span class="o">=</span> <span class="s">&quot;exp&quot;</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">PAYLOAD</span> <span class="o">=</span> <span class="s">&quot;payload&quot;</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">JWT_KEY</span> <span class="o">=</span> <span class="s">&quot;j122kx91lzpefdjclkqj&quot;</span><span class="o">;</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * 加密，传入一个对象和有效期</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">String</span> <span class="n">sign</span><span class="o">(</span><span class="n">T</span> <span class="n">object</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="kd">final</span> <span class="n">JWTSigner</span> <span class="n">signer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JWTSigner</span><span class="o">(</span><span class="n">JWT_KEY</span><span class="o">);</span>
+            <span class="kd">final</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">claims</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;();</span>
+            <span class="n">ObjectMapper</span> <span class="n">mapper</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ObjectMapper</span><span class="o">();</span>
+            <span class="n">String</span> <span class="n">jsonString</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="na">writeValueAsString</span><span class="o">(</span><span class="n">object</span><span class="o">);</span>
+            <span class="n">claims</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">PAYLOAD</span><span class="o">,</span> <span class="n">jsonString</span><span class="o">);</span>
+            <span class="c1">// 过期时间单位是毫秒</span>
+            <span class="n">claims</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">EXP</span><span class="o">,</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">()</span> <span class="o">+</span> <span class="o">(</span><span class="kt">long</span><span class="o">)</span> <span class="o">(</span><span class="mi">1800</span> <span class="o">*</span> <span class="mi">1000</span><span class="o">));</span>
+            <span class="k">return</span> <span class="n">signer</span><span class="o">.</span><span class="na">sign</span><span class="o">(</span><span class="n">claims</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * 解密，传入一个加密后的token字符串和解密后的类型</span>
+<span class="cm">     * @param token</span>
+<span class="cm">     * @param classT</span>
+<span class="cm">     * @param &lt;T&gt;</span>
+<span class="cm">     * @return</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">T</span> <span class="n">unsign</span><span class="o">(</span><span class="n">String</span> <span class="n">token</span><span class="o">,</span> <span class="n">Class</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">classT</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="n">JWTVerifier</span> <span class="n">verifier</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JWTVerifier</span><span class="o">(</span><span class="n">JWT_KEY</span><span class="o">);</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="kd">final</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">claims</span> <span class="o">=</span> <span class="n">verifier</span><span class="o">.</span><span class="na">verify</span><span class="o">(</span><span class="n">token</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">claims</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">EXP</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">claims</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">PAYLOAD</span><span class="o">))</span> <span class="o">{</span>
+                <span class="kt">long</span> <span class="n">exp</span> <span class="o">=</span> <span class="o">(</span><span class="n">Long</span><span class="o">)</span> <span class="n">claims</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">EXP</span><span class="o">);</span>
+                <span class="kt">long</span> <span class="n">currentTimeMillis</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">exp</span> <span class="o">&gt;</span> <span class="n">currentTimeMillis</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">String</span> <span class="n">json</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">claims</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">PAYLOAD</span><span class="o">);</span>
+                    <span class="n">ObjectMapper</span> <span class="n">objectMapper</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ObjectMapper</span><span class="o">();</span>
+                    <span class="k">return</span> <span class="n">objectMapper</span><span class="o">.</span><span class="na">readValue</span><span class="o">(</span><span class="n">json</span><span class="o">,</span> <span class="n">classT</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2019 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2019-10-23 22:58:56</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

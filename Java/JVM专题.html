@@ -164,12 +164,28 @@
 </pre></div>
 
 
+<div class="hlcode"><pre>jstat -gcutil pid 1000 1000 <span class="c">#一秒采样一次，共打印1000次</span>
+
+S0：幸存1区当前使用比例
+S1：幸存2区当前使用比例
+E：伊甸园区使用比例
+O：老年代使用比例
+M：元数据区使用比例
+CCS：压缩使用比例
+YGC：年轻代垃圾回收次数
+FGC：老年代垃圾回收次数
+FGCT：老年代垃圾回收消耗时间
+GCT：垃圾回收消耗总时间
+</pre></div>
+
+
 <p><img alt="jstat执行样例" src="https://ws1.sinaimg.cn/mw690/005H7Wvygy1ft1rxw4epyj31cw0mmwqt.jpg" /></p>
 <h4 id="jmap">jmap</h4>
 <p>jmap用于生成堆转储快照，我们经常用jamp来获取dump文件，用于分析异常情况。</p>
 <div class="hlcode"><pre><span class="n">jmap</span> <span class="p">[</span><span class="n">option</span><span class="p">]</span> <span class="n">vmid</span>
 
 <span class="n">eg</span><span class="p">.</span>
+<span class="n">jmap</span> <span class="o">-</span><span class="n">dump</span><span class="o">:</span><span class="n">format</span><span class="o">=</span><span class="n">b</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">filename</span> <span class="n">pid</span>
 <span class="n">jmap</span> <span class="o">-</span><span class="n">dump</span><span class="o">:</span><span class="n">format</span><span class="o">=</span><span class="n">b</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">srv</span><span class="o">-</span><span class="n">account</span><span class="o">-</span><span class="n">center</span><span class="o">-</span><span class="n">dump</span><span class="p">.</span><span class="n">bin</span> <span class="mi">2777</span>
 </pre></div>
 
@@ -205,7 +221,7 @@
       <span>
         <p>Copyright © 2019 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-10-23 10:10:07</p>
+        <p>Site Generated 2019-10-23 22:58:56</p>
       </span>
     </div>
 
