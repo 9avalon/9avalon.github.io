@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>程序异常高cpu占用处理方法论 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;程序异常高cpu占用处理方法论
+    <span class="updated">Page Updated&nbsp;
+      2019-09-29 17:33:17
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">程序异常高cpu占用处理方法论</div>
+
+  <h2 id="_1">现象</h2>
+<p>cpu高占用，程序无响应。</p>
+<h2 id="_2">处理流程</h2>
+<h3 id="cpu">先排查交易哪些线程高占用CPU</h3>
+<div class="hlcode"><pre>top -Hp pid  <span class="o">(</span><span class="nb">shift</span>+p 按cpu排序，shift+m 按内存排序<span class="o">)</span>
+</pre></div>
+
+
+<p>根据当时情况，发现有四个线程CPU占用率一直高占。假设当前占用最高的线程ID是9899</p>
+<h3 id="_3">查找线程信息</h3>
+<p>转换成对应的16进制PID (PID为上一步中获取到的线程号)</p>
+<div class="hlcode"><pre><span class="nb">printf</span> <span class="s1">&#39;%x\n&#39;</span> PID
+</pre></div>
+
+
+<p>然后使用jstack 获取对应的线程信息</p>
+<div class="hlcode"><pre>jstack 31852 | grep 26ab
+</pre></div>
+
+
+<p>这时候可以根据打印出来的线程信息，来判断程序发生了什么异常。如果打印出来的线程里面，包含GC字样，那基本就可以判断是程序GC引起的异常。</p>
+<h3 id="dumpjvmgc">dump出jvm内存，分析gc原因</h3>
+<div class="hlcode"><pre>jmap -dump:format<span class="o">=</span>b,file<span class="o">=</span>dumpFileName pid
+</pre></div>
+
+
+<p>举例（pid是进程的pid）</p>
+<div class="hlcode"><pre>jmap -dump:format<span class="o">=</span>b,file<span class="o">=</span>/tmp/dump.dat 31852
+</pre></div>
+
+
+<h3 id="matdump">使用mat工具分析dump文件</h3>
+<p>可以在网上下载一个专业分析jvm内存的工具，如mat来进行分析，找出异常的内存占用对象后，再看代码进行下一步分析。</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2019 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2019-10-23 10:10:07</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
