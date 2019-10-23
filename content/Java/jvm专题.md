@@ -152,6 +152,21 @@ jstat -gc 2764 250 20
 
 ```
 
+```sh
+jstat -gcutil pid 1000 1000 #一秒采样一次，共打印1000次
+
+S0：幸存1区当前使用比例
+S1：幸存2区当前使用比例
+E：伊甸园区使用比例
+O：老年代使用比例
+M：元数据区使用比例
+CCS：压缩使用比例
+YGC：年轻代垃圾回收次数
+FGC：老年代垃圾回收次数
+FGCT：老年代垃圾回收消耗时间
+GCT：垃圾回收消耗总时间
+```
+
 ![jstat执行样例](https://ws1.sinaimg.cn/mw690/005H7Wvygy1ft1rxw4epyj31cw0mmwqt.jpg)
 
 #### jmap
@@ -162,6 +177,7 @@ jmap用于生成堆转储快照，我们经常用jamp来获取dump文件，用�
 jmap [option] vmid
 
 eg.
+jmap -dump:format=b,file=filename pid
 jmap -dump:format=b,file=srv-account-center-dump.bin 2777
 ```
 
