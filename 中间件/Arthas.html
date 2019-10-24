@@ -43,12 +43,24 @@
 <h2 id="arthas_1">不需要升级的热部署(依赖arthas)</h2>
 <p>可以利用arthas的热部署功能。</p>
 <p><a href="https://github.com/alibaba/arthas/issues/537">Arthas实践--jad/mc/redefine线上热更新一条龙</a></p>
+<h2 id="trace">trace</h2>
+<div class="hlcode"><pre><span class="c"># 监控该方法堆栈</span>
+trace com.xxx.xxx.xxx.xxxController method
+
+<span class="c"># 后台执行任务，统计耗时超过5s的堆栈，并且打印到`pwd` 目录下的test.out文件</span>
+trace com.xxx.xxx.xxx.xxxController method <span class="s1">&#39;#cost &gt; 5000&#39;</span> &gt;&gt; test.out &amp;
+</pre></div>
+
+
+<h2 id="watch">watch</h2>
+<div class="hlcode"><pre>watch com.xxx.xxx.xxx.xxxController method <span class="s2">&quot;{params,returnObj}&quot;</span> -x 2
+</pre></div>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2019 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-10-23 22:58:56</p>
+        <p>Site Generated 2019-10-24 11:44:46</p>
       </span>
     </div>
 
