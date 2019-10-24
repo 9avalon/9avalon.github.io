@@ -28,3 +28,20 @@ jar -uvf xxx-1.0.1-SNAPSHOT.jar com/xxx/xxx/xxx/xxx.class
 可以利用arthas的热部署功能。
 
 [Arthas实践--jad/mc/redefine线上热更新一条龙](https://github.com/alibaba/arthas/issues/537)
+
+## trace
+
+```sh
+# 监控该方法堆栈
+trace com.xxx.xxx.xxx.xxxController method
+
+# 后台执行任务，统计耗时超过5s的堆栈，并且打印到`pwd` 目录下的test.out文件
+trace com.xxx.xxx.xxx.xxxController method '#cost > 5000' >> test.out &
+```
+
+## watch
+
+```sh
+watch com.xxx.xxx.xxx.xxxController method "{params,returnObj}" -x 2
+```
+
