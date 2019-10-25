@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>分布式生成唯一ID - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#中间件">中间件</a>&nbsp;&#187;&nbsp;分布式生成唯一ID
+    <span class="updated">Page Updated&nbsp;
+      2019-10-25 12:18:46
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">分布式生成唯一ID</div>
+
+  <p>需求：分布式环境下，生成唯一自增ID</p>
+<p>参考了snowflake算法的生成自增序列方法</p>
+<div class="hlcode"><pre><span class="cm">/**</span>
+<span class="cm"> * 线程安全的ID自增工具类，保证同一毫秒内，生成不重复，递增的ID</span>
+<span class="cm"> *</span>
+<span class="cm"> * @author Miguel.hou</span>
+<span class="cm"> * @version v1.0</span>
+<span class="cm"> * @date 2019-10-17</span>
+<span class="cm"> */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TradeNoGenerateUtils</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kt">long</span> <span class="n">sequence</span><span class="o">;</span> <span class="c1">//序列号</span>
+    <span class="kd">private</span> <span class="kt">long</span> <span class="n">lastStamp</span><span class="o">;</span><span class="c1">//上一次时间戳</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">maxSequence</span><span class="o">;</span> <span class="c1">//最大的自增位数</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">maxBit</span><span class="o">;</span> <span class="c1">// 最大位数</span>
+
+    <span class="kd">public</span> <span class="nf">TradeNoGenerateUtils</span><span class="o">(</span><span class="kt">int</span> <span class="n">maxBit</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">sequence</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">lastStamp</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1L</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">maxBit</span> <span class="o">=</span> <span class="n">maxBit</span><span class="o">;</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">maxBit</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">&quot;maxBit must greater than zero&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">maxSequence</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">Math</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="n">maxBit</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * 不足位补零</span>
+<span class="cm">     * @return</span>
+<span class="cm">     */</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="nf">padding</span><span class="o">(</span><span class="kt">long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">StringBuilder</span> <span class="n">sb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
+
+        <span class="kt">int</span> <span class="n">paddingNum</span> <span class="o">=</span> <span class="n">maxBit</span> <span class="o">-</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">id</span><span class="o">).</span><span class="na">length</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">paddingNum</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&quot;0&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * 产生tradeNo</span>
+<span class="cm">     * </span>
+<span class="cm">     * @param methodCode 方法代码</span>
+<span class="cm">     * @param serverNo 机器号</span>
+<span class="cm">     * @return</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="n">String</span> <span class="nf">generateTradeNo</span><span class="o">(</span><span class="n">String</span> <span class="n">methodCode</span><span class="o">,</span> <span class="n">String</span> <span class="n">serverNo</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">long</span> <span class="n">currStamp</span> <span class="o">=</span> <span class="n">getNewstmp</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">currStamp</span> <span class="o">&lt;</span> <span class="n">lastStamp</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">&quot;Clock moved backwards.  Refusing to generate id&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">currStamp</span> <span class="o">==</span> <span class="n">lastStamp</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">//相同毫秒内，序列号自增</span>
+            <span class="n">sequence</span> <span class="o">=</span> <span class="o">(</span><span class="n">sequence</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">maxSequence</span><span class="o">;</span>
+            <span class="c1">//同一毫秒的序列数已经达到最大</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">sequence</span> <span class="o">==</span> <span class="mi">0L</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">currStamp</span> <span class="o">=</span> <span class="n">getNextMill</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="c1">//不同毫秒内，序列号置为0</span>
+            <span class="n">sequence</span> <span class="o">=</span> <span class="mi">0L</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="n">lastStamp</span> <span class="o">=</span> <span class="n">currStamp</span><span class="o">;</span>
+
+        <span class="n">String</span> <span class="n">no</span> <span class="o">=</span> <span class="n">methodCode</span> <span class="o">+</span> <span class="n">DateUtil</span><span class="o">.</span><span class="na">parseTimeStamp</span><span class="o">(</span><span class="n">currStamp</span><span class="o">)</span> <span class="o">+</span> <span class="n">padding</span><span class="o">(</span><span class="n">sequence</span><span class="o">)</span> <span class="o">+</span> <span class="n">serverNo</span><span class="o">;</span>
+        <span class="k">return</span> <span class="n">no</span> <span class="o">+</span> <span class="n">GeneralUtil</span><span class="o">.</span><span class="na">getLUHNCode</span><span class="o">(</span><span class="n">no</span><span class="o">);</span>
+
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">long</span> <span class="nf">getNextMill</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kt">long</span> <span class="n">mill</span> <span class="o">=</span> <span class="n">getNewstmp</span><span class="o">();</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">mill</span> <span class="o">&lt;=</span> <span class="n">lastStamp</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">mill</span> <span class="o">=</span> <span class="n">getNewstmp</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">mill</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">long</span> <span class="nf">getNewstmp</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">TradeNoGenerateUtils</span> <span class="n">autoIncrIdUtils</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TradeNoGenerateUtils</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="o">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">12</span><span class="o">);</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">autoIncrIdUtils</span><span class="o">.</span><span class="na">generateTradeNo</span><span class="o">(</span><span class="s">&quot;1000&quot;</span><span class="o">,</span> <span class="s">&quot;0&quot;</span><span class="o">));</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2019 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2019-10-25 12:22:46</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
