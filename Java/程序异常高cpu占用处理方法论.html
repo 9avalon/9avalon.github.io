@@ -42,7 +42,7 @@
 
 
 <p>然后使用jstack 获取对应的线程信息</p>
-<div class="hlcode"><pre>jstack 31852 | grep 26ab
+<div class="hlcode"><pre>jstack 进程pid | grep -A 20 <span class="s1">&#39;0x7d0&#39;</span>，查找nid匹配的线程，查看堆栈，定位引起高cpu的原因
 </pre></div>
 
 
@@ -64,7 +64,7 @@
       <span>
         <p>Copyright © 2019 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-10-25 12:22:46</p>
+        <p>Site Generated 2019-11-07 17:16:29</p>
       </span>
     </div>
 
