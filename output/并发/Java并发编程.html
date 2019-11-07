@@ -34,7 +34,10 @@
 </ul>
 </li>
 <li><a href="#_4">常见锁</a><ul>
-<li><a href="#volatile">volatile</a></li>
+<li><a href="#volatile">volatile</a><ul>
+<li><a href="#volatile_1">volatile的底层实现</a></li>
+</ul>
+</li>
 <li><a href="#synchronized">synchronized</a></li>
 <li><a href="#reentranlock">ReenTranLock</a></li>
 <li><a href="#_5">锁重入</a></li>
@@ -49,24 +52,27 @@
 </li>
 </ul>
 </div>
-<h1 id="_1">导读</h1>
+<h2 id="_1">导读</h2>
 <ul>
 <li>Java并发基础</li>
 <li>并发锁</li>
 <li>原子操作类</li>
 <li>常见的并发工具类</li>
 </ul>
-<h1 id="java">Java并发基础</h1>
-<h2 id="_2">什么是线程安全</h2>
+<h2 id="java">Java并发基础</h2>
+<h3 id="_2">什么是线程安全</h3>
 <p>当多个线程并发访问一个类、方法或对象时，如果该类始终能正确执行，得到正确的结果，则该方法就是线程安全的。</p>
-<h2 id="_3">串行和并行</h2>
+<h3 id="_3">串行和并行</h3>
 <p>并行不一定比串行快，因为线程有创建和上下文切换的开销。会有临界点。</p>
-<h1 id="_4">常见锁</h1>
-<h2 id="volatile">volatile</h2>
+<h2 id="_4">常见锁</h2>
+<h3 id="volatile">volatile</h3>
 <p>volatile，比 synchronized更轻量级的实现，它保证了并发时，共享变量的可见性，即，一个线程修改了变量，另一个线程能读到这个修改的值，但是，它不能保证操作的 <strong>原子性</strong> 。</p>
 <p>共享变量：可以看到，线程一般先从主内存中把变量取出，然后复制一个变量副本到本地内存中。再进行操作，如果变量被声明了volatile，则每次这个值的修改，都会使本地内存的副本失效，线程需要从主内存中重新获取值。即声明了volatile的变量可以使值是内存中最新的值。</p>
 <p><img alt="共享变量" src="http://ww4.sinaimg.cn/large/005H7Wvyjw1f9pdmcjay2j30cs0avgmy.jpg" /></p>
-<h2 id="synchronized">synchronized</h2>
+<h4 id="volatile_1">volatile的底层实现</h4>
+<p>1.volatile保证共享变量写入(store、write)时，立即写入主存，且会引起将工作副本的共享变量置为失效。(MESI)</p>
+<p>2.底层汇编是在写入时，加入了lock指令。</p>
+<h3 id="synchronized">synchronized</h3>
 <p>synchronized在java6之前很多人都称呼其为“重量级锁”，但是随着java后面的持续优化，synchronized的性能已经比以前有了很大的提升。</p>
 <p>synchronized是对象锁，如果类中两个方法都是被synchronized修饰，当并发访问时，会互相等待。</p>
 <p>synchronized有好几种用法</p>
@@ -104,7 +110,7 @@
 </pre></div>
 
 
-<h2 id="reentranlock">ReenTranLock</h2>
+<h3 id="reentranlock">ReenTranLock</h3>
 <p>也是一种常见的并发控制锁，比syncronized灵活，可以控制的粒度更小。</p>
 <div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ReenTranLockDemo</span> <span class="o">{</span>
 
@@ -140,14 +146,14 @@
 </pre></div>
 
 
-<h2 id="_5">锁重入</h2>
+<h3 id="_5">锁重入</h3>
 <p>同一个线程，如果已经获取到锁后，要继续获取锁时，可以直接执行，不需要再获取锁。synchronized是支持锁重入的。</p>
-<h1 id="_6">原子变量类</h1>
+<h2 id="_6">原子变量类</h2>
 <p>AtomicIneger，AtomicLong，等等</p>
 <p>线程安全，内部有锁，可以作为全局变量来进行内部操作，如自增。</p>
 <p>扩展：目前项目中一般很少用到原子变量类，因为现在我们的程序一般都是分布式了，几乎不会单机跑，而分布式，我们一般使用redis来作为自增锁来使用。</p>
-<h1 id="_7">常见的并发工具类</h1>
-<h2 id="countdownlatch">CountDownLatch</h2>
+<h2 id="_7">常见的并发工具类</h2>
+<h3 id="countdownlatch">CountDownLatch</h3>
 <p>CountDownLatch可以实现类似倒计时的功能，通过调用 <strong>countDown</strong> 来实现减一的功能，当CountDownLatch里面的计数器减到0时，之前await挂起的线程，就能继续执行。</p>
 <div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CountDownLatchDemo</span> <span class="o">{</span>
 
@@ -197,7 +203,7 @@
 </pre></div>
 
 
-<h2 id="cyclicbarrier">CyclicBarrier</h2>
+<h3 id="cyclicbarrier">CyclicBarrier</h3>
 <p>CyclicBarrier可以应用在这种场景。</p>
 <p>任务分发给各个线程执行，各个线程执行完后，主线程再进行统一处理。</p>
 <p>在项目中，比如我们在修数据时，要修几百万上千万的数据，需要用多线程跑缩短时间，这时候可以使用CyclicBarrier来帮助我们完成任务</p>
@@ -243,7 +249,7 @@
 </pre></div>
 
 
-<h2 id="semaphore">Semaphore（信号量）</h2>
+<h3 id="semaphore">Semaphore（信号量）</h3>
 <p>可以用来控制单机并发，会阻塞。</p>
 <div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SemaphoreDemo</span> <span class="o">{</span>
 
@@ -284,7 +290,7 @@
       <span>
         <p>Copyright © 2019 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-10-25 12:22:46</p>
+        <p>Site Generated 2019-11-07 17:16:29</p>
       </span>
     </div>
 

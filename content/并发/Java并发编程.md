@@ -6,26 +6,26 @@ update: 2018-07-14 11:36
 
 [TOC]
 
-# 导读
+## 导读
 
 * Java并发基础
 * 并发锁
 * 原子操作类
 * 常见的并发工具类
 
-# Java并发基础
+## Java并发基础
 
-## 什么是线程安全
+### 什么是线程安全
 
 当多个线程并发访问一个类、方法或对象时，如果该类始终能正确执行，得到正确的结果，则该方法就是线程安全的。
 
-## 串行和并行
+### 串行和并行
 
 并行不一定比串行快，因为线程有创建和上下文切换的开销。会有临界点。
 
-# 常见锁
+## 常见锁
 
-## volatile
+### volatile
 
 volatile，比 synchronized更轻量级的实现，它保证了并发时，共享变量的可见性，即，一个线程修改了变量，另一个线程能读到这个修改的值，但是，它不能保证操作的 **原子性** 。
 
@@ -33,7 +33,14 @@ volatile，比 synchronized更轻量级的实现，它保证了并发时，共�
 
 ![共享变量](http://ww4.sinaimg.cn/large/005H7Wvyjw1f9pdmcjay2j30cs0avgmy.jpg)
 
-## synchronized
+#### volatile的底层实现
+
+1.volatile保证共享变量写入(store、write)时，立即写入主存，且会引起将工作副本的共享变量置为失效。(MESI)
+
+2.底层汇编是在写入时，加入了lock指令。
+
+
+### synchronized
 
 synchronized在java6之前很多人都称呼其为“重量级锁”，但是随着java后面的持续优化，synchronized的性能已经比以前有了很大的提升。
 
@@ -81,7 +88,7 @@ public void test() {
 }
 ```
 
-## ReenTranLock
+### ReenTranLock
 
 也是一种常见的并发控制锁，比syncronized灵活，可以控制的粒度更小。
 
@@ -120,11 +127,11 @@ public class ReenTranLockDemo {
 执行业务中.........Sun Jul 15 12:22:10 CST 2018
 ```
 
-## 锁重入
+### 锁重入
 
 同一个线程，如果已经获取到锁后，要继续获取锁时，可以直接执行，不需要再获取锁。synchronized是支持锁重入的。
 
-# 原子变量类
+## 原子变量类
 
 AtomicIneger，AtomicLong，等等
 
@@ -132,9 +139,9 @@ AtomicIneger，AtomicLong，等等
 
 扩展：目前项目中一般很少用到原子变量类，因为现在我们的程序一般都是分布式了，几乎不会单机跑，而分布式，我们一般使用redis来作为自增锁来使用。
 
-# 常见的并发工具类
+## 常见的并发工具类
 
-## CountDownLatch
+### CountDownLatch
 
 CountDownLatch可以实现类似倒计时的功能，通过调用 **countDown** 来实现减一的功能，当CountDownLatch里面的计数器减到0时，之前await挂起的线程，就能继续执行。
 
@@ -187,7 +194,7 @@ public class CountDownLatchDemo {
 15-- 结束
 ```
 
-## CyclicBarrier
+### CyclicBarrier
 
 CyclicBarrier可以应用在这种场景。
 
@@ -240,7 +247,7 @@ public class CyclicBarrierDemo {
 主线程开始作业 =>>>>>>>>>>>>>
 ```
 
-## Semaphore（信号量）
+### Semaphore（信号量）
 
 可以用来控制单机并发，会阻塞。
 
