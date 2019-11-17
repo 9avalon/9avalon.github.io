@@ -1,7 +1,7 @@
 ---
 title : CAP
 date : 2019-05-05 22:07:36
-collection : 基础理论
+collection : 分布式
 ---
 
 [TOC]
