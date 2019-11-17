@@ -1,5 +1,5 @@
 ---
-title: 程序异常高cpu占用处理方法论
+title: 线上问题排查
 date: 2019-09-29 17:33:17
 collection: 问题排查
 ---
@@ -32,7 +32,13 @@ printf '%x\n' PID
 jstack 进程pid | grep -A 20 '0x7d0'，查找nid匹配的线程，查看堆栈，定位引起高cpu的原因
 ```
 
-这时候可以根据打印出来的线程信息，来判断程序发生了什么异常。如果打印出来的线程里面，包含GC字样，那基本就可以判断是程序GC引起的异常。
+导出jstack 线程内容
+
+```sh
+jstack -l 进程pid
+```
+
+这时候可以根据打印出来的线程信息，来判断程序发生了什么异常。
 
 ### dump出jvm内存，分析gc原因
 
@@ -43,9 +49,11 @@ jmap -dump:format=b,file=dumpFileName pid
 举例（pid是进程的pid）
 
 ```sh
-jmap -dump:format=b,file=/tmp/dump.dat 31852
+jmap -dump:format=b,file=/tmp/20191110.dat 23915
 ```
 
 ### 使用mat工具分析dump文件
 
 可以在网上下载一个专业分析jvm内存的工具，如mat来进行分析，找出异常的内存占用对象后，再看代码进行下一步分析。
+
+jstack -l
