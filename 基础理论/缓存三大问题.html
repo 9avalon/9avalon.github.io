@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>缓存三大问题 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#基础理论">基础理论</a>&nbsp;&#187;&nbsp;缓存三大问题
+    <span class="updated">Page Updated&nbsp;
+      2019-05-05 22:33:03
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">缓存三大问题</div>
+
+  <h2 id="_1">缓存穿透</h2>
+<p>缓存穿透指查询一个缓存和数据库中都不存在的数据，导致每次请求都落到数据库上。</p>
+<h3 id="_2">解决方案</h3>
+<ol>
+<li>当查询到数据库中不存在的数据时，设置对应key，值为空的缓存。</li>
+<li>使用布隆过滤器，过滤掉不存在的数据。</li>
+</ol>
+<h2 id="_3">缓存雪崩</h2>
+<p>当所有的缓存key同时失效，比如redis挂了重启，此时大量请求同时访问，所有的请求都将直接落到数据库，数据库顶不住这么大的压力导致雪崩。</p>
+<h3 id="_4">解决方案</h3>
+<ol>
+<li>线程互斥，比如使用synchronized字段，使得单台服务器下，只有一个线程去数据库查询数据并设置缓存。缺点是这种处理方式会降低系统的QPS</li>
+<li>交错缓存的失效时间，实际实践的时候，缓存一般都是交错时间设置的。</li>
+<li>针对首次启动，可以考虑缓存预热</li>
+</ol>
+<h2 id="_5">缓存击穿</h2>
+<p>缓存雪崩的一个特例，当一个key值失效时，大量的请求涌入请求这个key的数据，导致所有的请求都落入到数据库。</p>
+<h3 id="_6">解决方案</h3>
+<ol>
+<li>线程互斥</li>
+</ol>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2019 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2019-11-17 11:22:49</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
