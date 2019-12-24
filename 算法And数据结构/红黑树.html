@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>红黑树 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#算法And数据结构">算法And数据结构</a>&nbsp;&#187;&nbsp;红黑树
+    <span class="updated">Page Updated&nbsp;
+      2019-12-24 23:20:29
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">红黑树</div>
+
+  <h2 id="_1">特性</h2>
+<p>1.实际上是平衡二叉树的变种。<br />
+2.对比AVL树，AVL树查询性能比红黑树高，因为AVL树高度平衡，而增删改红黑树性能高些。</p>
+<h2 id="_2">成树规则</h2>
+<ol>
+<li>根节点是黑色节点</li>
+<li>红色节点的子节点是黑色节点</li>
+<li>从根节点到叶子节点任意路径的黑色节点数一致</li>
+<li>节点是黑色或者红色的</li>
+<li>叶子节点都是黑色的空节点</li>
+</ol>
+<h2 id="_3">如何调整树平衡</h2>
+<ol>
+<li>变色</li>
+<li>左右旋转</li>
+</ol>
+<h2 id="_4">应用</h2>
+<p>HashMap，当链表长度大于8时，会将链表结构转换为红黑树结构。以提升查询效率。</p>
+<h2 id="_5">其他</h2>
+<p>参考自</p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzIxMjE5MTE1Nw==&amp;mid=2653191832&amp;idx=1&amp;sn=12017161025495c6914b5ab9397baa59&amp;chksm=8c990c42bbee8554ba02eb83d839123bd3bead6ffc736111456ea77367a3df75750cf88016e0&amp;scene=21#wechat_redirect">漫画：什么是红黑树</a></p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2019 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2019-12-24 23:55:53</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
