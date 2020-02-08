@@ -1,5 +1,5 @@
 ---
-title: (Easy)实现 strStr
+title: (Easy)实现strStr
 date: 2020-02-08 12:54:25
 collection: 字符串
 ---
