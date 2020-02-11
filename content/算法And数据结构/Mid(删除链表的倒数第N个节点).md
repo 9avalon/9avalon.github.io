@@ -1,5 +1,5 @@
 ---
-title: (Easy)删除链表的倒数第N个节点
+title: (Midium)删除链表的倒数第N个节点
 date: 2020-02-12 00:39:34
 collection: 链表
 ---
