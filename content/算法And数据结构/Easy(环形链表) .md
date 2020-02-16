@@ -52,9 +52,10 @@ public class Solution {
         if (head == null || head.next == null) {
             return false;
         }
-        ListNode fast = head;
+
+        ListNode fast = head.next;
         ListNode slow = head;
-        while (fast.next != null || fast.next.next != null) {
+        while (fast.next != null && fast.next.next != null) {
             if (fast.val == slow.val) {
                 return true;
             }
