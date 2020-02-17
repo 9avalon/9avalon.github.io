@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>(Mid)验证二叉搜索树 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#算法And数据结构">算法And数据结构</a>&nbsp;&#187;&nbsp;(Mid)验证二叉搜索树
+    <span class="updated">Page Updated&nbsp;
+      2020-02-17 11:50:14
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">(Mid)验证二叉搜索树</div>
+
+  <div class="hlcode"><pre><span class="err">给定一个二叉树，判断其是否是一个有效的二叉搜索树。</span>
+
+<span class="err">假设一个二叉搜索树具有如下特征：</span>
+
+<span class="err">节点的左子树只包含小于当前节点的数。</span>
+<span class="err">节点的右子树只包含大于当前节点的数。</span>
+<span class="err">所有左子树和右子树自身必须也是二叉搜索树。</span>
+<span class="err">示例</span> <span class="mi">1</span><span class="o">:</span>
+
+<span class="err">输入</span><span class="o">:</span>
+    <span class="mi">2</span>
+   <span class="o">/</span> \
+  <span class="mi">1</span>   <span class="mi">3</span>
+<span class="err">输出</span><span class="o">:</span> <span class="nb">true</span>
+<span class="err">示例</span> <span class="mi">2</span><span class="o">:</span>
+
+<span class="err">输入</span><span class="o">:</span>
+    <span class="mi">5</span>
+   <span class="o">/</span> \
+  <span class="mi">1</span>   <span class="mi">4</span>
+     <span class="o">/</span> \
+    <span class="mi">3</span>   <span class="mi">6</span>
+<span class="err">输出</span><span class="o">:</span> <span class="nb">false</span>
+<span class="err">解释</span><span class="o">:</span> <span class="err">输入为</span><span class="o">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="n">null</span><span class="p">,</span><span class="n">null</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span><span class="err">。</span>
+     <span class="err">根节点的值为</span> <span class="mi">5</span> <span class="err">，但是其右子节点值为</span> <span class="mi">4</span> <span class="err">。</span>
+</pre></div>
+
+
+<p>自己题解:</p>
+<div class="hlcode"><pre><span class="cm">/**</span>
+<span class="cm"> * Definition for a binary tree node.</span>
+<span class="cm"> * public class TreeNode {</span>
+<span class="cm"> *     int val;</span>
+<span class="cm"> *     TreeNode left;</span>
+<span class="cm"> *     TreeNode right;</span>
+<span class="cm"> *     TreeNode(int x) { val = x; }</span>
+<span class="cm"> * }</span>
+<span class="cm"> */</span>
+<span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isValidBST</span><span class="o">(</span><span class="n">TreeNode</span> <span class="n">root</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">next</span><span class="o">(</span><span class="n">root</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">next</span><span class="o">(</span><span class="n">TreeNode</span> <span class="n">root</span><span class="o">,</span> <span class="n">Integer</span> <span class="n">lower</span><span class="o">,</span> <span class="n">Integer</span> <span class="n">upper</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">root</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">lower</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">lower</span> <span class="o">&gt;=</span> <span class="n">root</span><span class="o">.</span><span class="na">val</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">upper</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">upper</span> <span class="o">&lt;=</span> <span class="n">root</span><span class="o">.</span><span class="na">val</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kt">boolean</span> <span class="n">leftRet</span> <span class="o">=</span> <span class="n">next</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">left</span><span class="o">,</span> <span class="n">lower</span><span class="o">,</span> <span class="n">root</span><span class="o">.</span><span class="na">val</span><span class="o">);</span>
+        <span class="kt">boolean</span> <span class="n">rightRet</span> <span class="o">=</span> <span class="n">next</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">right</span><span class="o">,</span> <span class="n">root</span><span class="o">.</span><span class="na">val</span><span class="o">,</span> <span class="n">upper</span><span class="o">);</span>
+
+        <span class="k">if</span> <span class="o">(!</span><span class="n">leftRet</span> <span class="o">||</span> <span class="o">!</span><span class="n">rightRet</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>分析: 递归，要验证子树是不是bst</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-02-17 11:51:32</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
