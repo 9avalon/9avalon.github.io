@@ -49,4 +49,30 @@ class Solution {
 }
 ```
 
-分析:
+看了评论区后，补充了一种dp思想的写法
+
+```java
+class Solution {
+    public int maxProfit(int[] prices) {
+        if (prices.length <=1) {
+            return 0;
+        }
+
+        // 动态规划 前i天的最大收益 = max{前i-1天的最大收益，第i天的价格-前i-1天中的最小价格}
+
+        int maxPrice = 0;
+        int minPrice = prices[0];
+        for (int i=1; i<prices.length; i++) {
+            int diff = prices[i] - minPrice;
+            if (diff > maxPrice && diff > 0) {
+                maxPrice = diff;
+            }
+            if (prices[i] < minPrice) {
+                minPrice = prices[i];
+            }
+        }
+
+        return maxPrice;
+    }
+}
+```
