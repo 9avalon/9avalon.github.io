@@ -1,7 +1,7 @@
 ---
 title: (Easy)打乱数组
 date: 2020-03-02 22:50:28
-collection: 打乱数组
+collection: 设计问题
 ---
 
 ```txt

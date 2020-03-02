@@ -1,7 +1,7 @@
 ---
 title: (Easy)最小栈
 date: 2020-03-02 23:18:17
-collection: 打乱数组
+collection: 设计问题
 ---
 
 ```txt
@@ -30,32 +30,32 @@ class MinStack {
 
     private Stack<Integer> stack;
     private Stack<Integer> minStack;
-    
+
     /** initialize your data structure here. */
     public MinStack() {
         stack = new Stack<>();
         minStack = new Stack<>();
     }
-    
+
     public void push(int x) {
         stack.push(x);
-        
+
         if (minStack.size() == 0) {
             minStack.push(x);
         } else {
             minStack.push(Math.min(x, minStack.peek()));
         }
     }
-    
+
     public void pop() {
         stack.pop();
         minStack.pop();
     }
-    
+
     public int top() {
         return stack.peek();
     }
-    
+
     public int getMin() {
         return minStack.peek();
     }
