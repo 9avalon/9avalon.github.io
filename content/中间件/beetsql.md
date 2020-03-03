@@ -1,7 +1,7 @@
 ---
 title: beetsql
 date: 2020-03-03 11:45:15
-collection: 中间件
+collection: 数据库
 ---
 
 ## 重写生成sql文件
