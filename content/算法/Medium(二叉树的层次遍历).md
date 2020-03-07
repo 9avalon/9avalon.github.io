@@ -1,5 +1,5 @@
 ---
-title: (Midium)二叉树的层次遍历
+title: (Medium)二叉树的层次遍历
 date: 2020-02-19 00:09:03
 collection: 树
 ---

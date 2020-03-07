@@ -1,5 +1,5 @@
 ---
-title: (Midium)旋转图像
+title: (Medium)旋转图像
 date: 2020-01-27 11:56:15
 collection: 数组
 ---

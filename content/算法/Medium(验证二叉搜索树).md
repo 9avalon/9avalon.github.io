@@ -1,5 +1,5 @@
 ---
-title: (Mid)验证二叉搜索树
+title: (Medium)验证二叉搜索树
 date: 2020-02-17 11:50:14
 collection: 树
 ---

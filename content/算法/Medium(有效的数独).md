@@ -1,5 +1,5 @@
 ---
-title: (Midium)有效的数独
+title: (Medium)有效的数独
 date: 2020-01-27 11:56:15
 collection: 数组
 ---

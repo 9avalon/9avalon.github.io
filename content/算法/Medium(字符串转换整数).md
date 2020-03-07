@@ -1,5 +1,5 @@
 ---
-title: (Midium)字符串转换整数
+title: (Medium)字符串转换整数
 date: 2020-02-03 23:14:10
 collection: 字符串
 ---

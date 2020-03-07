@@ -6,7 +6,7 @@ collection: 字符串
 
 传闻中比kmp快的算法，但在leetcode中速度却很慢，百思不得其解。。。
 
-```
+```java
     public int strStr(String haystack, String needle) {
     	if (needle.length() > haystack.length()){
     		return -1;
