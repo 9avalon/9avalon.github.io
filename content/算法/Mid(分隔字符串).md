@@ -1,5 +1,5 @@
 ---
-title: (分隔字符串)分割回文串
+title: (Medium)分割回文串
 date: 2020-03-07 00:12:10
 collection: 字符串
 ---

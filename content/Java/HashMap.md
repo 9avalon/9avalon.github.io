@@ -1,7 +1,7 @@
 ---
 title : HashMap
 date : 2019-12-24 23:36:08
-collection : 数据结构
+collection : 集合类型
 ---
 
 ## 进阶
