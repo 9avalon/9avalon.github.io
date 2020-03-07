@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>(Medium)实现Trie前缀树 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#算法">算法</a>&nbsp;&#187;&nbsp;(Medium)实现Trie前缀树
+    <span class="updated">Page Updated&nbsp;
+      2020-03-07 17:50:43
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">(Medium)实现Trie前缀树</div>
+
+  <div class="hlcode"><pre><span class="err">实现一个</span> <span class="n">Trie</span> <span class="p">(</span><span class="err">前缀树</span><span class="p">)</span><span class="err">，包含</span> <span class="n">insert</span><span class="p">,</span> <span class="n">search</span><span class="p">,</span> <span class="err">和</span> <span class="n">startsWith</span> <span class="err">这三个操作。</span>
+
+<span class="err">示例</span><span class="o">:</span>
+
+<span class="n">Trie</span> <span class="n">trie</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Trie</span><span class="p">();</span>
+
+<span class="n">trie</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="s">&quot;apple&quot;</span><span class="p">);</span>
+<span class="n">trie</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="s">&quot;apple&quot;</span><span class="p">);</span>   <span class="c1">// 返回 true</span>
+<span class="n">trie</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="s">&quot;app&quot;</span><span class="p">);</span>     <span class="c1">// 返回 false</span>
+<span class="n">trie</span><span class="p">.</span><span class="n">startsWith</span><span class="p">(</span><span class="s">&quot;app&quot;</span><span class="p">);</span> <span class="c1">// 返回 true</span>
+<span class="n">trie</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="s">&quot;app&quot;</span><span class="p">);</span>
+<span class="n">trie</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="s">&quot;app&quot;</span><span class="p">);</span>     <span class="c1">// 返回 true</span>
+<span class="err">说明</span><span class="o">:</span>
+
+<span class="err">你可以假设所有的输入都是由小写字母</span> <span class="n">a</span><span class="o">-</span><span class="n">z</span> <span class="err">构成的。</span>
+<span class="err">保证所有输入均为非空字符串。</span>
+</pre></div>
+
+
+<p>自己题解:</p>
+<div class="hlcode"><pre><span class="kd">class</span> <span class="nc">Trie</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="n">Trie</span><span class="o">[]</span> <span class="n">children</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Trie</span><span class="o">[</span><span class="mi">26</span><span class="o">];</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">isEnd</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+    <span class="cm">/** Initialize your data structure here. */</span>
+    <span class="kd">public</span> <span class="nf">Trie</span><span class="o">()</span> <span class="o">{</span>
+
+    <span class="o">}</span>
+
+    <span class="cm">/** Inserts a word into the trie. */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">insert</span><span class="o">(</span><span class="n">String</span> <span class="n">word</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Trie</span> <span class="n">temp</span> <span class="o">=</span> <span class="k">this</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">word</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">temp</span><span class="o">.</span><span class="na">children</span><span class="o">[</span><span class="n">word</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-</span> <span class="sc">&#39;a&#39;</span><span class="o">]</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">temp</span><span class="o">.</span><span class="na">children</span><span class="o">[</span><span class="n">word</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-</span> <span class="sc">&#39;a&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Trie</span><span class="o">();</span>
+            <span class="o">}</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="na">children</span><span class="o">[</span><span class="n">word</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-</span> <span class="sc">&#39;a&#39;</span><span class="o">];</span>
+        <span class="o">}</span>
+        <span class="n">temp</span><span class="o">.</span><span class="na">isEnd</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/** Returns if the word is in the trie. */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">search</span><span class="o">(</span><span class="n">String</span> <span class="n">word</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Trie</span> <span class="n">temp</span> <span class="o">=</span> <span class="k">this</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">word</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">temp</span><span class="o">.</span><span class="na">children</span><span class="o">[</span><span class="n">word</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-</span> <span class="sc">&#39;a&#39;</span><span class="o">]</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="na">children</span><span class="o">[</span><span class="n">word</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-</span> <span class="sc">&#39;a&#39;</span><span class="o">];</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">temp</span><span class="o">.</span><span class="na">isEnd</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/** Returns if there is any word in the trie that starts with the given prefix. */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">startsWith</span><span class="o">(</span><span class="n">String</span> <span class="n">prefix</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Trie</span> <span class="n">temp</span> <span class="o">=</span> <span class="k">this</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">prefix</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">temp</span><span class="o">.</span><span class="na">children</span><span class="o">[</span><span class="n">prefix</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-</span> <span class="sc">&#39;a&#39;</span><span class="o">]</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="na">children</span><span class="o">[</span><span class="n">prefix</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-</span> <span class="sc">&#39;a&#39;</span><span class="o">];</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Your Trie object will be instantiated and called as such:</span>
+<span class="cm"> * Trie obj = new Trie();</span>
+<span class="cm"> * obj.insert(word);</span>
+<span class="cm"> * boolean param_2 = obj.search(word);</span>
+<span class="cm"> * boolean param_3 = obj.startsWith(prefix);</span>
+<span class="cm"> */</span>
+</pre></div>
+
+
+<p>分析:</p>
+<ol>
+<li>害，看起来挺难，做起来挺简单，背就完事了。</li>
+</ol>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-03-07 17:52:23</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
