@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>字符串匹配 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#算法">算法</a>&nbsp;&#187;&nbsp;字符串匹配
+    <span class="updated">Page Updated&nbsp;
+      2016-06-23 17:51:46
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">字符串匹配</div>
+
+  <p>传闻中比kmp快的算法，但在leetcode中速度却很慢，百思不得其解。。。</p>
+<div class="hlcode"><pre>    <span class="n">public</span> <span class="kt">int</span> <span class="nf">strStr</span><span class="p">(</span><span class="n">String</span> <span class="n">haystack</span><span class="p">,</span> <span class="n">String</span> <span class="n">needle</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">needle</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">haystack</span><span class="p">.</span><span class="n">length</span><span class="p">()){</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">needle</span><span class="p">.</span><span class="n">equals</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)){</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">Map</span><span class="o">&lt;</span><span class="n">Character</span><span class="p">,</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">Character</span><span class="p">,</span> <span class="n">Integer</span><span class="o">&gt;</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">needle</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="n">map</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">needle</span><span class="p">.</span><span class="n">charAt</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">i</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="n">boolean</span> <span class="n">match</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">haystack</span><span class="p">.</span><span class="n">length</span><span class="p">()){</span>
+            <span class="kt">int</span> <span class="n">itemp</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+            <span class="k">while</span> <span class="p">(</span><span class="n">j</span><span class="o">&lt;</span><span class="n">needle</span><span class="p">.</span><span class="n">length</span><span class="p">()){</span>
+                <span class="c1">//处理itemp越界</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">itemp</span><span class="o">&gt;=</span><span class="n">haystack</span><span class="p">.</span><span class="n">length</span><span class="p">())</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">haystack</span><span class="p">.</span><span class="n">charAt</span><span class="p">(</span><span class="n">itemp</span><span class="p">)</span> <span class="o">!=</span> <span class="n">needle</span><span class="p">.</span><span class="n">charAt</span><span class="p">(</span><span class="n">j</span><span class="p">)){</span>
+                    <span class="c1">//处理跳跃的时候越界</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">needle</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">haystack</span><span class="p">.</span><span class="n">length</span><span class="p">()){</span>
+                        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+                    <span class="p">}</span>
+                    <span class="kt">char</span> <span class="n">next</span> <span class="o">=</span> <span class="n">haystack</span><span class="p">.</span><span class="n">charAt</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">needle</span><span class="p">.</span><span class="n">length</span><span class="p">());</span>
+                    <span class="c1">//遍历查找next是否在needle中出现</span>
+                    <span class="n">Integer</span> <span class="n">nextpos</span> <span class="o">=</span> <span class="n">map</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">next</span><span class="p">);</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">nextpos</span> <span class="o">==</span> <span class="n">null</span><span class="p">){</span>
+                        <span class="n">i</span> <span class="o">+=</span> <span class="n">needle</span><span class="p">.</span><span class="n">length</span><span class="p">();</span>
+                    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+                        <span class="c1">//有匹配，则最后匹配的地方对齐</span>
+                        <span class="n">i</span> <span class="o">+=</span> <span class="n">needle</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="n">nextpos</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+                    <span class="p">}</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="c1">//成功匹配</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">==</span> <span class="n">needle</span><span class="p">.</span><span class="n">length</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">){</span>
+                    <span class="n">match</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="n">j</span><span class="o">++</span><span class="p">;</span>
+                <span class="n">itemp</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">match</span> <span class="o">==</span> <span class="nb">true</span><span class="p">){</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+    <span class="p">}</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-03-07 13:40:07</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
