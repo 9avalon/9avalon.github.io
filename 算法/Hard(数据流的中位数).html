@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>(Hard)数据流的中位数 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#算法">算法</a>&nbsp;&#187;&nbsp;(Hard)数据流的中位数
+    <span class="updated">Page Updated&nbsp;
+      2020-03-09 23:28:44
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">(Hard)数据流的中位数</div>
+
+  <div class="hlcode"><pre><span class="err">中位数是有序列表中间的数。如果列表长度是偶数，中位数则是中间两个数的平均值。</span>
+
+<span class="err">例如，</span>
+
+<span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span> <span class="err">的中位数是</span> <span class="mi">3</span>
+
+<span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="err">的中位数是</span> <span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">=</span> <span class="mf">2.5</span>
+
+<span class="err">设计一个支持以下两种操作的数据结构：</span>
+
+<span class="kt">void</span> <span class="n">addNum</span><span class="p">(</span><span class="kt">int</span> <span class="n">num</span><span class="p">)</span> <span class="o">-</span> <span class="err">从数据流中添加一个整数到数据结构中。</span>
+<span class="kt">double</span> <span class="n">findMedian</span><span class="p">()</span> <span class="o">-</span> <span class="err">返回目前所有元素的中位数。</span>
+<span class="err">示例：</span>
+
+<span class="n">addNum</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">addNum</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">findMedian</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="mf">1.5</span>
+<span class="n">addNum</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> 
+<span class="n">findMedian</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="mi">2</span>
+<span class="err">进阶</span><span class="o">:</span>
+
+<span class="err">如果数据流中所有整数都在</span> <span class="mi">0</span> <span class="err">到</span> <span class="mi">100</span> <span class="err">范围内，你将如何优化你的算法？</span>
+<span class="err">如果数据流中</span> <span class="mi">99</span><span class="o">%</span> <span class="err">的整数都在</span> <span class="mi">0</span> <span class="err">到</span> <span class="mi">100</span> <span class="err">范围内，你将如何优化你的算法？</span>
+</pre></div>
+
+
+<p>自己题解:</p>
+<div class="hlcode"><pre><span class="cm">/**</span>
+<span class="cm"> * @author Miguel.hou</span>
+<span class="cm"> * @version v1.0</span>
+<span class="cm"> * @date 2020-03-09</span>
+<span class="cm"> */</span>
+<span class="kd">class</span> <span class="nc">MedianFinder</span> <span class="o">{</span>
+
+    <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">();</span>
+
+    <span class="cm">/** initialize your data structure here. */</span>
+    <span class="kd">public</span> <span class="nf">MedianFinder</span><span class="o">()</span> <span class="o">{</span>
+
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addNum</span><span class="o">(</span><span class="kt">int</span> <span class="n">num</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">num</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 二分搜索数字要插入的地方</span>
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+
+        <span class="k">while</span> <span class="o">(</span><span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="o">(</span><span class="n">left</span> <span class="o">+</span> <span class="n">right</span><span class="o">)</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">mid</span><span class="o">)</span> <span class="o">==</span> <span class="n">num</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// 命中，直接替换</span>
+                <span class="n">modify</span><span class="o">(</span><span class="n">mid</span><span class="o">,</span> <span class="n">num</span><span class="o">);</span>
+                <span class="k">return</span><span class="o">;</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">num</span> <span class="o">&gt;</span> <span class="n">list</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">mid</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">num</span> <span class="o">&lt;</span> <span class="n">list</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">mid</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">right</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="n">modify</span><span class="o">(</span><span class="n">right</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">num</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">modify</span><span class="o">(</span><span class="kt">int</span> <span class="n">pos</span> <span class="o">,</span> <span class="kt">int</span> <span class="n">num</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">pos</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">())</span> <span class="o">{</span>
+                <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">list</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">));</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="n">list</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="n">list</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">));</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">pos</span> <span class="o">==</span> <span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">pos</span><span class="o">,</span> <span class="n">num</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">list</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">pos</span><span class="o">,</span> <span class="n">num</span><span class="o">);</span>
+        <span class="o">}</span> 
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">double</span> <span class="nf">findMedian</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">//1,2,3,4,5,6</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">()/</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="n">list</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">()/</span> <span class="mi">2</span><span class="o">))/(</span><span class="kt">double</span><span class="o">)</span> <span class="mi">2</span> <span class="o">:</span> <span class="o">(</span><span class="kt">double</span><span class="o">)</span><span class="n">list</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">()/</span><span class="mi">2</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Your MedianFinder object will be instantiated and called as such:</span>
+<span class="cm"> * MedianFinder obj = new MedianFinder();</span>
+<span class="cm"> * obj.addNum(num);</span>
+<span class="cm"> * double param_2 = obj.findMedian();</span>
+<span class="cm"> */</span>
+</pre></div>
+
+
+<p>分析: 这题官方题解是用两个堆去处理，我偷懒，看了题解后用了二分搜索+插入排序的做法，结果出来的时间比堆排序慢了10倍。。而且还花了将近两个小时来写。。边界条件太多了，写起来一堆bug，鉴于这题是hard难度，面试可能很难会遇到，就不二刷了，知道大概的思路，就ok。用两个堆来处理！</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-03-09 23:32:42</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
