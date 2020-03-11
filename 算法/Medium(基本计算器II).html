@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>(Medium)基本计算器II - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#算法">算法</a>&nbsp;&#187;&nbsp;(Medium)基本计算器II
+    <span class="updated">Page Updated&nbsp;
+      2020-03-12 01:25:08
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">(Medium)基本计算器II</div>
+
+  <div class="hlcode"><pre><span class="err">实现一个基本的计算器来计算一个简单的字符串表达式的值。</span>
+
+<span class="err">字符串表达式仅包含非负整数，</span><span class="o">+</span><span class="err">，</span> <span class="o">-</span> <span class="err">，</span><span class="o">*</span><span class="err">，</span><span class="o">/</span> <span class="err">四种运算符和空格  。</span> <span class="err">整数除法仅保留整数部分。</span>
+
+<span class="err">示例 </span><span class="mi">1</span><span class="o">:</span>
+
+<span class="err">输入</span><span class="o">:</span> <span class="s">&quot;3+2*2&quot;</span>
+<span class="err">输出</span><span class="o">:</span> <span class="mi">7</span>
+<span class="err">示例</span> <span class="mi">2</span><span class="o">:</span>
+
+<span class="err">输入</span><span class="o">:</span> <span class="s">&quot; 3/2 &quot;</span>
+<span class="err">输出</span><span class="o">:</span> <span class="mi">1</span>
+<span class="err">示例</span> <span class="mi">3</span><span class="o">:</span>
+
+<span class="err">输入</span><span class="o">:</span> <span class="s">&quot; 3+5 / 2 &quot;</span>
+<span class="err">输出</span><span class="o">:</span> <span class="mi">5</span>
+<span class="err">说明：</span>
+
+<span class="err">你可以假设所给定的表达式都是有效的。</span>
+<span class="err">请不要使用内置的库函数</span> <span class="n">eval</span><span class="err">。</span>
+
+<span class="err">来源：力扣（</span><span class="n">LeetCode</span><span class="err">）</span>
+<span class="err">链接：</span><span class="n">https</span><span class="o">:</span><span class="c1">//leetcode-cn.com/problems/basic-calculator-ii</span>
+<span class="err">著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</span>
+</pre></div>
+
+
+<p>自己题解:</p>
+<div class="hlcode"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">calculate</span><span class="o">(</span><span class="n">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">replaceAll</span><span class="o">(</span><span class="s">&quot; &quot;</span><span class="o">,</span> <span class="s">&quot;&quot;</span><span class="o">);</span>
+
+        <span class="n">Stack</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">stack</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Stack</span><span class="o">&lt;&gt;();</span>
+        <span class="n">Character</span> <span class="n">lastOperate</span> <span class="o">=</span> <span class="sc">&#39;+&#39;</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">&gt;=</span> <span class="sc">&#39;0&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">&lt;=</span><span class="sc">&#39;9&#39;</span><span class="o">)</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span>
+                <span class="kt">int</span> <span class="n">num</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-</span> <span class="sc">&#39;0&#39;</span><span class="o">;</span>
+                <span class="k">while</span> <span class="o">(</span><span class="n">j</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">())</span> <span class="o">{</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span><span class="o">)</span> <span class="o">&gt;=</span> <span class="sc">&#39;0&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="sc">&#39;9&#39;</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">num</span> <span class="o">=</span> <span class="n">num</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span><span class="o">)</span> <span class="o">-</span> <span class="sc">&#39;0&#39;</span><span class="o">);</span>
+                        <span class="n">j</span><span class="o">++;</span>
+                        <span class="n">i</span><span class="o">++;</span>
+                    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                        <span class="k">break</span><span class="o">;</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+
+                <span class="k">if</span> <span class="o">(</span><span class="n">lastOperate</span> <span class="o">==</span> <span class="sc">&#39;+&#39;</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">num</span><span class="o">);</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">lastOperate</span> <span class="o">==</span> <span class="sc">&#39;-&#39;</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(-</span><span class="n">num</span><span class="o">);</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">lastOperate</span> <span class="o">==</span> <span class="sc">&#39;*&#39;</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">stack</span><span class="o">.</span><span class="na">pop</span><span class="o">()</span> <span class="o">*</span> <span class="n">num</span><span class="o">);</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">lastOperate</span> <span class="o">==</span> <span class="sc">&#39;/&#39;</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">stack</span><span class="o">.</span><span class="na">pop</span><span class="o">()</span> <span class="o">/</span> <span class="n">num</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="n">lastOperate</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">stack</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="n">stack</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="n">ret</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>分析: 这题有两点，第一点是需要将整数转数字，第二点是，先利用栈，将乘法和除法都计算好，将算好的结果放入栈，那栈里面的就都可以通过加法解决，妙哉。</p>
+<p>ps：上面代码是比较挫，没毛病</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-03-12 01:27:00</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
