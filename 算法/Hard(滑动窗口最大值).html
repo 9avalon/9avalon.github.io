@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>(Hard)滑动窗口最大值 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#算法">算法</a>&nbsp;&#187;&nbsp;(Hard)滑动窗口最大值
+    <span class="updated">Page Updated&nbsp;
+      2020-03-11 14:06:41
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">(Hard)滑动窗口最大值</div>
+
+  <div class="hlcode"><pre><span class="err">给定一个数组</span> <span class="n">nums</span><span class="err">，有一个大小为</span> <span class="n">k</span> <span class="err">的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的</span> <span class="n">k</span> <span class="err">个数字。滑动窗口每次只向右移动一位。</span>
+
+<span class="err">返回滑动窗口中的最大值。</span>
+
+
+
+<span class="err">示例</span><span class="o">:</span>
+
+<span class="err">输入</span><span class="o">:</span> <span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">],</span> <span class="err">和</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="err">输出</span><span class="o">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span> 
+<span class="err">解释</span><span class="o">:</span> 
+
+  <span class="err">滑动窗口的位置</span>                <span class="err">最大值</span>
+<span class="o">---------------</span>               <span class="o">-----</span>
+<span class="p">[</span><span class="mi">1</span>  <span class="mi">3</span>  <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span><span class="mi">3</span>  <span class="mi">5</span>  <span class="mi">3</span>  <span class="mi">6</span>  <span class="mi">7</span>       <span class="mi">3</span>
+ <span class="mi">1</span> <span class="p">[</span><span class="mi">3</span>  <span class="o">-</span><span class="mi">1</span>  <span class="o">-</span><span class="mi">3</span><span class="p">]</span> <span class="mi">5</span>  <span class="mi">3</span>  <span class="mi">6</span>  <span class="mi">7</span>       <span class="mi">3</span>
+ <span class="mi">1</span>  <span class="mi">3</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span>  <span class="o">-</span><span class="mi">3</span>  <span class="mi">5</span><span class="p">]</span> <span class="mi">3</span>  <span class="mi">6</span>  <span class="mi">7</span>       <span class="mi">5</span>
+ <span class="mi">1</span>  <span class="mi">3</span>  <span class="o">-</span><span class="mi">1</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span>  <span class="mi">5</span>  <span class="mi">3</span><span class="p">]</span> <span class="mi">6</span>  <span class="mi">7</span>       <span class="mi">5</span>
+ <span class="mi">1</span>  <span class="mi">3</span>  <span class="o">-</span><span class="mi">1</span>  <span class="o">-</span><span class="mi">3</span> <span class="p">[</span><span class="mi">5</span>  <span class="mi">3</span>  <span class="mi">6</span><span class="p">]</span> <span class="mi">7</span>       <span class="mi">6</span>
+ <span class="mi">1</span>  <span class="mi">3</span>  <span class="o">-</span><span class="mi">1</span>  <span class="o">-</span><span class="mi">3</span>  <span class="mi">5</span> <span class="p">[</span><span class="mi">3</span>  <span class="mi">6</span>  <span class="mi">7</span><span class="p">]</span>      <span class="mi">7</span>
+
+
+<span class="err">提示：</span>
+
+<span class="err">你可以假设</span> <span class="n">k</span> <span class="err">总是有效的，在输入数组不为空的情况下，</span><span class="mi">1</span> <span class="err">≤</span> <span class="n">k</span> <span class="err">≤</span> <span class="err">输入数组的大小。</span>
+
+
+
+<span class="err">进阶：</span>
+
+<span class="err">你能在线性时间复杂度内解决此题吗？</span>
+</pre></div>
+
+
+<p>题解:</p>
+<div class="hlcode"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">maxSlidingWindow</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">k</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">nums</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="o">){</span>
+            <span class="k">return</span> <span class="n">nums</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">ret</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">-</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
+        <span class="n">LinkedList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">&lt;&gt;();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">while</span> <span class="o">(</span><span class="n">queue</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">nums</span><span class="o">[</span><span class="n">queue</span><span class="o">.</span><span class="na">getLast</span><span class="o">()]</span> <span class="o">&lt;=</span> <span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">])</span> <span class="o">{</span>
+                <span class="n">queue</span><span class="o">.</span><span class="na">removeLast</span><span class="o">();</span>
+            <span class="o">}</span>
+
+            <span class="n">queue</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">queue</span><span class="o">.</span><span class="na">getFirst</span><span class="o">()</span> <span class="o">&lt;=</span> <span class="n">i</span> <span class="o">-</span> <span class="n">k</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">queue</span><span class="o">.</span><span class="na">removeFirst</span><span class="o">();</span>
+            <span class="o">}</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">ret</span><span class="o">[</span><span class="n">i</span><span class="o">-</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">queue</span><span class="o">.</span><span class="na">getFirst</span><span class="o">()];</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="n">ret</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>分析: 思路是利用队列来维护队头的最大值</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-03-11 14:08:07</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
