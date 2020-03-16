@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>(Medium)常数时间插入、删除和获取随机元素 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#算法">算法</a>&nbsp;&#187;&nbsp;(Medium)常数时间插入、删除和获取随机元素
+    <span class="updated">Page Updated&nbsp;
+      2020-03-16 21:28:23
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">(Medium)常数时间插入、删除和获取随机元素</div>
+
+  <div class="hlcode"><pre><span class="err">设计一个支持在平均</span> <span class="err">时间复杂度</span> <span class="n">O</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="err">下，执行以下操作的数据结构。</span>
+
+<span class="n">insert</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="err">：当元素</span> <span class="n">val</span> <span class="err">不存在时，向集合中插入该项。</span>
+<span class="n">remove</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="err">：元素</span> <span class="n">val</span> <span class="err">存在时，从集合中移除该项。</span>
+<span class="n">getRandom</span><span class="err">：随机返回现有集合中的一项。每个元素应该有相同的概率被返回。</span>
+<span class="err">示例</span> <span class="o">:</span>
+
+<span class="c1">// 初始化一个空的集合。</span>
+<span class="n">RandomizedSet</span> <span class="n">randomSet</span> <span class="o">=</span> <span class="n">new</span> <span class="n">RandomizedSet</span><span class="p">();</span>
+
+<span class="c1">// 向集合中插入 1 。返回 true 表示 1 被成功地插入。</span>
+<span class="n">randomSet</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="c1">// 返回 false ，表示集合中不存在 2 。</span>
+<span class="n">randomSet</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="c1">// 向集合中插入 2 。返回 true 。集合现在包含 [1,2] 。</span>
+<span class="n">randomSet</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="c1">// getRandom 应随机返回 1 或 2 。</span>
+<span class="n">randomSet</span><span class="p">.</span><span class="n">getRandom</span><span class="p">();</span>
+
+<span class="c1">// 从集合中移除 1 ，返回 true 。集合现在包含 [2] 。</span>
+<span class="n">randomSet</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="c1">// 2 已在集合中，所以返回 false 。</span>
+<span class="n">randomSet</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="c1">// 由于 2 是集合中唯一的数字，getRandom 总是返回 2 。</span>
+<span class="n">randomSet</span><span class="p">.</span><span class="n">getRandom</span><span class="p">();</span>
+</pre></div>
+
+
+<p>题解:</p>
+<div class="hlcode"><pre><span class="kd">class</span> <span class="nc">RandomizedSet</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+    <span class="cm">/** Initialize your data structure here. */</span>
+    <span class="kd">public</span> <span class="nf">RandomizedSet</span><span class="o">()</span> <span class="o">{</span>
+
+    <span class="o">}</span>
+
+    <span class="cm">/** Inserts a value to the set. Returns true if the set did not already contain the specified element. */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">insert</span><span class="o">(</span><span class="kt">int</span> <span class="n">val</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">val</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+        <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">val</span><span class="o">);</span>
+        <span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">val</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/** Removes a value from the set. Returns true if the set contained the specified element. */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">remove</span><span class="o">(</span><span class="kt">int</span> <span class="n">val</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">val</span><span class="o">)</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="n">Integer</span> <span class="n">lastElement</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="n">Integer</span> <span class="n">index</span> <span class="o">=</span> <span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">val</span><span class="o">);</span>
+        <span class="n">list</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">index</span> <span class="o">,</span> <span class="n">lastElement</span><span class="o">);</span>
+        <span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">lastElement</span><span class="o">,</span> <span class="n">index</span><span class="o">);</span>
+
+        <span class="n">list</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="n">map</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">val</span><span class="o">);</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/** Get a random element from the set. */</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getRandom</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">Random</span> <span class="n">random</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Random</span><span class="o">();</span>
+        <span class="n">Integer</span> <span class="n">i</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+        <span class="k">return</span> <span class="n">list</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Your RandomizedSet object will be instantiated and called as such:</span>
+<span class="cm"> * RandomizedSet obj = new RandomizedSet();</span>
+<span class="cm"> * boolean param_1 = obj.insert(val);</span>
+<span class="cm"> * boolean param_2 = obj.remove(val);</span>
+<span class="cm"> * int param_3 = obj.getRandom();</span>
+<span class="cm"> */</span>
+</pre></div>
+
+
+<p>分析: 思路对的，不知道为什么一开始的做法解不出来。</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-03-16 22:19:07</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
