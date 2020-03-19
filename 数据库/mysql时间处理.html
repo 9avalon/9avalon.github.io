@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
-    <title>Logback - Miguel's Wiki</title>
+    <title>mysql时间处理 - Miguel's Wiki</title>
     <meta name="keywords" content=""/>
     <meta name="description" content="Miguel个人wiki"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -17,22 +17,17 @@
     <div id="container">
       
 <div id="header">
-  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;Logback
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#数据库">数据库</a>&nbsp;&#187;&nbsp;mysql时间处理
     <span class="updated">Page Updated&nbsp;
-      2019-02-15 12:01:57
-      
+      2020-03-19 10:39:47
     </span></div>
 </div>
 <div class="clearfix"></div>
 
-<div class="page_title">Logback</div>
+<div class="page_title">mysql时间处理</div>
 
-  <h2 id="logback">Logback</h2>
-<h3 id="logback_1">Logback配置文件外挂</h3>
-<div class="hlcode"><pre>// 非springboot
--Dlogback.configurationFile<span class="o">=</span>/Users/sakiri/xxx/code/logback/mc-logback.xml
-// springboot
--Dlogging.config<span class="o">=</span>/Users/sakiri/xxx/code/logback/mc-logback.xml
+  <p>记录常用的时间处理</p>
+<div class="hlcode"><pre><span class="n">update_time</span> <span class="o">&lt;</span> <span class="n">DATE_SUB</span><span class="p">(</span><span class="n">now</span><span class="p">(),</span> <span class="nb">INTERVAL</span> <span class="o">#</span><span class="k">min</span><span class="o">#</span> <span class="k">MINUTE</span><span class="p">)</span>
 </pre></div>
     </div>
     <div id="footer">
