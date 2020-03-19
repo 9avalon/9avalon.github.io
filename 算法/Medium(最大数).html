@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>(Medium)最大数 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#算法">算法</a>&nbsp;&#187;&nbsp;(Medium)最大数
+    <span class="updated">Page Updated&nbsp;
+      2020-03-19 18:34:26
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">(Medium)最大数</div>
+
+  <div class="hlcode"><pre><span class="err">给定一组非负整数，重新排列它们的顺序使之组成一个最大的整数。</span>
+
+<span class="err">示例</span> <span class="mi">1</span><span class="o">:</span>
+
+<span class="err">输入</span><span class="o">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="err">输出</span><span class="o">:</span> <span class="mi">210</span>
+<span class="err">示例</span> <span class="mi">2</span><span class="o">:</span>
+
+<span class="err">输入</span><span class="o">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">34</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+<span class="err">输出</span><span class="o">:</span> <span class="mi">9534330</span>
+<span class="err">说明</span><span class="o">:</span> <span class="err">输出结果可能非常大，所以你需要返回一个字符串而不是整数。</span>
+</pre></div>
+
+
+<p>题解:</p>
+<div class="hlcode"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">largestNumber</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 排序，从大到小</span>
+        <span class="n">quickSort</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="c1">// 打印</span>
+        <span class="n">StringBuilder</span> <span class="n">sb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">n</span> <span class="o">:</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">sb</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="s">&quot;0&quot;</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">continue</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">n</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">quickSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">start</span><span class="o">,</span> <span class="kt">int</span> <span class="n">end</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">start</span> <span class="o">&gt;</span> <span class="n">end</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="n">start</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="n">end</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">left</span><span class="o">];</span>
+
+        <span class="k">while</span> <span class="o">(</span><span class="n">left</span> <span class="o">!=</span> <span class="n">right</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// 右边节点走</span>
+            <span class="k">while</span> <span class="o">(</span><span class="n">compare</span><span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="n">right</span><span class="o">],</span> <span class="n">temp</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">right</span> <span class="o">--;</span>
+            <span class="o">}</span>
+            <span class="c1">// 左边节点走</span>
+            <span class="k">while</span> <span class="o">(</span><span class="n">compare</span><span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="n">left</span><span class="o">],</span> <span class="n">temp</span><span class="o">)</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">left</span> <span class="o">++;</span>
+            <span class="o">}</span>
+            <span class="c1">// 左右交换</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span><span class="o">)</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">left</span><span class="o">];</span>
+                <span class="n">nums</span><span class="o">[</span><span class="n">left</span><span class="o">]</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">right</span><span class="o">];</span>
+                <span class="n">nums</span><span class="o">[</span><span class="n">right</span><span class="o">]</span> <span class="o">=</span> <span class="n">t</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 最终将基准数归位</span>
+        <span class="n">nums</span><span class="o">[</span><span class="n">start</span><span class="o">]</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">left</span><span class="o">];</span>
+        <span class="n">nums</span><span class="o">[</span><span class="n">left</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">;</span>
+
+        <span class="c1">// 左右递归继续排序</span>
+        <span class="n">quickSort</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="n">left</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="n">quickSort</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">left</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">end</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// left&gt;right 1</span>
+    <span class="c1">// left=right 0</span>
+    <span class="c1">// left&lt;right -1</span>
+    <span class="kd">private</span> <span class="n">Integer</span> <span class="nf">compare</span><span class="o">(</span><span class="kt">int</span> <span class="n">left</span><span class="o">,</span> <span class="kt">int</span> <span class="n">right</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">leftStr</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">left</span><span class="o">);</span>
+        <span class="n">String</span> <span class="n">rightStr</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">right</span><span class="o">);</span>
+
+        <span class="n">Long</span> <span class="n">sum1</span> <span class="o">=</span> <span class="n">Long</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">leftStr</span> <span class="o">+</span> <span class="n">rightStr</span><span class="o">);</span>
+        <span class="n">Long</span> <span class="n">sum2</span> <span class="o">=</span> <span class="n">Long</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">rightStr</span> <span class="o">+</span> <span class="n">leftStr</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">sum1</span> <span class="o">&gt;</span> <span class="n">sum2</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">Objects</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">sum1</span><span class="o">,</span> <span class="n">sum2</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+        <span class="o">}</span>
+<span class="c1">//        int i = 0;</span>
+<span class="c1">//        while (true) {</span>
+<span class="c1">//            if (i &gt;= leftStr.length() &amp;&amp; i &gt;= rightStr.length()) {</span>
+<span class="c1">//                return 0;</span>
+<span class="c1">//            }</span>
+<span class="c1">//            if (i &gt;= leftStr.length()) {</span>
+<span class="c1">//                return -1;</span>
+<span class="c1">//            }</span>
+<span class="c1">//            if (i &gt;= rightStr.length()) {</span>
+<span class="c1">//                return 1;</span>
+<span class="c1">//            }</span>
+<span class="c1">//</span>
+<span class="c1">//            int ret = leftStr.charAt(i) - rightStr.charAt(i);</span>
+<span class="c1">//            if (ret &gt; 0) {</span>
+<span class="c1">//                return 1;</span>
+<span class="c1">//            } else if (ret &lt; 0){</span>
+<span class="c1">//                return -1;</span>
+<span class="c1">//            }</span>
+<span class="c1">//</span>
+<span class="c1">//            i++;</span>
+<span class="c1">//        }</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>分析:</p>
+<p>1.核心是快排，并且修改快排的比较大小逻辑</p>
+<p>2.一开始想岔了，比较大小的逻辑写得很复杂（注释那里），后面看了题解改了策略。</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-03-19 18:34:37</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
