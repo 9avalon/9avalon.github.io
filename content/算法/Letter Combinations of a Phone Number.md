@@ -1,7 +1,7 @@
 ---
 title: Letter Combinations of a Phone Number
 date: 2016-6-23 17:50:10
-collection: 未分类
+collection: DFS
 ---
 
 #### 暴力破解

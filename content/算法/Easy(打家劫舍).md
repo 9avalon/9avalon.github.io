@@ -1,7 +1,7 @@
 ---
 title: (Easy)打家劫舍
 date: 2020-03-02 16:28:21
-collection: 打家劫舍
+collection: 动态规划
 ---
 
 ```txt
