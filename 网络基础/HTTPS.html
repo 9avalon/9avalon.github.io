@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
-    <title>Navicat - Miguel's Wiki</title>
+    <title>HTTPS - Miguel's Wiki</title>
     <meta name="keywords" content=""/>
     <meta name="description" content="Miguel个人wiki"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -17,29 +17,27 @@
     <div id="container">
       
 <div id="header">
-  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Tool">Tool</a>&nbsp;&#187;&nbsp;Navicat
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#网络基础">网络基础</a>&nbsp;&#187;&nbsp;HTTPS
     <span class="updated">Page Updated&nbsp;
-      2016-08-18 11:30:44
+      2020-03-27 11:24:39
     </span></div>
 </div>
 <div class="clearfix"></div>
 
-<div class="page_title">Navicat</div>
+<div class="page_title">HTTPS</div>
 
-  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
-<li><a href="#_1">快捷键</a></li>
-</ul>
-</div>
-<h2 id="_1">快捷键</h2>
-<p>ctrl+q           打开查询窗口</p>
-<p>ctrl+/            注释sql语句</p>
-<p>ctrl+shift +/  解除注释</p>
-<p>ctrl+r           运行查询窗口的sql语句</p>
-<p>ctrl+shift+r   只运行选中的sql语句</p>
-<p>F6               打开一个mysql命令行窗口</p>
-<p>ctrl+l            删除一行</p>
-<p>ctrl+n           打开一个新的查询窗口</p>
-<p>ctrl+w          关闭一个查询窗口</p>
+  <p>参考资料：</p>
+<p>https://www.cnblogs.com/franson-2016/p/5530671.html</p>
+<p>http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html</p>
+<h2 id="httphttps">HTTP和HTTPS的区别</h2>
+<p>http协议，数据在网络传输是明文传输。</p>
+<p>https协议，数据在网络传输是密文传输。</p>
+<p>https由ssl和http协议进行网络上的加密传输</p>
+<h2 id="ssl">SSL</h2>
+<ol>
+<li>客户端向服务端发起请求，服务端返回证书，里面包含服务端的公钥</li>
+<li>客户端验证证书的有效性，验证通过后，随机生成字符串用做验证加密，对称加密。</li>
+</ol>
     </div>
     <div id="footer">
       <span>
