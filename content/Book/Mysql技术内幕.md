@@ -1,5 +1,5 @@
 ---
-title: Mysql技术内幕-InnoDB存储引擎
+title: 《Mysql技术内幕》
 date: 2019-07-03 10:25:37
 draft: true
 ---
