@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
-    <title>ConcurrentHashMap - Miguel's Wiki</title>
+    <title>TPS - Miguel's Wiki</title>
     <meta name="keywords" content=""/>
     <meta name="description" content="Miguel个人wiki"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -17,27 +17,16 @@
     <div id="container">
       
 <div id="header">
-  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;ConcurrentHashMap
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#基础理论">基础理论</a>&nbsp;&#187;&nbsp;TPS
     <span class="updated">Page Updated&nbsp;
-      2020-03-31 10:18:12
+      2020-04-09 01:09:58
     </span></div>
 </div>
 <div class="clearfix"></div>
 
-<div class="page_title">ConcurrentHashMap</div>
+<div class="page_title">TPS</div>
 
-  <h2 id="put">put</h2>
-<ol>
-<li>判断桶是否初始化了，未初始化则进行初始化，关键技术，CAS</li>
-<li>通过(n-1)&amp;key.hashCode()定位桶位置</li>
-<li>定位到桶后，通过synchronized锁住桶，然后遍历list或者tree，然后通过尾插法插入</li>
-</ol>
-<h2 id="_1">扩展</h2>
-<p>Thread.yield();</p>
-<p>CAS, ABA问题</p>
-<p>头插法，1.7的jdk会导致resize死循环</p>
-<p>1.8已经去掉了segment，改为每个桶都加锁，原因1，增加并发度，原因2，降低复杂度。</p>
-<p>get方法不加锁，因此不能保证强一致性。</p>
+  <p>简单测算tps的方式：总请求数/总处理时间(秒)，时间越长稳定后越好。</p>
     </div>
     <div id="footer">
       <span>
