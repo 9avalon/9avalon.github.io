@@ -36,7 +36,8 @@ final int cacheSize = 100;
 Map<String, String> map = new LinkedHashMap<String, String>((int) Math.ceil(cacheSize / 0.75f) + 1, 0.75f, true) {
     @Override
     protected boolean removeEldestEntry(Map.Entry<String, String> eldest) {
-    return size() > cacheSize;
+        // 这是的意思是，当map里面元素大于我们设定的大小(100)时，就会执行这个逻辑
+        return size() > cacheSize;
     }
 };
 ```
