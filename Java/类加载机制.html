@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>类加载机制 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;类加载机制
+    <span class="updated">Page Updated&nbsp;
+      2020-04-16 23:45:21
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">类加载机制</div>
+
+  <h2 id="_1">过程</h2>
+<p>加载、验证、准备、解析、初始化、使用、卸载</p>
+<p>简单理解：</p>
+<ol>
+<li>
+<p>加载就是把类信息加载到内存</p>
+</li>
+<li>
+<p>验证就是验证类的安全性，完整性。</p>
+</li>
+<li>
+<p>准备就是对类变量做初始化（赋初始值，如0）</p>
+</li>
+<li>
+<p>解析，这块没看懂，将常量池符号引用替换为直接在内存中引用</p>
+</li>
+<li>
+<p>初始化，先初始化父类，再初始化子类，先初始化静态块，再初始化普通块，再构造函数</p>
+</li>
+</ol>
+<h2 id="_2">双亲委派</h2>
+<p>类在加载器接到加载类请求时，先将加载任务给父加载器，逐层递归，如果父加载器能完成加载，就给父加载器加载，如果不能，就自己加载。</p>
+<p>好处：公共的类只加载一份。保证系统的稳定。比如Object类，如果在自己代码里面也定义了一个java.lang.Object，没有双亲委派机制，那这个类将可能导致你的程序无法运行。</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-04-17 00:21:10</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
