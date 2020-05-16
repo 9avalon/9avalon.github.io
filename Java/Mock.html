@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>Mock - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;Mock
+    <span class="updated">Page Updated&nbsp;
+      2020-05-16 14:20:21
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">Mock</div>
+
+  <p><a href="https://juejin.im/post/5d103ef76fb9a07ef5624163">Mockito</a></p>
+<h2 id="beanmock">通过反射，修改bean的mock对象</h2>
+<div class="hlcode"><pre>  <span class="nd">@Before</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+    <span class="c1">// 使用反射将IOC容器注入的service的属性替换指定为mock的对象</span>
+    <span class="n">ReflectionTestUtils</span><span class="o">.</span><span class="na">setField</span><span class="o">(</span><span class="n">carService</span><span class="o">,</span> <span class="s">&quot;basicService&quot;</span><span class="o">,</span> <span class="n">basicService</span><span class="o">);</span>
+    <span class="n">PowerMockito</span><span class="o">.</span><span class="na">when</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">basicService</span><span class="o">,</span> <span class="s">&quot;getCarType&quot;</span><span class="o">,</span> <span class="n">anyLong</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="n">Optional</span><span class="o">.</span><span class="na">empty</span><span class="o">());</span>
+  <span class="o">}</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-05-16 14:22:28</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
