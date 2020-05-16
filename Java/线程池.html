@@ -26,7 +26,11 @@
 
 <div class="page_title">线程池</div>
 
-  <h2 id="_1">自定义线程池</h2>
+  <h2 id="_1">常用线程池</h2>
+<p>newFixedThreadPool，固定线程池<br />
+newSingleThreadExecutor，一个线程池<br />
+newCachedThreadPool 无线线程池</p>
+<h2 id="_2">自定义线程池</h2>
 <div class="hlcode"><pre><span class="cm">/**</span>
 <span class="cm"> * 线程池配置</span>
 <span class="cm"> *</span>
@@ -61,12 +65,67 @@
     <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
+
+
+<h2 id="_3">阻塞队列线程池</h2>
+<div class="hlcode"><pre><span class="cm">/**</span>
+<span class="cm"> * 阻塞的异步线程池配置</span>
+<span class="cm"> */</span>
+<span class="nd">@EnableAsync</span>
+<span class="nd">@Configuration</span>
+<span class="nd">@Slf4j</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">BlockingAsyncConfiguration</span> <span class="o">{</span>
+
+
+    <span class="cm">/**</span>
+<span class="cm">     * 线程池工作的线程总数</span>
+<span class="cm">     * Set the ThreadPoolExecutor&#39;s core pool size.</span>
+<span class="cm">     */</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">corePoolSize</span> <span class="o">=</span> <span class="mi">5</span><span class="o">;</span>
+    <span class="cm">/**</span>
+<span class="cm">     * 线程池工作极限的告警数量值，如果达到极限值并且工作队列已满,将按照策略执行</span>
+<span class="cm">     * Set the ThreadPoolExecutor&#39;s maximum pool size.</span>
+<span class="cm">     */</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">maxPoolSize</span> <span class="o">=</span> <span class="mi">15</span><span class="o">;</span>
+    <span class="cm">/**</span>
+<span class="cm">     * 持有等待执行的任务队列.</span>
+<span class="cm">     * Set the capacity for the ThreadPoolExecutor&#39;s BlockingQueue.</span>
+<span class="cm">     */</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">queueCapacity</span> <span class="o">=</span> <span class="mi">200</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">threadNamePrefix_data</span> <span class="o">=</span> <span class="s">&quot;blocking-async-executor-&quot;</span><span class="o">;</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">Executor</span> <span class="nf">blockingAsyncExecutor</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">ThreadPoolTaskExecutor</span> <span class="n">executor</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ThreadPoolTaskExecutor</span><span class="o">();</span>
+        <span class="n">executor</span><span class="o">.</span><span class="na">setCorePoolSize</span><span class="o">(</span><span class="n">corePoolSize</span><span class="o">);</span>
+        <span class="n">executor</span><span class="o">.</span><span class="na">setMaxPoolSize</span><span class="o">(</span><span class="n">maxPoolSize</span><span class="o">);</span>
+        <span class="n">executor</span><span class="o">.</span><span class="na">setQueueCapacity</span><span class="o">(</span><span class="n">queueCapacity</span><span class="o">);</span>
+        <span class="n">executor</span><span class="o">.</span><span class="na">setThreadNamePrefix</span><span class="o">(</span><span class="n">threadNamePrefix_data</span><span class="o">);</span>
+        <span class="n">executor</span><span class="o">.</span><span class="na">setKeepAliveSeconds</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="n">executor</span><span class="o">.</span><span class="na">setRejectedExecutionHandler</span><span class="o">((</span><span class="n">Runnable</span> <span class="n">r</span><span class="o">,</span> <span class="n">ThreadPoolExecutor</span> <span class="n">threadPoolExecutor</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                    <span class="k">if</span> <span class="o">(!</span><span class="n">threadPoolExecutor</span><span class="o">.</span><span class="na">isShutdown</span><span class="o">())</span> <span class="o">{</span>
+                        <span class="k">try</span> <span class="o">{</span>
+                            <span class="c1">// 基于BlockingQueue的put方法来实现，当阻塞队列满时，put方法会一直等待</span>
+                            <span class="n">threadPoolExecutor</span><span class="o">.</span><span class="na">getQueue</span><span class="o">().</span><span class="na">put</span><span class="o">(</span><span class="n">r</span><span class="o">);</span>
+                        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="n">e</span><span class="o">);</span>
+                            <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">interrupt</span><span class="o">();</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+        <span class="o">);</span>
+        <span class="n">executor</span><span class="o">.</span><span class="na">initialize</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">executor</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-05-10 22:47:10</p>
+        <p>Site Generated 2020-05-16 10:31:38</p>
       </span>
     </div>
 

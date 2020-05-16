@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
-    <title>Easyexecl - Miguel's Wiki</title>
+    <title>Easyexcel - Miguel's Wiki</title>
     <meta name="keywords" content=""/>
     <meta name="description" content="Miguel个人wiki"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -17,16 +17,16 @@
     <div id="container">
       
 <div id="header">
-  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;Easyexecl
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;Easyexcel
     <span class="updated">Page Updated&nbsp;
       2019-06-17 13:02
     </span></div>
 </div>
 <div class="clearfix"></div>
 
-<div class="page_title">Easyexecl</div>
+<div class="page_title">Easyexcel</div>
 
-  <h2 id="ali-easyexecl">Ali-easyexecl</h2>
+  <h2 id="easyexcel">EasyExcel</h2>
 <h3 id="_1">引入依赖</h3>
 <div class="hlcode"><pre><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>com.alibaba<span class="nt">&lt;/groupId&gt;</span>
@@ -80,12 +80,74 @@
     <span class="k">return</span> <span class="n">filePath</span><span class="o">;</span>
 <span class="o">}</span>
 </pre></div>
+
+
+<h2 id="excel">读excel</h2>
+<div class="hlcode"><pre>        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>com.alibaba<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>easyexcel<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>2.2.3<span class="nt">&lt;/version&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+
+
+<p>Main入口</p>
+<div class="hlcode"><pre>    <span class="cm">/**</span>
+<span class="cm">     * 指定列的下标或者列名</span>
+<span class="cm">     *</span>
+<span class="cm">     * &lt;p&gt;</span>
+<span class="cm">     * 1. 创建excel对应的实体对象,并使用{@link ExcelProperty}注解. 参照{@link IndexOrNameData}</span>
+<span class="cm">     * &lt;p&gt;</span>
+<span class="cm">     * 2. 由于默认一行行的读取excel，所以需要创建excel一行一行的回调监听器，参照{@link IndexOrNameDataListener}</span>
+<span class="cm">     * &lt;p&gt;</span>
+<span class="cm">     * 3. 直接读即可</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">indexOrNameRead</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">fileName</span> <span class="o">=</span> <span class="s">&quot;/Users/sakiri/Downloads/mool.xls&quot;</span><span class="o">;</span>
+        <span class="c1">// 这里默认读取第一个sheet</span>
+        <span class="n">EasyExcel</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">fileName</span><span class="o">,</span> <span class="n">IndexOrNameData</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="k">new</span> <span class="n">IndexOrNameDataListener</span><span class="o">()).</span><span class="na">sheet</span><span class="o">().</span><span class="na">doRead</span><span class="o">();</span>
+    <span class="o">}</span>
+</pre></div>
+
+
+<p>Listener类</p>
+<div class="hlcode"><pre><span class="nd">@Slf4j</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">IndexOrNameDataListener</span> <span class="kd">extends</span> <span class="n">AnalysisEventListener</span><span class="o">&lt;</span><span class="n">IndexOrNameData</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="n">List</span><span class="o">&lt;</span><span class="n">IndexOrNameData</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">IndexOrNameData</span><span class="o">&gt;();</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">invoke</span><span class="o">(</span><span class="n">IndexOrNameData</span> <span class="n">data</span><span class="o">,</span> <span class="n">AnalysisContext</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">data</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doAfterAllAnalysed</span><span class="o">(</span><span class="n">AnalysisContext</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&quot;所有数据解析完成！list={}&quot;</span><span class="o">,</span> <span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p><code>实体类
+/**
+ * 基础数据类
+ *
+ * @author Jiaju Zhuang
+ **/
+@Data
+public class IndexOrNameData {
+    /**
+     操作人名称
+     */
+    @ExcelProperty("userName")
+    private String userName ;
+}</code></p>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-05-10 22:47:10</p>
+        <p>Site Generated 2020-05-16 10:31:38</p>
       </span>
     </div>
 
