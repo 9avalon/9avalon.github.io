@@ -27,3 +27,6 @@ collection : 集合类型
 1. 优先队列实现
 2. 最快过期的在最前面准备出栈。
 
+Demo
+
+()[https://juejin.im/post/5bf945b95188254e2a04329b]
