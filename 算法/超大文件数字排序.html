@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>超大文件数字排序 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#算法">算法</a>&nbsp;&#187;&nbsp;超大文件数字排序
+    <span class="updated">Page Updated&nbsp;
+      
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">超大文件数字排序</div>
+
+  <h2 id="_1">题目描述</h2>
+<p>如何给100亿个数字排序?</p>
+<h2 id="_2">思路</h2>
+<p>1.先将大文件用hash拆分，拆分为1000个小文件。</p>
+<p>这里衍生一个问题，为什么用hash拆分，如果不是对这1000个数字排序，而是统计出现频率最高的N个数字，那按hash排序就能将相同的数字归到同一个文件里面。减少计算量。</p>
+<p>2.1000个小文件内部排序</p>
+<p>3.进行归并，遍历1000个小文件</p>
+<p>首先遍历1000个文件，每个文件里面取第一个数字，组成 (数字, 文件号) 这样的组合加入到堆里（假设是从小到大排序，用小顶堆），遍历完后堆里有1000个 (数字，文件号) 这样的元素<br />
+然后不断从堆顶拿元素出来，每拿出一个元素，把它的文件号读取出来，然后去对应的文件里，加一个元素进入堆，直到那个文件被读取完。拿出来的元素当然追加到最终结果的文件里。<br />
+按照上面的操作，直到堆被取空了，此时最终结果文件里的全部数字就是有序的了。</p>
+<p>4.大文件内存装不下</p>
+<p>mmap，直接使用堆外内存。零拷贝。</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-05-26 01:25:55</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

@@ -35,6 +35,8 @@
 <li><a href="#threadjoin">Thread.join()方法的作用是什么</a></li>
 </ul>
 </div>
+<p>2020-05-19，怎么合理估算线程大小？IO密集型，（线程cpu执行时间+线程等待时间）/线程cpu时间 * cpu核心数</p>
+<p>比如平均每个线程CPU运行时间为0.5s，而线程等待时间（非CPU运行时间，比如IO）为1.5s，CPU核心数为8，那么根据上面这个公式估算得到：((0.5+1.5)/0.5)*8=32。这个公式进一步转化为：</p>
 <h4 id="_1">什么是线程</h4>
 <ul>
 <li>线程是程序执行过程中，能够执行程序代码的一个执行单元。每个进程都有自己独立的栈空间</li>
@@ -87,7 +89,7 @@
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-05-16 14:22:28</p>
+        <p>Site Generated 2020-05-26 01:25:55</p>
       </span>
     </div>
 

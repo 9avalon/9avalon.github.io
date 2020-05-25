@@ -26,8 +26,8 @@
 
 <div class="page_title">TCP/IP</div>
 
-  <h1 id="tcpip">TCP/IP</h1>
-<h2 id="tcpip_1">TCP/IP 五层结构</h2>
+  <h2 id="tcpip">TCP/IP</h2>
+<h3 id="tcpip_1">TCP/IP 五层结构</h3>
 <p>物理层 -&gt; 链路层 -&gt; 网络层 -&gt; 传输层 -&gt; 应用层</p>
 <p>1、物理层</p>
 <p>数据流在网线中以0，1的数据进行传递。可以看作是连接两台机器的网线。</p>
@@ -39,11 +39,11 @@
 <p>包含端口号信息，建立端口到端口的通信</p>
 <p>5、应用层(FTP/HTTP/WWW/DNS)</p>
 <p><a href="http://www.ruanyifeng.com/blog/2012/05/internet_protocol_suite_part_i.html">互联网协议</a></p>
-<h2 id="ip">IP地址的分类</h2>
+<h3 id="ip">IP地址的分类</h3>
 <p>A类地址 以0开头，B类地址 以10开头，C类地址，以110开头</p>
-<h2 id="arp">ARP协议工作原理</h2>
+<h3 id="arp">ARP协议工作原理</h3>
 <p>ARP的目的是根据IP地址查找MAC地址，发送方将IP地址广播给同一网络的所有主机，接受方拿到数据包后会先判断IP是否和自己一致，如果一致，则将IP和MAC返回，否则就放弃该消息。</p>
-<h2 id="tcp">TCP三次握手和 四次挥手</h2>
+<h3 id="tcp">TCP三次握手和 四次挥手</h3>
 <blockquote>
 <p>三次握手：<br />
 第一次握手：客户端发送syn包(syn=x)到服务器，并进入SYN_SEND状态，等待服务器确认；<br />
@@ -57,16 +57,23 @@
 第三次挥手：被动关闭方发送一个FIN，用来关闭被动关闭方到主动关闭方的数据传送，也就是告诉主动关闭方，我的数据也发送完了，不会再给你发数据了。<br />
 第四次挥手：主动关闭方收到FIN后，发送一个ACK给被动关闭方，确认序号为收到序号+1，至此，完成四次挥手。</p>
 </blockquote>
-<h2 id="wwwgooglecom">地址栏输入www.google.com后发生的事</h2>
+<h3 id="wwwgooglecom">地址栏输入www.google.com后发生的事</h3>
 <p>1、通过DNS获取对方IP</p>
 <p>2、封装数据，通过ARP协议获取网关IP和MAC地址，发送数据报给网关</p>
 <p>3、网关进行数据转发</p>
+<h3 id="tcp_1">TCP拥塞控制</h3>
+<p>两台主机在数据传输时，当接收方网络拥堵时，发送方发送的包可能会迟迟没有收到ACK，而选择重传，这会导致网络更加拥挤，所以需要做拥塞控制。</p>
+<p>A和B在建立连接后，先以指数的方式，递增增加每次请求发送的数据包。达到阈值后，再线性增加每次传输的数据包。我们称指数增长阶段为<em>慢启动</em>，线性增长阶段为<em>拥塞避免</em></p>
+<p>如果在指数阶段或线性阶段，出现了丢包，那每次发送数据包的窗口值就会减半，然后再重传。</p>
+<p><em>快速恢复</em>：在数据包传输发生丢失时，比如说发送方发送了M1,M2,M3,M4,M5这四个包，但是接收方都返回的M1,M2,M2,M2,M2，当发送方连续收到三个相同的M2包时，就会意识到M3包丢失，此时发送方马上重传M3包，并且会将发送阈值减半，然后线性增长。</p>
+<p><a href="https://zhuanlan.zhihu.com/p/97709686">拥塞控制、慢启动、拥塞避免</a></p>
+<p><a href="https://blog.csdn.net/qq_38623623/article/details/81290265">更详细的版本</a></p>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-05-16 14:22:28</p>
+        <p>Site Generated 2020-05-26 01:25:55</p>
       </span>
     </div>
 

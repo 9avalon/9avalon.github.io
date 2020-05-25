@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>(Medium)二叉树的右视图 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#算法">算法</a>&nbsp;&#187;&nbsp;(Medium)二叉树的右视图
+    <span class="updated">Page Updated&nbsp;
+      2020-05-21 22:58:05
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">(Medium)二叉树的右视图</div>
+
+  <div class="hlcode"><pre>给定一棵二叉树，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
+
+示例<span class="o">:</span>
+
+输入<span class="o">:</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span>null<span class="p">,</span><span class="m">5</span><span class="p">,</span>null<span class="p">,</span><span class="m">4</span><span class="p">]</span>
+输出<span class="o">:</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">]</span>
+解释<span class="o">:</span>
+
+   <span class="m">1</span>            <span class="o">&lt;---</span>
+ <span class="o">/</span>   \
+<span class="m">2</span>     <span class="m">3</span>         <span class="o">&lt;---</span>
+ \     \
+  <span class="m">5</span>     <span class="m">4</span>       <span class="o">&lt;---</span>
+
+来源：力扣（LeetCode）
+链接：https<span class="o">://</span>leetcode<span class="o">-</span>cn.com<span class="o">/</span>problems<span class="o">/</span>binary<span class="o">-</span>tree<span class="o">-</span>right<span class="o">-</span>side<span class="o">-</span>view
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+</pre></div>
+
+
+<p>题解:</p>
+<div class="hlcode"><pre><span class="cm">/**</span>
+<span class="cm"> * Definition for a binary tree node.</span>
+<span class="cm"> * public class TreeNode {</span>
+<span class="cm"> *     int val;</span>
+<span class="cm"> *     TreeNode left;</span>
+<span class="cm"> *     TreeNode right;</span>
+<span class="cm"> *     TreeNode(int x) { val = x; }</span>
+<span class="cm"> * }</span>
+<span class="cm"> */</span>
+<span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">set</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;();</span>
+
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">rightSideView</span><span class="o">(</span><span class="n">TreeNode</span> <span class="n">root</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="n">rightSide</span><span class="o">(</span><span class="n">root</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">result</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">rightSide</span><span class="o">(</span><span class="n">TreeNode</span> <span class="n">node</span><span class="o">,</span> <span class="kt">int</span> <span class="n">level</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">result</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">node</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">set</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">level</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">result</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">val</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">level</span><span class="o">);</span>
+
+        <span class="n">rightSide</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">right</span><span class="o">,</span> <span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">result</span><span class="o">);</span>
+        <span class="n">rightSide</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">left</span><span class="o">,</span> <span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">result</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>分析: 这题做得略爽，换个思路，逆转正常的先序遍历就ok了。</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-05-26 01:25:55</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

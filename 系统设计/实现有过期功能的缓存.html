@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>实现有过期功能的缓存 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#系统设计">系统设计</a>&nbsp;&#187;&nbsp;实现有过期功能的缓存
+    <span class="updated">Page Updated&nbsp;
+      2020-05-25 00:45:46
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">实现有过期功能的缓存</div>
+
+  <h2 id="key">本地缓存(key会过期)</h2>
+<h3 id="1-concurrenthashmapkey">实现方案1: ConcurrentHashMap+key过期时间戳</h3>
+<p>1.1 查询缓存时，如果当前时间大于key的过期时间，则不返回，并且对该key进行删除<br />
+1.2 定时任务随机删除key，策略为随机从有过期时间的key中，抽样进行删除。</p>
+<p>总结：性能最好，但是会占用比较多的内存空间</p>
+<h3 id="1">改进方案1</h3>
+<p>增加LRU算法，淘汰掉不常用的key值</p>
+<h3 id="2">改进方案2</h3>
+<p>使用延迟队列，对key定时删除</p>
+<h3 id="_1">延迟队列实现</h3>
+<p>存储key的类</p>
+<div class="hlcode"><pre><span class="cm">/**</span>
+<span class="cm"> * @author Miguel.hou</span>
+<span class="cm"> * @version v1.0</span>
+<span class="cm"> * @date 2020-05-26</span>
+<span class="cm"> */</span>
+<span class="nd">@Data</span>
+<span class="nd">@AllArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CacheItem</span> <span class="kd">implements</span> <span class="n">Delayed</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">key</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">value</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="n">Long</span> <span class="n">expireSec</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="n">Long</span> <span class="n">currentTime</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">CacheItem</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">String</span> <span class="n">value</span><span class="o">,</span> <span class="n">Long</span> <span class="n">expireSec</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">expireSec</span> <span class="o">=</span> <span class="n">expireSec</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">currentTime</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">long</span> <span class="nf">getDelay</span><span class="o">(</span><span class="n">TimeUnit</span> <span class="n">unit</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 还剩多少时间过期</span>
+        <span class="k">return</span> <span class="n">expireSec</span> <span class="o">-</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MILLISECONDS</span><span class="o">.</span><span class="na">toSeconds</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">()</span> <span class="o">-</span> <span class="n">currentTime</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compareTo</span><span class="o">(</span><span class="n">Delayed</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">Long</span><span class="o">.</span><span class="na">compare</span><span class="o">(</span><span class="n">getDelay</span><span class="o">(</span><span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">),</span> <span class="n">o</span><span class="o">.</span><span class="na">getDelay</span><span class="o">(</span><span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>MyCahce.java</p>
+<div class="hlcode"><pre><span class="cm">/**</span>
+<span class="cm"> * @author Miguel.hou</span>
+<span class="cm"> * @version v1.0</span>
+<span class="cm"> * @date 2020-05-26</span>
+<span class="cm"> */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyCache</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">stop</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">CacheItem</span><span class="o">&gt;</span> <span class="n">cacheMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;();</span>
+    <span class="kd">private</span> <span class="n">DelayQueue</span><span class="o">&lt;</span><span class="n">CacheItem</span><span class="o">&gt;</span> <span class="n">expireDelayQueue</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DelayQueue</span><span class="o">&lt;</span><span class="n">CacheItem</span><span class="o">&gt;();</span>
+
+    <span class="kd">public</span> <span class="nf">MyCache</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">new</span> <span class="nf">Thread</span><span class="o">(</span><span class="k">this</span><span class="o">).</span><span class="na">start</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">set</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">String</span> <span class="n">value</span><span class="o">,</span> <span class="n">Long</span> <span class="n">expireSec</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">CacheItem</span> <span class="n">cacheItem</span> <span class="o">=</span> <span class="n">cacheMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">cacheItem</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">cacheMap</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+            <span class="n">expireDelayQueue</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">cacheItem</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="n">CacheItem</span> <span class="n">newCacheItem</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CacheItem</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">,</span> <span class="n">expireSec</span><span class="o">);</span>
+        <span class="n">expireDelayQueue</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">newCacheItem</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@SneakyThrows</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">while</span> <span class="o">(!</span><span class="n">stop</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">CacheItem</span> <span class="n">cacheItem</span> <span class="o">=</span> <span class="n">expireDelayQueue</span><span class="o">.</span><span class="na">take</span><span class="o">();</span>
+            <span class="n">cacheMap</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">cacheItem</span><span class="o">.</span><span class="na">getKey</span><span class="o">());</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;============ remove cache:&quot;</span> <span class="o">+</span> <span class="n">cacheItem</span><span class="o">.</span><span class="na">getKey</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">shutDown</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">MyCache</span> <span class="n">myCache</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MyCache</span><span class="o">();</span>
+        <span class="n">myCache</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&quot;miguel1&quot;</span><span class="o">,</span> <span class="s">&quot;123&quot;</span><span class="o">,</span> <span class="mi">5L</span><span class="o">);</span>
+        <span class="n">myCache</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&quot;miguel2&quot;</span><span class="o">,</span> <span class="s">&quot;123&quot;</span><span class="o">,</span> <span class="mi">10L</span><span class="o">);</span>
+        <span class="n">myCache</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&quot;miguel3&quot;</span><span class="o">,</span> <span class="s">&quot;123&quot;</span><span class="o">,</span> <span class="mi">15L</span><span class="o">);</span>
+
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">30000</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-05-26 01:25:55</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

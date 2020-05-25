@@ -56,6 +56,7 @@
 <li><a href="#parallel-old_1">Parallel Old(老年代)</a></li>
 <li><a href="#cms">CMS(老年代)</a></li>
 <li><a href="#g1">G1（目前最先进）</a></li>
+<li><a href="#zgc">ZGC</a></li>
 </ul>
 </li>
 <li><a href="#jvm_1">JVM命令行工具使用</a><ul>
@@ -142,9 +143,23 @@
 <h4 id="parallel-old_1">Parallel Old(老年代)</h4>
 <p>吞吐量优先，标记-整理算法</p>
 <h4 id="cms">CMS(老年代)</h4>
-<p>并发收集，低停顿</p>
+<p>并发收集，低停顿，基于标记-清除算法</p>
+<ol>
+<li>初始标记(stop the world)</li>
+<li>并发标记</li>
+<li>重新标记(stop the world)</li>
+<li>并发清除</li>
+</ol>
 <h4 id="g1">G1（目前最先进）</h4>
+<p>基于标记-整理算法</p>
+<ol>
+<li>初始标记</li>
+<li>并发标记</li>
+<li>最终标记</li>
+<li>筛选回收</li>
+</ol>
 <p>jdk1.7正式商用。</p>
+<h4 id="zgc">ZGC</h4>
 <h3 id="jvm_1">JVM命令行工具使用</h3>
 <h4 id="jps">jps</h4>
 <p>查看虚拟机进程</p>
@@ -221,7 +236,7 @@ GCT：垃圾回收消耗总时间
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-05-16 14:22:28</p>
+        <p>Site Generated 2020-05-26 01:25:55</p>
       </span>
     </div>
 
