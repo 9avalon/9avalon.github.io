@@ -119,6 +119,8 @@ redis-cli -p 9200 keys *ACCOUNT_pay_channel* | xargs redis-cli -p 9200 del
 
 ### 分布式锁
 
+2020-05-25： 现在已经不需要结合这两个命令了，Redis在高版本的实现中，SET命令已经支持将NX和Expire结合在一起。
+
 1.通过命令SETNX和EXPIRE组合，可以实现分布式锁。
 
 ```shell

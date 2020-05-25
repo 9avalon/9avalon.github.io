@@ -27,6 +27,19 @@ collection : 集合类型
 1. 优先队列实现
 2. 最快过期的在最前面准备出栈。
 
+lambda写法 
+
+```java
+Queue<Integer> queue = new PriorityQueue<>((i1, i2) -> Integer.compare(i2, i1));
+
+Queue<Integer> queue = new PriorityQueue<>(500, new Comparator<String>(){
+    @Override
+    public int comapre(Integer t1, Integer t2) {
+        return Integer.compare(t1, t2);
+    }
+});
+```
+
 Demo
 
 ()[https://juejin.im/post/5bf945b95188254e2a04329b]

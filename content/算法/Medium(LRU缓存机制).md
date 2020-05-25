@@ -1,8 +1,39 @@
 ---
-title: LRU
+title: Medium(LRU缓存机制)
 date: 2019-11-22 01:43:35
 collection: 常见算法
 ---
+
+```txt
+运用你所掌握的数据结构，设计和实现一个  LRU (最近最少使用) 缓存机制。它应该支持以下操作： 获取数据 get 和 写入数据 put 。
+
+获取数据 get(key) - 如果密钥 (key) 存在于缓存中，则获取密钥的值（总是正数），否则返回 -1。
+写入数据 put(key, value) - 如果密钥已经存在，则变更其数据值；如果密钥不存在，则插入该组「密钥/数据值」。当缓存容量达到上限时，它应该在写入新数据之前删除最久未使用的数据值，从而为新的数据值留出空间。
+
+ 
+
+进阶:
+
+你是否可以在 O(1) 时间复杂度内完成这两种操作？
+
+示例:
+
+LRUCache cache = new LRUCache( 2 /* 缓存容量 */ );
+
+cache.put(1, 1);
+cache.put(2, 2);
+cache.get(1);       // 返回  1
+cache.put(3, 3);    // 该操作会使得密钥 2 作废
+cache.get(2);       // 返回 -1 (未找到)
+cache.put(4, 4);    // 该操作会使得密钥 1 作废
+cache.get(1);       // 返回 -1 (未找到)
+cache.get(3);       // 返回  3
+cache.get(4);       // 返回  4
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/lru-cache
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+```
 
 Least Frequently Used 😆
 
@@ -45,85 +76,57 @@ Map<String, String> map = new LinkedHashMap<String, String>((int) Math.ceil(cach
 ## 手写版本
 
 ```java
-/**
- * LRU缓存实现
- *
- * @author Miguel.hou
- * @version v1.0
- * @date 2019-11-22
- */
-public class LRUCache<V> {
+class LRUCache {
 
-    private Node<V> head;
-    private Node<V> tail;
-    private HashMap<String, Node<V>> hashMap;
-
+    private Node head;
+    private Node tail;
+    private Map<Integer, Node> map;
     private Integer capacity;
 
-    public LRUCache(Integer capacity) {
-        if (capacity <= 0) {
-            throw new IllegalArgumentException("capacity must greater than 0");
-        }
+    public LRUCache(int capacity) {
         this.capacity = capacity;
-        hashMap = new HashMap<>();
+        map = new HashMap<>();
     }
 
-    public synchronized V get(String key) {
-        Node<V> node = hashMap.get(key);
+    public int get(int key) {
+        Node node = map.get(key);
         if (node == null) {
-            return null;
+            return -1;
         }
 
-        // 刷新节点
         refreshNode(node);
         return node.value;
     }
 
-    public synchronized void put(String key, V value) {
-        Node<V> node = hashMap.get(key);
+    public void put(int key, int value) {
+        Node node = map.get(key);
         if (node == null) {
-            // 判断是否大于容量，需要去除首节点
-            if (hashMap.size() >= capacity) {
-                String rmKey = removeNode(head);
-                hashMap.remove(rmKey);
-            }
+            if (map.size() >= capacity) {
+                Integer removeKey = removeNode(head);
+                map.remove(removeKey);
+            } 
             // 加入队列
-            Node<V> newNode = new Node<>(key, value);
+            Node newNode = new Node(key, value);
             addNode(newNode);
-            hashMap.put(key, newNode);
+            map.put(key, newNode);
         } else {
-            // node存在，刷新值
             node.value = value;
             refreshNode(node);
         }
     }
 
-    public synchronized void remove(String key) {
-        Node<V> node = hashMap.get(key);
-        if (node == null) {
-            return;
-        }
-        removeNode(node);
-        hashMap.remove(key);
-    }
-
-    /**
-     * 刷新节点位置
-     * @param node
-     */
-    private void refreshNode(Node<V> node) {
+    private void refreshNode(Node node) {
         if (node == tail) {
-            // 尾节点，不需要更新节点
             return;
         }
 
-        // 删除节点
+        // 移除节点
         removeNode(node);
         // 新增节点
         addNode(node);
     }
 
-    private void addNode(Node<V> node) {
+    private void addNode(Node node) {
         if (tail != null) {
             tail.next = node;
             node.pre = tail;
@@ -135,44 +138,44 @@ public class LRUCache<V> {
         }
     }
 
-    private String removeNode(Node<V> node) {
+    private Integer removeNode(Node node) {
         if (node == tail) {
             tail = node.pre;
+            if (node.pre != null) {
+                node.pre.next = null;
+            }
         } else if (node == head) {
             head = node.next;
+            if (node.next != null) {
+                node.next.pre = null;
+            }
         } else {
             node.pre.next = node.next;
             node.next.pre = node.pre;
         }
-
         return node.key;
     }
 
-    class Node<V> {
-        public Node(String key, V value) {
+    public class Node {
+        Integer key;
+        Integer value;
+        Node next;
+        Node pre;
+
+        public Node(Integer key, Integer value){
             this.key = key;
             this.value = value;
+            next = null;
+            pre = null;
         }
-
-        Node<V> pre;
-        Node<V> next;
-        String key;
-        V value;
-    }
-
-    public static void main(String[] args) {
-        LRUCache<String> lruCache = new LRUCache<>(3);
-
-        lruCache.put("001", "用户1信息");
-        lruCache.put("002", "用户2信息");
-        lruCache.put("003", "用户3信息");
-        lruCache.put("004", "用户4信息");
-        lruCache.put("005", "用户5信息");
-
-        System.out.println(lruCache.get("004"));
-        System.out.println(lruCache.get("003"));
-        System.out.println(123);
     }
 }
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
 ```
 

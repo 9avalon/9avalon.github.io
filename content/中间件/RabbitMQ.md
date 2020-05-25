@@ -22,3 +22,8 @@ http://localhost:15672
 guest/guest
 ip:5672
 ```
+
+### RabbitMQ高可用方案
+
+1.镜像模式
+

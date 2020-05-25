@@ -145,6 +145,7 @@
 <h3 id="_4">缓存</h3>
 <p>性能卓越，纯内存操作，非常适合用来做内存数据库。</p>
 <h3 id="_5">分布式锁</h3>
+<p>2020-05-25： 现在已经不需要结合这两个命令了，Redis在高版本的实现中，SET命令已经支持将NX和Expire结合在一起。</p>
 <p>1.通过命令SETNX和EXPIRE组合，可以实现分布式锁。</p>
 <div class="hlcode"><pre><span class="n">SETNX</span> <span class="n">key</span> <span class="n">value</span>
 </pre></div>
@@ -205,7 +206,7 @@
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-05-21 23:13:52</p>
+        <p>Site Generated 2020-05-25 23:52:58</p>
       </span>
     </div>
 
