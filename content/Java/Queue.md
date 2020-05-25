@@ -27,7 +27,7 @@ collection : 集合类型
 1. 优先队列实现
 2. 最快过期的在最前面准备出栈。
 
-lambda写法 
+lambda写法
 
 ```java
 Queue<Integer> queue = new PriorityQueue<>((i1, i2) -> Integer.compare(i2, i1));
