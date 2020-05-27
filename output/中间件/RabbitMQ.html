@@ -45,12 +45,29 @@
 
 <h3 id="rabbitmq_2">RabbitMQ高可用方案</h3>
 <p>1.镜像模式</p>
+<h3 id="exchange">交换机类型(Exchange)</h3>
+<p>1.fanout，将消息发送到与交换机绑定的所有队列中</p>
+<p>2.direct，将消息路由到routingkey与bindingkey一致的队列中。</p>
+<p>3.topic，按规则模糊匹配，不知道具体的场景是啥。</p>
+<p>4.headers，根据发送消息的header属性进行匹配，好像性能会很差。</p>
+<h3 id="nio">NIO</h3>
+<p>rabbitmq也有使用到NIO，具体集中在网络IO方面，tcp连接复用</p>
+<h3 id="rabbitmq_3">RabbitMQ的心跳监控</h3>
+<div class="hlcode"><pre>    <span class="nd">@Resource</span>
+    <span class="kd">private</span> <span class="n">RabbitTemplate</span> <span class="n">rabbitTemplate</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getVersion</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">rabbitTemplate</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">channel</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">serverProperties</span> <span class="o">=</span> <span class="n">channel</span><span class="o">.</span><span class="na">getConnection</span><span class="o">().</span><span class="na">getServerProperties</span><span class="o">();</span>
+            <span class="k">return</span> <span class="n">serverProperties</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;version&quot;</span><span class="o">).</span><span class="na">toString</span><span class="o">();</span>
+        <span class="o">});</span>
+</pre></div>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-05-26 01:27:25</p>
+        <p>Site Generated 2020-05-27 11:33:08</p>
       </span>
     </div>
 
