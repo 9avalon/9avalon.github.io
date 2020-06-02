@@ -64,6 +64,7 @@
 <li><a href="#_18">文件比对</a></li>
 <li><a href="#_19">文件排序</a></li>
 <li><a href="#gz">.gz文件不解压处理</a></li>
+<li><a href="#_20">复制目录下所有文件到另外的目录</a></li>
 </ul>
 </li>
 </ul>
@@ -276,12 +277,17 @@ sort &lt;file&gt; &gt; &lt;new_file&gt;
 <span class="err">##</span> <span class="nx">grep</span><span class="err">搜索</span>
 <span class="nx">zgrep</span> <span class="s2">&quot;/api&quot;</span> <span class="nx">access_log.gz</span>
 </pre></div>
+
+
+<h2 id="_20">复制目录下所有文件到另外的目录</h2>
+<div class="hlcode"><pre><span class="n">cp</span> <span class="err">$</span><span class="p">(</span><span class="n">find</span> <span class="n">source_path</span><span class="o">/</span> <span class="o">-</span><span class="n">type</span> <span class="n">f</span> <span class="o">-</span><span class="n">name</span> <span class="s">&quot;*.csv&quot;</span><span class="p">)</span>  <span class="n">target_path</span>
+</pre></div>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-05-27 11:33:08</p>
+        <p>Site Generated 2020-06-02 11:49:42</p>
       </span>
     </div>
 

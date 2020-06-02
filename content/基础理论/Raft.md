@@ -11,4 +11,4 @@ draft: true
 
 2.zab
 
-基本机制与raft相同，不同点，
+基本机制与raft相同，不同点

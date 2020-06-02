@@ -39,7 +39,6 @@ volatile，比 synchronized更轻量级的实现，它保证了并发时，共�
 
 2.底层汇编是在写入时，加入了lock指令。
 
-
 ### synchronized
 
 synchronized在java6之前很多人都称呼其为“重量级锁”，但是随着java后面的持续优化，synchronized的性能已经比以前有了很大的提升。
@@ -286,3 +285,19 @@ public class SemaphoreDemo {
     }
 }
 ```
+
+### AQS
+
+JUC包并发包的基础，很多并发工具类，如ReentrantLock就是基于AQS实现的
+
+#### 加锁
+
+1. 通过cas尝试原子变更state，
+2. 如果更新失败，会入队（双向队列，FIFO）
+3. 入队后会尝试初始化队列头，然后自旋判断前驱节点能否获取到锁。自旋失败后使用LockSupport的park方法进入阻塞。
+
+#### 释放锁
+
+1. 持有锁的线程将state变更为未锁定
+2. 唤醒头节点的后驱节点, LockSupport.unpark()
+3. 头节点的后驱节点唤醒后，会继续自旋，尝试获取锁。

@@ -265,3 +265,9 @@ zcat <file> | less
 ## grep搜索
 zgrep "/api" access_log.gz
 ```
+
+## 复制目录下所有文件到另外的目录
+
+```shell
+cp $(find source_path/ -type f -name "*.csv")  target_path
+```
