@@ -48,6 +48,11 @@
 <li><a href="#countdownlatch">CountDownLatch</a></li>
 <li><a href="#cyclicbarrier">CyclicBarrier</a></li>
 <li><a href="#semaphore">Semaphore（信号量）</a></li>
+<li><a href="#aqs">AQS</a><ul>
+<li><a href="#_8">加锁</a></li>
+<li><a href="#_9">释放锁</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -285,12 +290,28 @@
     <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
+
+
+<h3 id="aqs">AQS</h3>
+<p>JUC包并发包的基础，很多并发工具类，如ReentrantLock就是基于AQS实现的</p>
+<h4 id="_8">加锁</h4>
+<ol>
+<li>通过cas尝试原子变更state，</li>
+<li>如果更新失败，会入队（双向队列，FIFO）</li>
+<li>入队后会尝试初始化队列头，然后自旋判断前驱节点能否获取到锁。自旋失败后使用LockSupport的park方法进入阻塞。</li>
+</ol>
+<h4 id="_9">释放锁</h4>
+<ol>
+<li>持有锁的线程将state变更为未锁定</li>
+<li>唤醒头节点的后驱节点, LockSupport.unpark()</li>
+<li>头节点的后驱节点唤醒后，会继续自旋，尝试获取锁。</li>
+</ol>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-05-27 11:33:08</p>
+        <p>Site Generated 2020-06-02 11:49:42</p>
       </span>
     </div>
 
