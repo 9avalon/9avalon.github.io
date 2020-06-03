@@ -24,7 +24,7 @@ ps.微博的图床都挂了，打算下次二刷这本书的时候，重新补�
 
 首先是第一章，简单介绍了Mysql的体系架构。
 
-![体系结构](https://ws1.sinaimg.cn/large/005H7Wvygy1g50ypf91f2j31be0sc4f5.jpg)
+![体系结构](http://tva1.sinaimg.cn/large/005H7Wvygy1g50ypf91f2j31be0sc4f5.jpg)
 
 可以看出来，Mysql表存储引擎是做成插件化的，可选择性很多。与其他数据库相比，InnoDB有以下特点
 
