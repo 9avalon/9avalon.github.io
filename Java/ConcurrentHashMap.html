@@ -38,12 +38,16 @@
 <p>头插法，1.7的jdk会导致resize死循环</p>
 <p>1.8已经去掉了segment，改为每个桶都加锁，原因1，增加并发度，原因2，降低复杂度。</p>
 <p>get方法不加锁，因此不能保证强一致性。</p>
+<h2 id="size">size的实现方法</h2>
+<p>1.对baseCount进行cas增加，增加失败，往多个CounterCell随机一个进行自增，两次cas自增失败，就会扩容</p>
+<p>2.baseCount+遍历CounterCell，求和</p>
+<p>3.根本原因是多线程并发下，对单一个全局变量进行cas自增太耗性能，将自增分散到各个节点，提升性能。</p>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-06-02 11:49:42</p>
+        <p>Site Generated 2020-06-04 01:01:34</p>
       </span>
     </div>
 
