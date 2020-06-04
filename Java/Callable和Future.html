@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>Callable和Future - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;Callable和Future
+    <span class="updated">Page Updated&nbsp;
+      2020-06-04 15:47:59
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">Callable和Future</div>
+
+  <h2 id="_1">用途</h2>
+<p>让多线程执行完毕后，返回线程执行的值。适用于并行处理，子线程结果汇总。</p>
+<h2 id="demo">简单demo</h2>
+<div class="hlcode"><pre>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">ExecutionException</span><span class="o">,</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+        <span class="n">Callable</span> <span class="n">myCallable1</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">5000</span><span class="o">);</span>
+            <span class="k">return</span> <span class="n">i</span><span class="o">.</span><span class="na">incrementAndGet</span><span class="o">();</span>
+        <span class="o">};</span>
+
+        <span class="n">Callable</span> <span class="n">myCallable2</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">10000</span><span class="o">);</span>
+            <span class="k">return</span> <span class="n">i</span><span class="o">.</span><span class="na">incrementAndGet</span><span class="o">();</span>
+        <span class="o">};</span>
+
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Future</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+        <span class="n">ThreadPoolTaskExecutor</span> <span class="n">threadPoolExecutor</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ThreadPoolTaskExecutor</span><span class="o">();</span>
+        <span class="n">threadPoolExecutor</span><span class="o">.</span><span class="na">initialize</span><span class="o">();</span>
+        <span class="n">threadPoolExecutor</span><span class="o">.</span><span class="na">setCorePoolSize</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
+        <span class="n">threadPoolExecutor</span><span class="o">.</span><span class="na">setMaxPoolSize</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+        <span class="n">threadPoolExecutor</span><span class="o">.</span><span class="na">setKeepAliveSeconds</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+
+        <span class="n">Future</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">future</span> <span class="o">=</span> <span class="n">threadPoolExecutor</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="n">myCallable1</span><span class="o">);</span>
+        <span class="n">Future</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">future1</span> <span class="o">=</span> <span class="n">threadPoolExecutor</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="n">myCallable2</span><span class="o">);</span>
+
+        <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">future</span><span class="o">);</span>
+        <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">future1</span><span class="o">);</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="n">Future</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">l</span> <span class="o">:</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">l</span><span class="o">.</span><span class="na">get</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;123123123123&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-06-04 15:49:23</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
