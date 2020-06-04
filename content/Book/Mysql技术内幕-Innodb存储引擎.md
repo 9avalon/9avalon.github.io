@@ -1,5 +1,5 @@
 ---
-title: 《Mysql技术内幕-Innodb存储引擎》
+title: Mysql技术内幕-Innodb存储引擎
 date: 2019-07-14 14:52:04
 ---
 

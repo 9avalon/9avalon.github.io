@@ -1,7 +1,6 @@
 ---
-title: JVM专题
+title: 深入理解JVM虚拟机
 date: 2018-07-07 21:05:16
-collection: Java基础
 ---
 
 [TOC]
