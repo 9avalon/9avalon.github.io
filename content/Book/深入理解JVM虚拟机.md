@@ -228,3 +228,42 @@ Java整个堆大小设置，Xmx 和 Xms设置为老年代存活对象的3-4倍�
 年轻代Xmn的设置为老年代存活对象的1-1.5倍。
 
 老年代的内存大小设置为老年代存活对象的2-3倍。
+
+## 类加载机制
+
+### 类加载流程
+
+加载、验证、准备、解析、初始化、运行、终止。
+
+### 类加载器
+
+Bootstrap ClassLoader-> External ClassLoader -> Application ClassLoader -> User ClassLoader
+
+#### Bootstrap ClassLoader
+
+启动类加载器，加载java lib包下的类
+
+#### Externsion ClassLoader
+
+扩展类加载器，加载lib/ext里面的类
+
+#### Application ClassLoader
+
+应用程序加载器，加载应用程序自己的类
+
+### User ClassLoader
+
+用户自定义加载器
+
+### 双亲委派机制
+
+当一个类加载器收到类加载请求时，会先尝试让父级类加载器加载类，如果父加载器加载不了，才会自行初始化。
+
+为什么要有双亲委派机制：优先级，jdk lib优先加载。解决类冲突。
+
+### 破坏双亲委派机制
+
+自定义类加载器，重写findClass
+JNDI,父加载器要找子加载器
+OSGI，重写类加载模式。
+

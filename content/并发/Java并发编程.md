@@ -144,6 +144,8 @@ AtomicIneger，AtomicLong，等等
 
 CountDownLatch可以实现类似倒计时的功能，通过调用 **countDown** 来实现减一的功能，当CountDownLatch里面的计数器减到0时，之前await挂起的线程，就能继续执行。
 
+实现原理：比如现在定义的倒计时是5，先setState=5，然后countDown方法会对state进行AQS减一。await方法判断state是否等于0，不等于0则进入休眠(LockSupport.park())
+
 ```java
 public class CountDownLatchDemo {
 
@@ -249,6 +251,8 @@ public class CyclicBarrierDemo {
 ### Semaphore（信号量）
 
 可以用来控制单机并发，会阻塞。
+
+实现原理为先cas尝试获取锁，获取失败则进入AQS等待队列。
 
 ```java
 public class SemaphoreDemo {

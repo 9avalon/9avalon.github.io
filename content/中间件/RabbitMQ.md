@@ -53,3 +53,9 @@ rabbitmq也有使用到NIO，具体集中在网络IO方面，tcp连接复用
             return serverProperties.get("version").toString();
         });
 ```
+
+### RabbitMQ的重试机制
+
+当开启ack消息确认时，如果mq发送消息到消费者消费，但是消费者一直没有ack，需要等到消费者下线后，该消息会重新放到队列尾部，等待重新消费。
+
+现象：测试环境ack失败的记录，在重启的时候，会重新消费。
