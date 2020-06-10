@@ -70,6 +70,19 @@
 </li>
 </ul>
 </li>
+<li><a href="#_15">类加载机制</a><ul>
+<li><a href="#_16">类加载流程</a></li>
+<li><a href="#_17">类加载器</a><ul>
+<li><a href="#bootstrap-classloader">Bootstrap ClassLoader</a></li>
+<li><a href="#externsion-classloader">Externsion ClassLoader</a></li>
+<li><a href="#application-classloader">Application ClassLoader</a></li>
+</ul>
+</li>
+<li><a href="#user-classloader">User ClassLoader</a></li>
+<li><a href="#_18">双亲委派机制</a></li>
+<li><a href="#_19">破坏双亲委派机制</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <h2 id="_1">主要内容</h2>
@@ -231,12 +244,32 @@ GCT：垃圾回收消耗总时间
 <p>永久代 PermSize和MaxPermSize设置为老年代存活对象的1.2-1.5倍。</p>
 <p>年轻代Xmn的设置为老年代存活对象的1-1.5倍。</p>
 <p>老年代的内存大小设置为老年代存活对象的2-3倍。</p>
+<h2 id="_15">类加载机制</h2>
+<h3 id="_16">类加载流程</h3>
+<p>加载、验证、准备、解析、初始化、运行、终止。</p>
+<h3 id="_17">类加载器</h3>
+<p>Bootstrap ClassLoader-&gt; External ClassLoader -&gt; Application ClassLoader -&gt; User ClassLoader</p>
+<h4 id="bootstrap-classloader">Bootstrap ClassLoader</h4>
+<p>启动类加载器，加载java lib包下的类</p>
+<h4 id="externsion-classloader">Externsion ClassLoader</h4>
+<p>扩展类加载器，加载lib/ext里面的类</p>
+<h4 id="application-classloader">Application ClassLoader</h4>
+<p>应用程序加载器，加载应用程序自己的类</p>
+<h3 id="user-classloader">User ClassLoader</h3>
+<p>用户自定义加载器</p>
+<h3 id="_18">双亲委派机制</h3>
+<p>当一个类加载器收到类加载请求时，会先尝试让父级类加载器加载类，如果父加载器加载不了，才会自行初始化。</p>
+<p>为什么要有双亲委派机制：优先级，jdk lib优先加载。解决类冲突。</p>
+<h3 id="_19">破坏双亲委派机制</h3>
+<p>自定义类加载器，重写findClass<br />
+JNDI,父加载器要找子加载器<br />
+OSGI，重写类加载模式。</p>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-06-05 01:34:56</p>
+        <p>Site Generated 2020-06-10 17:43:41</p>
       </span>
     </div>
 

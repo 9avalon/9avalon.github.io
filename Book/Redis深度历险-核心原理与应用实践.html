@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>Redis深度历险-核心原理与应用实践 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Book">Book</a>&nbsp;&#187;&nbsp;Redis深度历险-核心原理与应用实践
+    <span class="updated">Page Updated&nbsp;
+      2020-06-07 01:00:40
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">Redis深度历险-核心原理与应用实践</div>
+
+  <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#redis">Redis数据结构</a></li>
+<li><a href="#redis_1">Redis实现消息队列</a><ul>
+<li><a href="#_1">消费端拉取数据的实现</a></li>
+</ul>
+</li>
+<li><a href="#_2">分布式锁冲突处理</a></li>
+<li><a href="#_3">延时队列的实现</a></li>
+<li><a href="#_4">位图</a></li>
+</ul>
+</div>
+<h2 id="redis">Redis数据结构</h2>
+<p>Redis数据结构</p>
+<p>String底层是sds，有点类似于java的ArrayList，预分配内存，不足扩容。</p>
+<h2 id="redis_1">Redis实现消息队列</h2>
+<p>怎么用Redis实现消息队列？</p>
+<p>答案是用Redis的list数据结构，通过lpush将消息推入队列中，rpop将消息取出消费。</p>
+<h3 id="_1">消费端拉取数据的实现</h3>
+<ol>
+<li>lpop+sleep，缺点是有延迟</li>
+<li>lbpop，阻塞读(书上提到lbpop后会有空闲连接的问题，应该要加一些重试解决)</li>
+</ol>
+<h2 id="_2">分布式锁冲突处理</h2>
+<p>直白地讲，就是分布式锁加锁失败了。怎么处理呢，我认为得看场景</p>
+<ol>
+<li>直接返回一个该请求是重复请求的错误码。让业务方重试处理</li>
+<li>自旋，然后做幂等处理。但是需要线程做Sleep，会稍微耗时。</li>
+</ol>
+<p>我认为一般会采用第一个方法，让请求快速失败掉。第二种方法一是自旋比较耗资源，第二是自旋得幂等做好。</p>
+<h2 id="_3">延时队列的实现</h2>
+<p>通过zset实现，开多个线程去轮询获取队列里面的消息。</p>
+<p>关键点：通过zrem将消息移除出队列。避免多线程同时处理同一条消息。</p>
+<h2 id="_4">位图</h2>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-06-10 17:43:41</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

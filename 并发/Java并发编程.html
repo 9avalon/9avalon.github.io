@@ -160,6 +160,7 @@
 <h2 id="_7">常见的并发工具类</h2>
 <h3 id="countdownlatch">CountDownLatch</h3>
 <p>CountDownLatch可以实现类似倒计时的功能，通过调用 <strong>countDown</strong> 来实现减一的功能，当CountDownLatch里面的计数器减到0时，之前await挂起的线程，就能继续执行。</p>
+<p>实现原理：比如现在定义的倒计时是5，先setState=5，然后countDown方法会对state进行AQS减一。await方法判断state是否等于0，不等于0则进入休眠(LockSupport.park())</p>
 <div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CountDownLatchDemo</span> <span class="o">{</span>
 
     <span class="kd">public</span> <span class="kd">static</span> <span class="n">CountDownLatch</span> <span class="n">countDownLatch</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CountDownLatch</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
@@ -256,6 +257,7 @@
 
 <h3 id="semaphore">Semaphore（信号量）</h3>
 <p>可以用来控制单机并发，会阻塞。</p>
+<p>实现原理为先cas尝试获取锁，获取失败则进入AQS等待队列。</p>
 <div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SemaphoreDemo</span> <span class="o">{</span>
 
     <span class="c1">// 初始化容量为2的信号量</span>
@@ -311,7 +313,7 @@
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-06-05 01:34:56</p>
+        <p>Site Generated 2020-06-10 17:43:41</p>
       </span>
     </div>
 

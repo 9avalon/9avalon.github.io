@@ -62,12 +62,17 @@
             <span class="k">return</span> <span class="n">serverProperties</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;version&quot;</span><span class="o">).</span><span class="na">toString</span><span class="o">();</span>
         <span class="o">});</span>
 </pre></div>
+
+
+<h3 id="rabbitmq_4">RabbitMQ的重试机制</h3>
+<p>当开启ack消息确认时，如果mq发送消息到消费者消费，但是消费者一直没有ack，需要等到消费者下线后，该消息会重新放到队列尾部，等待重新消费。</p>
+<p>现象：测试环境ack失败的记录，在重启的时候，会重新消费。</p>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-06-05 01:34:56</p>
+        <p>Site Generated 2020-06-10 17:43:41</p>
       </span>
     </div>
 
