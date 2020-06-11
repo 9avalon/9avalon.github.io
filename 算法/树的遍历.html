@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
-    <title>树的遍历 - Miguel's Wiki</title>
+    <title>树的遍历(递归非递归) - Miguel's Wiki</title>
     <meta name="keywords" content=""/>
     <meta name="description" content="Miguel个人wiki"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -17,35 +17,83 @@
     <div id="container">
       
 <div id="header">
-  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#算法">算法</a>&nbsp;&#187;&nbsp;树的遍历
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#算法">算法</a>&nbsp;&#187;&nbsp;树的遍历(递归非递归)
     <span class="updated">Page Updated&nbsp;
       2016-06-23 17:59:06
     </span></div>
 </div>
 <div class="clearfix"></div>
 
-<div class="page_title">树的遍历</div>
+<div class="page_title">树的遍历(递归非递归)</div>
 
-  <p>中序</p>
+  <h2 id="_1">递归</h2>
 <div class="hlcode"><pre>    <span class="c1">//中序遍历</span>
-    <span class="k">public</span> <span class="nf">void</span> <span class="nx">inorderTraveer</span><span class="p">(</span><span class="nx">TreeNode</span> <span class="nx">node</span><span class="p">,</span> <span class="nb">List</span><span class="o">&lt;</span><span class="kt">Integer</span><span class="o">&gt;</span> <span class="nx">inorderList</span><span class="p">){</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">node</span> <span class="o">!=</span> <span class="kt">null</span> <span class="o">&amp;&amp;</span> <span class="nx">node.val</span> <span class="o">!=</span> <span class="s1">&#39;#&#39;</span><span class="p">){</span>
-            <span class="nx">inorderTraveer</span><span class="p">(</span><span class="nx">node.left</span><span class="p">,</span> <span class="nx">inorderList</span><span class="p">);</span>
-            <span class="nx">inorderList.add</span><span class="p">(</span><span class="nx">node.val</span><span class="p">);</span>
-            <span class="nx">inorderTraveer</span><span class="p">(</span><span class="nx">node.right</span><span class="p">,</span> <span class="nx">inorderList</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">inorderTraveer</span><span class="o">(</span><span class="n">TreeNode</span> <span class="n">node</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">inorderList</span><span class="o">){</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">node</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">node</span><span class="o">.</span><span class="na">val</span> <span class="o">!=</span> <span class="sc">&#39;#&#39;</span><span class="o">){</span>
+            <span class="n">inorderTraveer</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">left</span><span class="o">,</span> <span class="n">inorderList</span><span class="o">);</span>
+            <span class="n">inorderList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">val</span><span class="o">);</span>
+            <span class="n">inorderTraveer</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">right</span><span class="o">,</span> <span class="n">inorderList</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
 </pre></div>
 
 
-<p>类推：<br />
-只要改变add的位置就可以实现前序和后序</p>
+<p>类推：</p>
+<p>只要改变add的位置就可以实现前序和后序</p>
+<h2 id="_2">非递归</h2>
+<h3 id="_3">先序遍历</h3>
+<p>1、申请一个栈stack，然后将头节点压入stack中。</p>
+<p>2、从stack中弹出栈顶节点，打印，再将其右孩子节点（不为空的话）先压入stack中，最后将其左孩子节点（不为空的话）压入stack中。</p>
+<p>3、不断重复步骤2，直到stack为空，全部过程结束。</p>
+<h3 id="_4">中序遍历</h3>
+<p>1、申请一个栈stack，初始时令cur=head</p>
+<p>2、先把cur压入栈中，依次把左边界压入栈中，即不停的令cur=cur.left，重复步骤2</p>
+<p>3、不断重复2，直到为null，从stack中弹出一个节点，记为node，打印node的值，并令cur=node.right,重复步骤2</p>
+<p>4、当stack为空且cur为空时，整个过程停止。</p>
+<div class="hlcode"><pre><span class="cm">/**</span>
+<span class="cm"> * Definition for a binary tree node.</span>
+<span class="cm"> * public class TreeNode {</span>
+<span class="cm"> *     int val;</span>
+<span class="cm"> *     TreeNode left;</span>
+<span class="cm"> *     TreeNode right;</span>
+<span class="cm"> *     TreeNode(int x) { val = x; }</span>
+<span class="cm"> * }</span>
+<span class="cm"> */</span>
+<span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">inorderTraversal</span><span class="o">(</span><span class="n">TreeNode</span> <span class="n">head</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">=</span><span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;();</span>
+        <span class="n">Stack</span><span class="o">&lt;</span><span class="n">TreeNode</span><span class="o">&gt;</span> <span class="n">stack</span><span class="o">=</span><span class="k">new</span> <span class="n">Stack</span><span class="o">&lt;</span><span class="n">TreeNode</span><span class="o">&gt;();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">head</span><span class="o">!=</span><span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">while</span><span class="o">(</span><span class="n">head</span><span class="o">!=</span><span class="kc">null</span><span class="o">||!</span><span class="n">stack</span><span class="o">.</span><span class="na">empty</span><span class="o">())</span> <span class="o">{</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">head</span><span class="o">!=</span><span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">head</span><span class="o">);</span>
+                    <span class="n">head</span><span class="o">=</span><span class="n">head</span><span class="o">.</span><span class="na">left</span><span class="o">;</span>
+                <span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+                    <span class="n">head</span><span class="o">=</span><span class="n">stack</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+                    <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">head</span><span class="o">.</span><span class="na">val</span><span class="o">);</span>
+                    <span class="n">head</span><span class="o">=</span><span class="n">head</span><span class="o">.</span><span class="na">right</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">list</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<h3 id="_5">后序遍历</h3>
+<p>用非递归的方式实现后序遍历有点麻烦。</p>
+<p>1、申请一个栈s1，然后将头节点压入栈s1中。</p>
+<p>2、从s1中弹出的节点记为cur，然后依次将cur的左孩子节点和右孩子节点压入s1中。</p>
+<p>3、在整个过程中，每一个从s1中弹出的节点都放进s2中。</p>
+<p>4、不断重复步骤2和步骤3，直到s1为空，过程停止。</p>
+<p>5、从s2中依次弹出节点并打印，打印的顺序就是后序遍历的顺序。</p>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-06-10 17:43:41</p>
+        <p>Site Generated 2020-06-11 12:26:38</p>
       </span>
     </div>
 
