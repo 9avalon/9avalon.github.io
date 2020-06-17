@@ -104,15 +104,15 @@ instanceA和instanceB互相引用，计数器不为0，不能被回收。
 
 #### ParNew收集器(新生代)
 
-Serial收集器的多线程版本，提升了效率。
+Serial收集器的多线程版本，提升了效率。配合CMS使用
 
 #### Parallel Old(新生代)
 
-复制方法
+复制方法，配合PS使用，jdk1.8默认
 
 #### Serial Old收集器（老年代）
 
-Serial收集器的老年代版本
+Serial收集器的老年代版本，不建议使用
 
 #### Parallel Old(老年代)
 
@@ -120,7 +120,7 @@ Serial收集器的老年代版本
 
 #### CMS(老年代)
 
-并发收集，低停顿，基于标记-清除算法
+并发收集，低停顿，基于标记-清除算法，物理分代
 
 1. 初始标记(stop the world)
 2. 并发标记
@@ -129,16 +129,18 @@ Serial收集器的老年代版本
 
 #### G1（目前最先进）
 
-基于标记-整理算法
+基于标记-整理算法，逻辑分代，多个Region
 
 1. 初始标记
 2. 并发标记
 3. 最终标记
 4. 筛选回收
 
-jdk1.7正式商用。
+jdk1.7正式商用。1.9后默认
 
 #### ZGC
+
+忘了
 
 ### JVM命令行工具使用
 
@@ -267,3 +269,83 @@ Bootstrap ClassLoader-> External ClassLoader -> Application ClassLoader -> User 
 JNDI,父加载器要找子加载器
 OSGI，重写类加载模式。
 
+### 类初始化顺序
+
+对于静态变量、静态初始化块、变量、初始化块、构造器，它们的初始化顺序依次是（静态变量、静态初始化块）>（变量、初始化块）>构造器。
+
+#### 继承的情况
+
+```java
+class Parent {
+        /* 静态变量 */
+    public static String p_StaticField = "父类--静态变量";
+         /* 变量 */
+    public String    p_Field = "父类--变量";
+    protected int    i    = 9;
+    protected int    j    = 0;
+        /* 静态初始化块 */
+    static {
+        System.out.println( p_StaticField );
+        System.out.println( "父类--静态初始化块" );
+    }
+        /* 初始化块 */
+    {
+        System.out.println( p_Field );
+        System.out.println( "父类--初始化块" );
+    }
+        /* 构造器 */
+    public Parent()
+    {
+        System.out.println( "父类--构造器" );
+        System.out.println( "i=" + i + ", j=" + j );
+        j = 20;
+    }
+}
+
+public class SubClass extends Parent {
+         /* 静态变量 */
+    public static String s_StaticField = "子类--静态变量";
+         /* 变量 */
+    public String s_Field = "子类--变量";
+        /* 静态初始化块 */
+    static {
+        System.out.println( s_StaticField );
+        System.out.println( "子类--静态初始化块" );
+    }
+       /* 初始化块 */
+    {
+        System.out.println( s_Field );
+        System.out.println( "子类--初始化块" );
+    }
+       /* 构造器 */
+    public SubClass()
+    {
+        System.out.println( "子类--构造器" );
+        System.out.println( "i=" + i + ",j=" + j );
+    }
+
+
+        /* 程序入口 */
+    public static void main( String[] args )
+    {
+        System.out.println( "子类main方法" );
+        new SubClass();
+    }
+}
+```
+
+```txt
+父类--静态变量
+父类--静态初始化块
+子类--静态变量
+子类--静态初始化块
+子类main方法
+父类--变量
+父类--初始化块
+父类--构造器
+i=9, j=0
+子类--变量
+子类--初始化块
+子类--构造器
+i=9,j=20
+```

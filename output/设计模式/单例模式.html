@@ -35,9 +35,9 @@
 </ul>
 </div>
 <p>单例模式是属于比较简单，容易理解的设计模式，我们在课堂上都应该能轻易理解如何使用单例模式。</p>
-<h4 id="_1">什么是单例模式</h4>
+<h2 id="_1">什么是单例模式</h2>
 <p>在系统运行时，有些类在系统中只需要存在一个实例即可。例如比较常见的是window的回收站，整个系统只需要维护一个回收站就可以了。单例模式的好处是节省了不必要的资源开销，只需要维护一份实例就可以了。</p>
-<h4 id="_2">最常见的单例模式</h4>
+<h2 id="_2">最常见的单例模式</h2>
 <p>这种方式创建的单例模式是线程不安全的，当两个线程并发调用获取实例的方法时，可能会new两次实例。破坏了单例。</p>
 <div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Single</span> <span class="o">{</span>
     <span class="kd">private</span> <span class="kd">static</span> <span class="n">Single</span> <span class="n">single</span><span class="o">;</span>
@@ -55,18 +55,19 @@
 </pre></div>
 
 
-<h4 id="_3">改进版，线程安全</h4>
+<p><img alt="123" src="https://miguel-pic.oss-cn-shenzhen.aliyuncs.com/20200617110255.png" /></p>
+<h2 id="_3">改进版，线程安全</h2>
 <p>在获取实例的方法前加了同步关键字，确保了并发环境中只能有一个线程访问这个方法。但是加上了同步关键字之后性能会降低很多。</p>
 <div class="hlcode"><pre><span class="kd">public</span> <span class="kd">synchronized</span> <span class="n">Single</span> <span class="nf">getInstance</span><span class="o">(){</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">single</span> <span class="o">==</span> <span class="kc">null</span><span class="o">){</span>
-        <span class="n">single</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Single</span><span class="o">();</span>
+         <span class="n">single</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Single</span><span class="o">();</span>
     <span class="o">}</span>
     <span class="k">return</span> <span class="n">single</span><span class="o">;</span>
 <span class="o">}</span>
 </pre></div>
 
 
-<h4 id="1">改进版+1，双重校验锁</h4>
+<h2 id="1">改进版+1，双重校验锁</h2>
 <p>改进之后，只有single为空的时候才会进入同步方法里面新建实例。</p>
 <div class="hlcode"><pre>    <span class="kd">public</span> <span class="n">Single</span> <span class="nf">getInstance</span><span class="o">(){</span>
         <span class="k">if</span> <span class="o">(</span><span class="n">single</span> <span class="o">==</span> <span class="kc">null</span><span class="o">){</span>
@@ -93,7 +94,7 @@
 </pre></div>
 
 
-<h4 id="_4">使用静态内部类的方式实现单例模式</h4>
+<h2 id="_4">使用静态内部类的方式实现单例模式</h2>
 <p>这是在《Java性能优化》这本书中看到的。<br />
 通过JVM来实现线程安全的单例模式，原理是类加载时，其内部类不会初始化，而当调用到内部类时，内部类才会进行初始化。</p>
 <div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Singleton</span> <span class="o">{</span>  
@@ -113,7 +114,7 @@
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-06-11 12:26:38</p>
+        <p>Site Generated 2020-06-18 02:09:36</p>
       </span>
     </div>
 

@@ -179,3 +179,90 @@ class LRUCache {
  */
 ```
 
+2020-06-15新写了一版，这版给头节点和尾节点都加了一个虚拟节点，这样就可以不用处理各种空值问题，方便了非常多。
+
+```java
+class LRUCache {
+    class Node {
+        int key;
+        int value;
+
+        Node pre;
+        Node next;
+
+        public Node(int key, int value) {
+            this.key = key;
+            this.value = value;
+            pre = null;
+            next = null;
+        }
+    }
+
+    private Node head;
+    private Node tail;
+    private int capacity;
+    private Map<Integer, Node> map;
+
+    public LRUCache(int capacity) {
+        head = new Node(0, 0);
+        tail = new Node(0, 0);
+        head.next = tail;
+        tail.pre = head;
+        map = new HashMap<>();
+        this.capacity = capacity;
+    }
+
+    public int get(int key) {
+        Node node = map.get(key);
+        if (node == null) {
+            return -1;
+        }
+
+        refreshNode(node);
+        return node.value;
+    }
+
+    public void put(int key, int value) {
+        Node node = map.get(key);
+        if (node == null) {
+            if (map.size() == capacity) {
+                Node remove = removeNode(tail.pre);
+                map.remove(remove.key);
+            }
+
+            Node newNode = new Node(key, value);
+            addNode(newNode);
+            map.put(key, newNode);
+        } else {
+            node.value = value;
+            refreshNode(node);
+        }
+    }
+
+    private void refreshNode(Node node) {
+        removeNode(node);
+        addNode(node);
+    }
+
+    private Node removeNode(Node node) {
+        node.pre.next = node.next;
+        node.next.pre = node.pre;
+        return node;
+    }
+
+    private void addNode(Node node) {
+        Node temp = head.next;
+        head.next = node;
+        temp.pre = node;
+        node.next = temp;
+        node.pre = head;
+    }
+}
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
+```

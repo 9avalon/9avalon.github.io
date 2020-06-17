@@ -23,6 +23,26 @@ update: 2018-07-14 11:36
 
 并行不一定比串行快，因为线程有创建和上下文切换的开销。会有临界点。
 
+### happen-before
+
+1. 单线程中，先执行的happen-before后执行的
+2. 传递性 A happens-before B, B happens-before C, 那么A happens-before C
+3. 锁unlock happens-before lock
+4. volatile的写happens-before volatile读(这里可以理解为，只要时间上，volatile先执行了写，那后面执行的volatile读一定会读到前面写的值，通过内存屏障实现)
+5. start规则，线程A执行操作ThreadB.start()，那么线程A的start方法happens-before线程B的任何操作(这条不知道能不能背住)
+6.join规则，线程A执行操作ThreadB.join()并成功返回，线程B中任何操作happens-before线程B中任何操作。
+
+### 内存屏障
+
+volatile 写前加StoreStroe
+
+volatile 写后加StoreLoad
+
+volatile 读前加LoadLoad
+
+volatile 读前加LoadStore
+
+
 ## 常见锁
 
 ### volatile
