@@ -49,6 +49,59 @@ class Solution {
 }
 ```
 
+2020-06-19，每日一题，这个版本快了很多，因为手动转了大小写，需要注意的是大写转小写，需要增加32
+
+```java
+class Solution {
+    public boolean isPalindrome(String s) {
+        if (s.length() == 0) {
+            return true;
+        }
+
+        int left = 0;
+        int right = s.length() - 1;
+        while (left < right) {
+            char l = convert(s.charAt(left));
+            if (l == '#') {
+                left ++;
+                continue;
+            }
+
+            char r = convert(s.charAt(right));
+            if (r == '#') {
+                right --;
+                continue;
+            }
+
+            if (!Objects.equals(l, r)) {
+                break;
+            } 
+            left++;
+            right--;
+        }
+
+        return left >= right;
+    }
+
+    private char convert(char c) {
+        if (c >= '0' && c <= '9') {
+            return c;
+        }
+
+        if (c >= 'a' && c <= 'z') {
+            return c;
+        }
+ 
+        if (c >= 'A' && c <= 'Z') {
+            return (char)(c + 32);
+        }
+
+        return '#';
+    }
+}
+```
+
+
 分析:
 
 1.略，比较简单，用了库函数帮助大写转小写。
