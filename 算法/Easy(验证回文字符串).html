@@ -70,6 +70,57 @@
 </pre></div>
 
 
+<p>2020-06-19，每日一题，这个版本快了很多，因为手动转了大小写，需要注意的是大写转小写，需要增加32</p>
+<div class="hlcode"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isPalindrome</span><span class="o">(</span><span class="n">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">char</span> <span class="n">l</span> <span class="o">=</span> <span class="n">convert</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">left</span><span class="o">));</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">l</span> <span class="o">==</span> <span class="sc">&#39;#&#39;</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">left</span> <span class="o">++;</span>
+                <span class="k">continue</span><span class="o">;</span>
+            <span class="o">}</span>
+
+            <span class="kt">char</span> <span class="n">r</span> <span class="o">=</span> <span class="n">convert</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">right</span><span class="o">));</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">r</span> <span class="o">==</span> <span class="sc">&#39;#&#39;</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">right</span> <span class="o">--;</span>
+                <span class="k">continue</span><span class="o">;</span>
+            <span class="o">}</span>
+
+            <span class="k">if</span> <span class="o">(!</span><span class="n">Objects</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">l</span><span class="o">,</span> <span class="n">r</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span> 
+            <span class="n">left</span><span class="o">++;</span>
+            <span class="n">right</span><span class="o">--;</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="n">left</span> <span class="o">&gt;=</span> <span class="n">right</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">char</span> <span class="nf">convert</span><span class="o">(</span><span class="kt">char</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">c</span> <span class="o">&gt;=</span> <span class="sc">&#39;0&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="sc">&#39;9&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">c</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">c</span> <span class="o">&gt;=</span> <span class="sc">&#39;a&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="sc">&#39;z&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">c</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">c</span> <span class="o">&gt;=</span> <span class="sc">&#39;A&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="sc">&#39;Z&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="o">(</span><span class="kt">char</span><span class="o">)(</span><span class="n">c</span> <span class="o">+</span> <span class="mi">32</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="sc">&#39;#&#39;</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
 <p>分析:</p>
 <p>1.略，比较简单，用了库函数帮助大写转小写。</p>
     </div>
@@ -77,7 +128,7 @@
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-06-19 13:08:40</p>
+        <p>Site Generated 2020-06-20 13:04:52</p>
       </span>
     </div>
 
