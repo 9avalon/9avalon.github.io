@@ -1,7 +1,7 @@
 ---
 title: (Medium) 至少有K个重复字符的最长子串
-date: 
-collection: 
+date: 2020-06-20 15:56:44
+collection: 字符串
 ---
 
 ```txt
