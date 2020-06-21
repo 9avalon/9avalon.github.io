@@ -64,7 +64,7 @@ class Solution {
             if (pos < right.size()) {
                 nums[i] = right.get(pos);
                 i++;
-            } 
+            }
             pos ++;
         }
     }
