@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>(Medium)字符串解码 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#算法">算法</a>&nbsp;&#187;&nbsp;(Medium)字符串解码
+    <span class="updated">Page Updated&nbsp;
+      2020-06-26 16:01:43
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">(Medium)字符串解码</div>
+
+  <div class="hlcode"><pre><span class="err">给定一个经过编码的字符串，返回它解码后的字符串。</span>
+
+<span class="err">编码规则为</span><span class="o">:</span> <span class="n">k</span><span class="p">[</span><span class="n">encoded_string</span><span class="p">]</span><span class="err">，表示其中方括号内部的</span> <span class="n">encoded_string</span> <span class="err">正好重复</span> <span class="n">k</span> <span class="err">次。注意</span> <span class="n">k</span> <span class="err">保证为正整数。</span>
+
+<span class="err">你可以认为输入字符串总是有效的；输入字符串中没有额外的空格，且输入的方括号总是符合格式要求的。</span>
+
+<span class="err">此外，你可以认为原始数据不包含数字，所有的数字只表示重复的次数</span> <span class="n">k</span> <span class="err">，例如不会出现像 </span><span class="mi">3</span><span class="n">a</span><span class="err"> 或 </span><span class="mi">2</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="err"> 的输入。</span>
+
+<span class="err"> </span>
+
+<span class="err">示例</span> <span class="mi">1</span><span class="err">：</span>
+
+<span class="err">输入：</span><span class="n">s</span> <span class="o">=</span> <span class="s">&quot;3[a]2[bc]&quot;</span>
+<span class="err">输出：</span><span class="s">&quot;aaabcbc&quot;</span>
+<span class="err">示例</span> <span class="mi">2</span><span class="err">：</span>
+
+<span class="err">输入：</span><span class="n">s</span> <span class="o">=</span> <span class="s">&quot;3[a2[c]]&quot;</span>
+<span class="err">输出：</span><span class="s">&quot;accaccacc&quot;</span>
+<span class="err">示例</span> <span class="mi">3</span><span class="err">：</span>
+
+<span class="err">输入：</span><span class="n">s</span> <span class="o">=</span> <span class="s">&quot;2[abc]3[cd]ef&quot;</span>
+<span class="err">输出：</span><span class="s">&quot;abcabccdcdcdef&quot;</span>
+<span class="err">示例</span> <span class="mi">4</span><span class="err">：</span>
+
+<span class="err">输入：</span><span class="n">s</span> <span class="o">=</span> <span class="s">&quot;abc3[cd]xyz&quot;</span>
+<span class="err">输出：</span><span class="s">&quot;abccdcdcdxyz&quot;</span>
+
+<span class="err">来源：力扣（</span><span class="n">LeetCode</span><span class="err">）</span>
+<span class="err">链接：</span><span class="n">https</span><span class="o">:</span><span class="c1">//leetcode-cn.com/problems/decode-string</span>
+<span class="err">著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</span>
+</pre></div>
+
+
+<p>题解:</p>
+<div class="hlcode"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">decodeString</span><span class="o">(</span><span class="n">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//11:44</span>
+        <span class="n">Stack</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">numStack</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Stack</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;();</span>
+        <span class="n">Stack</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">charStack</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Stack</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
+        <span class="n">Integer</span> <span class="n">currNum</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">char</span> <span class="n">ch</span> <span class="o">:</span> <span class="n">s</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">ch</span> <span class="o">&gt;=</span> <span class="sc">&#39;0&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">ch</span> <span class="o">&lt;=</span> <span class="sc">&#39;9&#39;</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">currNum</span> <span class="o">=</span> <span class="n">currNum</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="o">(</span><span class="n">ch</span> <span class="o">-</span> <span class="sc">&#39;0&#39;</span><span class="o">);</span>
+                <span class="k">continue</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">currNum</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">numStack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">currNum</span><span class="o">);</span>
+                <span class="n">currNum</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">ch</span> <span class="o">!=</span> <span class="sc">&#39;]&#39;</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">charStack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">ch</span> <span class="o">+</span> <span class="s">&quot;&quot;</span><span class="o">);</span>
+                <span class="k">continue</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="c1">// 等于]，从栈中弹出数据</span>
+            <span class="kt">int</span> <span class="n">num</span> <span class="o">=</span> <span class="n">numStack</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+            <span class="n">String</span> <span class="n">curr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="o">;</span>
+            <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">String</span> <span class="n">c</span> <span class="o">=</span> <span class="n">charStack</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+                <span class="k">if</span> <span class="o">(!</span><span class="n">c</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">&quot;[&quot;</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="n">curr</span> <span class="o">=</span> <span class="n">c</span> <span class="o">+</span> <span class="n">curr</span><span class="o">;</span>
+                    <span class="k">continue</span><span class="o">;</span>
+                <span class="o">}</span>
+                <span class="c1">// 等于[，开始计数</span>
+                <span class="n">String</span> <span class="n">newStr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="o">;</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">num</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                    <span class="n">newStr</span> <span class="o">+=</span> <span class="n">curr</span><span class="o">;</span>
+                <span class="o">}</span>
+                <span class="n">curr</span> <span class="o">=</span> <span class="n">newStr</span><span class="o">;</span>
+                <span class="n">charStack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">curr</span><span class="o">);</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="n">String</span> <span class="n">ret</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">charStack</span><span class="o">.</span><span class="na">size</span><span class="o">()&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="n">charStack</span><span class="o">.</span><span class="na">pop</span><span class="o">()</span> <span class="o">+</span> <span class="n">ret</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">ret</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>分析: 两个栈处理，边界有点多</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-06-26 16:02:30</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
