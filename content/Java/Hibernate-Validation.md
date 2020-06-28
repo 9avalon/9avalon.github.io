@@ -8,6 +8,109 @@ collection: 校验器
 
 使用hibernate-validation进行校验参数入参的切面
 
+## 使用
+
+如果是复杂的bean对象，需要加@Valid注解，如
+
+```java
+public class A {
+    private String a;
+
+    /**
+    *  这里加了Valid注解后才能生效
+    **/
+    @Valid
+    private B b;
+}
+
+public class B {
+    @NotNull
+    private String b;
+}
+```
+
+```txt
+AssertFalse
+
+被注释的元素必须为boolean,且为false
+
+AssertTrue
+
+被注释的元素必须为boolean,且为true
+
+DecimalMax
+
+被注释的元素必须为数字,且小于等于最大值
+
+DecimalMin
+
+被注释的元素必须为数字,且大于等于最小值
+
+Digits
+
+被注释的元素必须为数字,且精度在指定的整数和小数范围内
+
+Future
+
+被注释的元素必须为日期且大于当前时间(是未来的时间)
+
+Max
+
+被注释的元素必须是数字,且小于等于最大值
+
+Min
+
+被注释的元素必须是数字,且大于等于最小值
+
+NotNull
+
+被注释的元素必须不为 null 
+
+Null
+
+被注释的元素必须为 null 
+
+Past
+
+被注释的元素必须为日期且小于当前时间(是过去的时间)
+
+Pattern
+
+被注释的元素必须字符串,且符合指定正则表达式,如果为null则不校验
+
+Size
+
+被注释的元素必须是字符串,长度大于等于min值,小于等于max值
+
+Annotation Type
+
+Description   (import org.hibernate.validator.constraints.*)
+
+Email
+
+被注释的元素必须是电子邮箱地址 
+
+Length
+
+被注释的字符串的大小必须在指定的范围内 
+
+NotBlank
+
+被注释的字符串必须非空 
+
+NotEmpty
+
+被注释的字符串或列表的必须非空 
+
+Range
+
+被注释的元素必须在合适的范围内
+
+URL
+
+被注释的字符串的必须符合url地址格式
+```
+
 ## 快速使用
 
 ### 依赖
