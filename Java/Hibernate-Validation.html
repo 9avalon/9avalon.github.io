@@ -1,0 +1,200 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>Hibernate-Validation注解 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;Hibernate-Validation注解
+    <span class="updated">Page Updated&nbsp;
+      2020-06-28 14:44:42
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">Hibernate-Validation注解</div>
+
+  <h2 id="_1">作用</h2>
+<p>使用hibernate-validation进行校验参数入参的切面</p>
+<h2 id="_2">快速使用</h2>
+<h3 id="_3">依赖</h3>
+<div class="hlcode"><pre><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.hibernate<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>hibernate-validator<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>5.3.6.Final<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+
+
+<h3 id="_4">注解</h3>
+<div class="hlcode"><pre><span class="nd">@Retention</span><span class="o">(</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nd">@interface</span> <span class="n">ParamValidate</span> <span class="o">{</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<h3 id="_5">切面</h3>
+<div class="hlcode"><pre><span class="nd">@Component</span>
+<span class="nd">@Aspect</span>
+<span class="nd">@Slf4j</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ParamValidationAspect</span> <span class="o">{</span>
+
+    <span class="nd">@Pointcut</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;@annotation(paramValidate)&quot;</span><span class="o">,</span> <span class="n">argNames</span> <span class="o">=</span> <span class="s">&quot;paramValidate&quot;</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">logPointcut</span><span class="o">(</span><span class="n">ParamValidate</span> <span class="n">paramValidate</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 横切点</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Around</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;logPointcut(paramValidate)&quot;</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">around</span><span class="o">(</span><span class="n">ProceedingJoinPoint</span> <span class="n">joinPoint</span><span class="o">,</span> <span class="n">ParamValidate</span> <span class="n">paramValidate</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Throwable</span> <span class="o">{</span>
+        <span class="n">MethodSignature</span> <span class="n">methodSignature</span> <span class="o">=</span> <span class="o">(</span><span class="n">MethodSignature</span><span class="o">)</span> <span class="n">joinPoint</span><span class="o">.</span><span class="na">getSignature</span><span class="o">();</span>
+        <span class="n">methodSignature</span><span class="o">.</span><span class="na">getParameterTypes</span><span class="o">();</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="n">Object</span> <span class="n">param</span> <span class="o">:</span> <span class="n">joinPoint</span><span class="o">.</span><span class="na">getArgs</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">ValidationUtil</span><span class="o">.</span><span class="na">ValidResult</span> <span class="n">validResult</span> <span class="o">=</span> <span class="n">ValidationUtil</span><span class="o">.</span><span class="na">validateBean</span><span class="o">(</span><span class="n">param</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">validResult</span><span class="o">.</span><span class="na">isHasErrors</span><span class="o">())</span> <span class="o">{</span>
+                <span class="c1">// TODO 自定义失败的返回</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="n">joinPoint</span><span class="o">.</span><span class="na">proceed</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<h3 id="_6">校验工具类</h3>
+<p>这个类是直接抄网上的</p>
+<div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ValidationUtil</span> <span class="o">{</span>
+    <span class="cm">/**</span>
+<span class="cm">     * 开启快速结束模式 failFast (true)</span>
+<span class="cm">     */</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Validator</span> <span class="n">validator</span> <span class="o">=</span> <span class="n">Validation</span><span class="o">.</span><span class="na">byProvider</span><span class="o">(</span><span class="n">HibernateValidator</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">configure</span><span class="o">().</span><span class="na">failFast</span><span class="o">(</span><span class="kc">false</span><span class="o">).</span><span class="na">buildValidatorFactory</span><span class="o">().</span><span class="na">getValidator</span><span class="o">();</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * 校验对象</span>
+<span class="cm">     *</span>
+<span class="cm">     * @param t bean</span>
+<span class="cm">     * @param groups 校验组</span>
+<span class="cm">     * @return ValidResult</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">ValidResult</span> <span class="n">validateBean</span><span class="o">(</span><span class="n">T</span> <span class="n">t</span><span class="o">,</span><span class="n">Class</span><span class="o">&lt;?&gt;...</span><span class="na">groups</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">ValidResult</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ValidationUtil</span><span class="o">().</span><span class="na">new</span> <span class="n">ValidResult</span><span class="o">();</span>
+        <span class="n">Set</span><span class="o">&lt;</span><span class="n">ConstraintViolation</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span> <span class="n">violationSet</span> <span class="o">=</span> <span class="n">validator</span><span class="o">.</span><span class="na">validate</span><span class="o">(</span><span class="n">t</span><span class="o">,</span><span class="n">groups</span><span class="o">);</span>
+        <span class="kt">boolean</span> <span class="n">hasError</span> <span class="o">=</span> <span class="n">violationSet</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">violationSet</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="n">result</span><span class="o">.</span><span class="na">setHasErrors</span><span class="o">(</span><span class="n">hasError</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">hasError</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="n">ConstraintViolation</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">violation</span> <span class="o">:</span> <span class="n">violationSet</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">result</span><span class="o">.</span><span class="na">addError</span><span class="o">(</span><span class="n">violation</span><span class="o">.</span><span class="na">getPropertyPath</span><span class="o">().</span><span class="na">toString</span><span class="o">(),</span> <span class="n">violation</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * 校验bean的某一个属性</span>
+<span class="cm">     *</span>
+<span class="cm">     * @param obj          bean</span>
+<span class="cm">     * @param propertyName 属性名称</span>
+<span class="cm">     * @return ValidResult</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">ValidResult</span> <span class="n">validateProperty</span><span class="o">(</span><span class="n">T</span> <span class="n">obj</span><span class="o">,</span> <span class="n">String</span> <span class="n">propertyName</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">ValidResult</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ValidationUtil</span><span class="o">().</span><span class="na">new</span> <span class="n">ValidResult</span><span class="o">();</span>
+        <span class="n">Set</span><span class="o">&lt;</span><span class="n">ConstraintViolation</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span> <span class="n">violationSet</span> <span class="o">=</span> <span class="n">validator</span><span class="o">.</span><span class="na">validateProperty</span><span class="o">(</span><span class="n">obj</span><span class="o">,</span> <span class="n">propertyName</span><span class="o">);</span>
+        <span class="kt">boolean</span> <span class="n">hasError</span> <span class="o">=</span> <span class="n">violationSet</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">violationSet</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="n">result</span><span class="o">.</span><span class="na">setHasErrors</span><span class="o">(</span><span class="n">hasError</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">hasError</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="n">ConstraintViolation</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">violation</span> <span class="o">:</span> <span class="n">violationSet</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">result</span><span class="o">.</span><span class="na">addError</span><span class="o">(</span><span class="n">propertyName</span><span class="o">,</span> <span class="n">violation</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * 校验结果类</span>
+<span class="cm">     */</span>
+    <span class="nd">@Data</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ValidResult</span> <span class="o">{</span>
+
+        <span class="cm">/**</span>
+<span class="cm">         * 是否有错误</span>
+<span class="cm">         */</span>
+        <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">hasErrors</span><span class="o">;</span>
+
+        <span class="cm">/**</span>
+<span class="cm">         * 错误信息</span>
+<span class="cm">         */</span>
+        <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">ErrorMessage</span><span class="o">&gt;</span> <span class="n">errors</span><span class="o">;</span>
+
+        <span class="kd">public</span> <span class="nf">ValidResult</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">errors</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="o">}</span>
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasErrors</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">hasErrors</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setHasErrors</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">hasErrors</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">hasErrors</span> <span class="o">=</span> <span class="n">hasErrors</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="cm">/**</span>
+<span class="cm">         * 获取所有验证信息</span>
+<span class="cm">         * @return 集合形式</span>
+<span class="cm">         */</span>
+        <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">ErrorMessage</span><span class="o">&gt;</span> <span class="nf">getAllErrors</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">errors</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="cm">/**</span>
+<span class="cm">         * 获取所有验证信息</span>
+<span class="cm">         * @return 字符串形式</span>
+<span class="cm">         */</span>
+        <span class="kd">public</span> <span class="n">String</span> <span class="nf">getErrors</span><span class="o">(){</span>
+            <span class="n">StringBuilder</span> <span class="n">sb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
+            <span class="k">for</span> <span class="o">(</span><span class="n">ErrorMessage</span> <span class="n">error</span> <span class="o">:</span> <span class="n">errors</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">error</span><span class="o">.</span><span class="na">getPropertyPath</span><span class="o">()).</span><span class="na">append</span><span class="o">(</span><span class="s">&quot;:&quot;</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="n">error</span><span class="o">.</span><span class="na">getMessage</span><span class="o">()).</span><span class="na">append</span><span class="o">(</span><span class="s">&quot; &quot;</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addError</span><span class="o">(</span><span class="n">String</span> <span class="n">propertyName</span><span class="o">,</span> <span class="n">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">errors</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ErrorMessage</span><span class="o">(</span><span class="n">propertyName</span><span class="o">,</span> <span class="n">message</span><span class="o">));</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Data</span>
+    <span class="nd">@NoArgsConstructor</span>
+    <span class="nd">@AllArgsConstructor</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ErrorMessage</span> <span class="o">{</span>
+
+        <span class="kd">private</span> <span class="n">String</span> <span class="n">propertyPath</span><span class="o">;</span>
+
+        <span class="kd">private</span> <span class="n">String</span> <span class="n">message</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-06-28 14:49:35</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
