@@ -1,5 +1,5 @@
 ---
-title: Hibernate-Validation注解
+title: hibernate-validator
 date: 2020-06-28 14:44:42
 collection: 校验器
 ---
