@@ -28,8 +28,109 @@
 
   <h2 id="_1">作用</h2>
 <p>使用hibernate-validation进行校验参数入参的切面</p>
-<h2 id="_2">快速使用</h2>
-<h3 id="_3">依赖</h3>
+<h2 id="_2">使用</h2>
+<p>如果是复杂的bean对象，需要加@Valid注解，如</p>
+<div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">A</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">a</span><span class="o">;</span>
+
+    <span class="cm">/**</span>
+<span class="cm">    *  这里加了Valid注解后才能生效</span>
+<span class="cm">    **/</span>
+    <span class="nd">@Valid</span>
+    <span class="kd">private</span> <span class="n">B</span> <span class="n">b</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">B</span> <span class="o">{</span>
+    <span class="nd">@NotNull</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">b</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<div class="hlcode"><pre><span class="n">AssertFalse</span>
+
+<span class="err">被注释的元素必须为</span><span class="n">boolean</span><span class="p">,</span><span class="err">且为</span><span class="nb">false</span>
+
+<span class="n">AssertTrue</span>
+
+<span class="err">被注释的元素必须为</span><span class="n">boolean</span><span class="p">,</span><span class="err">且为</span><span class="nb">true</span>
+
+<span class="n">DecimalMax</span>
+
+<span class="err">被注释的元素必须为数字</span><span class="p">,</span><span class="err">且小于等于最大值</span>
+
+<span class="n">DecimalMin</span>
+
+<span class="err">被注释的元素必须为数字</span><span class="p">,</span><span class="err">且大于等于最小值</span>
+
+<span class="n">Digits</span>
+
+<span class="err">被注释的元素必须为数字</span><span class="p">,</span><span class="err">且精度在指定的整数和小数范围内</span>
+
+<span class="n">Future</span>
+
+<span class="err">被注释的元素必须为日期且大于当前时间</span><span class="p">(</span><span class="err">是未来的时间</span><span class="p">)</span>
+
+<span class="n">Max</span>
+
+<span class="err">被注释的元素必须是数字</span><span class="p">,</span><span class="err">且小于等于最大值</span>
+
+<span class="n">Min</span>
+
+<span class="err">被注释的元素必须是数字</span><span class="p">,</span><span class="err">且大于等于最小值</span>
+
+<span class="n">NotNull</span>
+
+<span class="err">被注释的元素必须不为</span> <span class="n">null</span> 
+
+<span class="n">Null</span>
+
+<span class="err">被注释的元素必须为</span> <span class="n">null</span> 
+
+<span class="n">Past</span>
+
+<span class="err">被注释的元素必须为日期且小于当前时间</span><span class="p">(</span><span class="err">是过去的时间</span><span class="p">)</span>
+
+<span class="n">Pattern</span>
+
+<span class="err">被注释的元素必须字符串</span><span class="p">,</span><span class="err">且符合指定正则表达式</span><span class="p">,</span><span class="err">如果为</span><span class="n">null</span><span class="err">则不校验</span>
+
+<span class="n">Size</span>
+
+<span class="err">被注释的元素必须是字符串</span><span class="p">,</span><span class="err">长度大于等于</span><span class="n">min</span><span class="err">值</span><span class="p">,</span><span class="err">小于等于</span><span class="n">max</span><span class="err">值</span>
+
+<span class="n">Annotation</span> <span class="n">Type</span>
+
+<span class="n">Description</span>   <span class="p">(</span><span class="n">import</span> <span class="n">org</span><span class="p">.</span><span class="n">hibernate</span><span class="p">.</span><span class="n">validator</span><span class="p">.</span><span class="n">constraints</span><span class="p">.</span><span class="o">*</span><span class="p">)</span>
+
+<span class="n">Email</span>
+
+<span class="err">被注释的元素必须是电子邮箱地址</span> 
+
+<span class="n">Length</span>
+
+<span class="err">被注释的字符串的大小必须在指定的范围内</span> 
+
+<span class="n">NotBlank</span>
+
+<span class="err">被注释的字符串必须非空</span> 
+
+<span class="n">NotEmpty</span>
+
+<span class="err">被注释的字符串或列表的必须非空</span> 
+
+<span class="n">Range</span>
+
+<span class="err">被注释的元素必须在合适的范围内</span>
+
+<span class="n">URL</span>
+
+<span class="err">被注释的字符串的必须符合</span><span class="n">url</span><span class="err">地址格式</span>
+</pre></div>
+
+
+<h2 id="_3">快速使用</h2>
+<h3 id="_4">依赖</h3>
 <div class="hlcode"><pre><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>org.hibernate<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>hibernate-validator<span class="nt">&lt;/artifactId&gt;</span>
@@ -38,14 +139,14 @@
 </pre></div>
 
 
-<h3 id="_4">注解</h3>
+<h3 id="_5">注解</h3>
 <div class="hlcode"><pre><span class="nd">@Retention</span><span class="o">(</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>
 <span class="kd">public</span> <span class="nd">@interface</span> <span class="n">ParamValidate</span> <span class="o">{</span>
 <span class="o">}</span>
 </pre></div>
 
 
-<h3 id="_5">切面</h3>
+<h3 id="_6">切面</h3>
 <div class="hlcode"><pre><span class="nd">@Component</span>
 <span class="nd">@Aspect</span>
 <span class="nd">@Slf4j</span>
@@ -74,7 +175,7 @@
 </pre></div>
 
 
-<h3 id="_6">校验工具类</h3>
+<h3 id="_7">校验工具类</h3>
 <p>这个类是直接抄网上的</p>
 <div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ValidationUtil</span> <span class="o">{</span>
     <span class="cm">/**</span>
@@ -190,7 +291,7 @@
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-06-28 14:49:35</p>
+        <p>Site Generated 2020-06-28 14:52:24</p>
       </span>
     </div>
 
