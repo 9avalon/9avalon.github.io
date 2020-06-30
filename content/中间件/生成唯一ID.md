@@ -1,5 +1,5 @@
 ---
-title: 分布式生成唯一ID
+title: SnowFlake雪花算法
 date: 2019-10-25 12:18:46
 collection: 其他
 ---

@@ -64,11 +64,11 @@ Min
 
 NotNull
 
-被注释的元素必须不为 null 
+被注释的元素必须不为 null
 
 Null
 
-被注释的元素必须为 null 
+被注释的元素必须为 null
 
 Past
 
@@ -89,10 +89,6 @@ Description   (import org.hibernate.validator.constraints.*)
 Email
 
 被注释的元素必须是电子邮箱地址 
-
-Length
-
-被注释的字符串的大小必须在指定的范围内 
 
 NotBlank
 
