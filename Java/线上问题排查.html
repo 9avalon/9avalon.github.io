@@ -65,12 +65,21 @@
 <h3 id="matdump">使用mat工具分析dump文件</h3>
 <p>可以在网上下载一个专业分析jvm内存的工具，如mat来进行分析，找出异常的内存占用对象后，再看代码进行下一步分析。</p>
 <p>jstack -l</p>
+<h3 id="oom">线上oom快速分析</h3>
+<p>查看堆的大小，old区和young区的使用情况</p>
+<div class="hlcode"><pre>jmap -histo:live 进程pid | more
+</pre></div>
+
+
+<p>使用jmap，查看当前堆的大对象</p>
+<div class="hlcode"><pre><span class="n">jmap</span> <span class="o">-</span><span class="nl">histo:</span><span class="n">live</span> <span class="err">进程</span><span class="n">pid</span> <span class="o">|</span> <span class="n">more</span>
+</pre></div>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-06-28 14:53:54</p>
+        <p>Site Generated 2020-06-30 19:47:50</p>
       </span>
     </div>
 
