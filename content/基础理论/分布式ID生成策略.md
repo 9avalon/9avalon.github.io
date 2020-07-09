@@ -1,6 +1,7 @@
 ---
 title : 分布式ID生成策略
 date : 2020-07-09 10:15:12
+collection: 系统设计
 ---
 
 ## UUID
