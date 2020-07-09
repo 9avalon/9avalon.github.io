@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>分布式ID生成策略 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#系统设计">系统设计</a>&nbsp;&#187;&nbsp;分布式ID生成策略
+    <span class="updated">Page Updated&nbsp;
+      2020-07-09 10:15:12
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">分布式ID生成策略</div>
+
+  <h2 id="uuid">UUID</h2>
+<p>优点：</p>
+<ol>
+<li>简单，不会重复。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>不安全，可以推算出mac地址。</li>
+<li>生成的ID即不单调递增，也不趋势递归，不连续，不利于db存储。</li>
+</ol>
+<p>使用场景：</p>
+<p>可以用于服务间之间调用的唯一ID。</p>
+<h2 id="_1">数据库主键</h2>
+<p>优点：</p>
+<ol>
+<li>简单，单调递增。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>性能低下</li>
+<li>不适用于订单号生成，容易被人推算出业务每日订单量</li>
+</ol>
+<p>使用场景：</p>
+<p>自增id的性能要求不高的场景，项目从0到1野蛮生长的阶段。</p>
+<h2 id="snowflake">SnowFlake</h2>
+<p><img alt="Leaf" src="https://miguel-pic.oss-cn-shenzhen.aliyuncs.com/20200709103402.png" /></p>
+<p>优点：</p>
+<ol>
+<li>生成简单，单机或分布式生成都可。</li>
+<li>可以轻松定制化，加减id长度。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>生成的id会比较长(标准:1bit最高位，41bit存储时间戳+10bit存储机房和机器号+12bit有序自增序列)，一毫秒能生成4096个id</li>
+<li>需要解决时间回流问题。</li>
+</ol>
+<p>使用场景：</p>
+<p>对于生成订单号这些场景是非常适用的。</p>
+<p>注：</p>
+<p>1.关于算法中机器号的获取，可以通过zk的临时有序节点来得到。</p>
+<p>2.时间回流问题，可以通过比对上次生成时间和当前时间，如果上一次的生成时间小于当前时间，则进行sleep等待处理。(一般时间回流会在5ms左右，闰秒)</p>
+<h2 id="leaf-segment">Leaf-Segment(美团中间件)</h2>
+<p><img alt="美团leaf" src="https://miguel-pic.oss-cn-shenzhen.aliyuncs.com/20200709103302.png" /></p>
+<p>优点：</p>
+<ol>
+<li>解决了数据组单机自增的性能瓶颈</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>生成的ID并非单调递增，而是趋势递增，如生成的id可以会如下排列 [1, 7, 2, 3, 9, 5]</li>
+</ol>
+<p>使用场景：</p>
+<p>看业务对id是否单调递增敏感，用于生成用户id是不错的选择。</p>
+<h2 id="leaf-snowflake">Leaf-Snowflake</h2>
+<p>同SnowFlake，中心化服务。</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-07-09 10:34:50</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
