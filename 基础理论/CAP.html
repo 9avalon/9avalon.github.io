@@ -35,6 +35,7 @@
 </li>
 <li><a href="#_1">关于一致性和可用性的矛盾</a></li>
 <li><a href="#cap_1">常见的CAP应用</a></li>
+<li><a href="#base">BASE理论</a></li>
 </ul>
 </div>
 <h2 id="cap">CAP理论</h2>
@@ -51,12 +52,16 @@
 <p>eureka: AP</p>
 <p>常常会看到注册中心应该选择哪个组件较为合适，网上的普遍论调是，使用AP的eureka会更合适，因为分布式服务中，注册中心暂时的不一致，对服务并多多大影响和妨碍。(当时也并不是zk就不好，得看场景)</p>
 <p>2020-06-29 11:32:01 Eureka也有可能因为过多的节点丢失导致触发了自我保护机制，这会导致服务可能请求到了一个已经下线的节点。</p>
+<h2 id="base">BASE理论</h2>
+<p>Basically Available(基本可用)</p>
+<p>Soft State（软状态）</p>
+<p>Eventually Consistent（最终一致性）</p>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-07-09 10:34:50</p>
+        <p>Site Generated 2020-07-09 10:41:11</p>
       </span>
     </div>
 
