@@ -4,7 +4,7 @@ date : 2020-07-02 11:41:01
 collection: 缓存
 ---
 
-1. guava的工具类，支持key过期。
+1. guava的工具类，支持key过期。线程安全
 
 ```java
     /**
