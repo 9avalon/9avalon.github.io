@@ -35,5 +35,29 @@ class Solution {
 }
 ```
 
-分析: 这题其实我自己偷懒了，比较好的做法有两种，第一种是构造最小堆，第二种是参考快排的分冶
+2020-07-17 01:37:58 二刷，用最大堆处理
 
+```java
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        // 最大堆
+        PriorityQueue<Integer> queue = new PriorityQueue<>((a, b) -> {
+            return b.compareTo(a);
+        });
+
+        // 构建最大堆
+        for (int i=0; i<nums.length; i++) {
+            queue.add(nums[i]);
+        }
+
+        // 输出第k个
+        for (int i=0; i<k-1; i++) {
+            queue.poll();
+        }
+
+        return queue.poll();
+    }
+}
+```
+
+分析: 第一种是构造最大堆，第二种是参考快排的分冶
