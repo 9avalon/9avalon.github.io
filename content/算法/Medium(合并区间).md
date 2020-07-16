@@ -88,5 +88,67 @@ class Solution {
 }
 ```
 
+2020-07-17 01:24:32 看了题解，二刷
+
+```java
+class Solution {
+    public class Node {
+        int left;
+        int right;
+
+        public Node(int left, int right) {
+            this.left = left;
+            this.right = right;
+        }
+    }
+    public int[][] merge(int[][] intervals) {
+        // 空防守
+        if (intervals.length == 0) {
+            return intervals;
+        }
+
+        List<Node> list = new ArrayList<>();
+        for (int i=0; i<intervals.length; i++) {
+            list.add(new Node(intervals[i][0], intervals[i][1]));
+        }
+
+        // 排序
+        list.sort((node1, node2) -> {
+            return node1.left - node2.left;
+        });
+
+        List<Node> newList = new ArrayList<>();
+        Node currentNode = null;
+        for (Node node : list) {
+            // 新数组为空，直接放入
+            if (currentNode == null) {
+                currentNode = new Node(node.left, node.right);
+                newList.add(currentNode);
+                continue;
+            }
+
+            // 判断左节点是否大于当前node的右区间，如果大于，则将该节点直接放入新数组
+            if (node.left > currentNode.right) {
+                currentNode = new Node(node.left, node.right);
+                newList.add(currentNode);
+            } else {
+                // 左节点小于或等于当前node的右区间，开始考虑是否更新右区间值
+                currentNode.right = Math.max(currentNode.right, node.right);
+            }
+        }
+
+        // 输出
+        int[][] result = new int[newList.size()][2];
+        for (int i=0; i<newList.size(); i++) {
+            result[i][0] = newList.get(i).left;
+            result[i][1] = newList.get(i).right;
+        }
+
+        return result;
+    }
+}
+```
+
 分析: 这题就我自己而言，用jdk自带的对象排序，才比较好做。但是时间效率很低很低。
 
+2020-07-17 01:26:11 二刷，看了题解，用的方法很非常方便。
