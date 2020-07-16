@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>(Hard*)K个一组翻转链表 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#算法">算法</a>&nbsp;&#187;&nbsp;(Hard*)K个一组翻转链表
+    <span class="updated">Page Updated&nbsp;
+      2020-07-16 15:16:48
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">(Hard*)K个一组翻转链表</div>
+
+  <div class="hlcode"><pre><span class="err">给你一个链表，每 </span><span class="n">k</span><span class="err"> 个节点一组进行翻转，请你返回翻转后的链表。</span>
+
+<span class="n">k</span><span class="err"> 是一个正整数，它的值小于或等于链表的长度。</span>
+
+<span class="err">如果节点总数不是 </span><span class="n">k</span><span class="err"> 的整数倍，那么请将最后剩余的节点保持原有顺序。</span>
+
+<span class="err"> </span>
+
+<span class="err">示例：</span>
+
+<span class="err">给你这个链表：</span><span class="mi">1</span><span class="o">-&gt;</span><span class="mi">2</span><span class="o">-&gt;</span><span class="mi">3</span><span class="o">-&gt;</span><span class="mi">4</span><span class="o">-&gt;</span><span class="mi">5</span>
+
+<span class="err">当 </span><span class="n">k</span><span class="err"> </span><span class="o">=</span> <span class="mi">2</span> <span class="err">时，应当返回</span><span class="o">:</span> <span class="mi">2</span><span class="o">-&gt;</span><span class="mi">1</span><span class="o">-&gt;</span><span class="mi">4</span><span class="o">-&gt;</span><span class="mi">3</span><span class="o">-&gt;</span><span class="mi">5</span>
+
+<span class="err">当 </span><span class="n">k</span><span class="err"> </span><span class="o">=</span> <span class="mi">3</span> <span class="err">时，应当返回</span><span class="o">:</span> <span class="mi">3</span><span class="o">-&gt;</span><span class="mi">2</span><span class="o">-&gt;</span><span class="mi">1</span><span class="o">-&gt;</span><span class="mi">4</span><span class="o">-&gt;</span><span class="mi">5</span>
+
+<span class="err"> </span>
+
+<span class="err">说明：</span>
+
+<span class="err">你的算法只能使用常数的额外空间。</span>
+<span class="err">你不能只是单纯的改变节点内部的值，而是需要实际进行节点交换。</span>
+
+<span class="err">来源：力扣（</span><span class="n">LeetCode</span><span class="err">）</span>
+<span class="err">链接：</span><span class="n">https</span><span class="o">:</span><span class="c1">//leetcode-cn.com/problems/reverse-nodes-in-k-group</span>
+<span class="err">著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</span>
+</pre></div>
+
+
+<p>自己题解:</p>
+<div class="hlcode"><pre><span class="cm">/**</span>
+<span class="cm"> * Definition for singly-linked list.</span>
+<span class="cm"> * public class ListNode {</span>
+<span class="cm"> *     int val;</span>
+<span class="cm"> *     ListNode next;</span>
+<span class="cm"> *     ListNode(int x) { val = x; }</span>
+<span class="cm"> * }</span>
+<span class="cm"> */</span>
+<span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">ListNode</span> <span class="nf">reverseKGroup</span><span class="o">(</span><span class="n">ListNode</span> <span class="n">head</span><span class="o">,</span> <span class="kt">int</span> <span class="n">k</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">head</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">head</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="c1">// 新增头结点</span>
+        <span class="n">ListNode</span> <span class="n">newHead</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ListNode</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="n">newHead</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+
+        <span class="n">ListNode</span> <span class="n">pre</span> <span class="o">=</span> <span class="n">newHead</span><span class="o">;</span>
+        <span class="n">ListNode</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">newHead</span><span class="o">;</span>
+        <span class="n">ListNode</span> <span class="n">slow</span> <span class="o">=</span> <span class="n">newHead</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// 尾结点往前走</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">k</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">tail</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="o">}</span>
+                <span class="n">tail</span> <span class="o">=</span> <span class="n">tail</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">tail</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span>
+
+            <span class="n">ListNode</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">tail</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+
+            <span class="c1">// 头结点连到尾结点</span>
+            <span class="n">pre</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">tail</span><span class="o">;</span>
+            <span class="c1">// 反转链表</span>
+            <span class="n">reverse</span><span class="o">(</span><span class="n">slow</span><span class="o">,</span> <span class="n">tail</span><span class="o">);</span>
+            <span class="c1">// 反转的尾结点指向下一个结点</span>
+            <span class="n">slow</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">temp</span><span class="o">;</span>
+
+            <span class="c1">// 重新移动</span>
+            <span class="n">pre</span> <span class="o">=</span> <span class="n">slow</span><span class="o">;</span>
+            <span class="n">slow</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="n">tail</span> <span class="o">=</span> <span class="n">pre</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="n">newHead</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">reverse</span><span class="o">(</span><span class="n">ListNode</span> <span class="n">slow</span><span class="o">,</span> <span class="n">ListNode</span> <span class="n">tail</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">ListNode</span> <span class="n">s</span> <span class="o">=</span> <span class="n">slow</span><span class="o">;</span>
+        <span class="n">ListNode</span> <span class="n">f</span> <span class="o">=</span> <span class="n">slow</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+
+        <span class="n">ListNode</span> <span class="n">end</span> <span class="o">=</span> <span class="n">tail</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">f</span> <span class="o">!=</span> <span class="n">end</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">ListNode</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="n">f</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">s</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">s</span> <span class="o">==</span> <span class="n">slow</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">s</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">f</span><span class="o">;</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">temp</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>分析: 看了题解，增加头结点，然后各个情况的边界要出来好，这题即使思路清晰也很难写出来，我在idea上调试了20分钟才顺利AC。</p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-07-17 01:26:40</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

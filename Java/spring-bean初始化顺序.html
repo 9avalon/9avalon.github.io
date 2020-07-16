@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
     <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
-    <title>stream - Miguel's Wiki</title>
+    <title>spring-bean初始化顺序 - Miguel's Wiki</title>
     <meta name="keywords" content=""/>
     <meta name="description" content="Miguel个人wiki"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -17,20 +17,21 @@
     <div id="container">
       
 <div id="header">
-  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;stream
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#Java">Java</a>&nbsp;&#187;&nbsp;spring-bean初始化顺序
     <span class="updated">Page Updated&nbsp;
-      2020-03-20 11:53:21
+      2020-07-13 11:40:49
     </span></div>
 </div>
 <div class="clearfix"></div>
 
-<div class="page_title">stream</div>
+<div class="page_title">spring-bean初始化顺序</div>
 
-  <ol>
-<li>List<Object> 转 List<Object.Id></li>
-</ol>
-<div class="hlcode"><pre><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">skuIdList</span> <span class="o">=</span> <span class="n">goodsInfo</span><span class="o">.</span><span class="na">getGoodsDetail</span><span class="o">().</span><span class="na">stream</span><span class="o">().</span><span class="na">map</span><span class="o">(</span><span class="n">OrderCreateNotifyReqDTO</span><span class="o">.</span><span class="na">GoodsDetail</span><span class="o">::</span><span class="n">getGoodsId</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
-</pre></div>
+  <p>1.BeanPostProcess before</p>
+<p>2.类初始化构造函数</p>
+<p>3.@PostConstruct</p>
+<p>4.initalizedBean的afterPropertiesSet</p>
+<p>5.xml中的init-method</p>
+<p>6.BeanPostProcess after</p>
     </div>
     <div id="footer">
       <span>
