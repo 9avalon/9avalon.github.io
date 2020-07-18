@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>(Medium)搜索二维矩阵 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#算法">算法</a>&nbsp;&#187;&nbsp;(Medium)搜索二维矩阵
+    <span class="updated">Page Updated&nbsp;
+      2020-07-18 18:03:16
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">(Medium)搜索二维矩阵</div>
+
+  <div class="hlcode"><pre><span class="err">编写一个高效的算法来判断 </span><span class="nt">m</span> <span class="nt">x</span> <span class="nt">n</span><span class="err"> 矩阵中，是否存在一个目标值。该矩阵具有如下特性：</span>
+
+<span class="err">每行中的整数从左到右按升序排列。</span>
+<span class="err">每行的第一个整数大于前一行的最后一个整数。</span>
+<span class="err">示例 </span><span class="nt">1</span><span class="o">:</span>
+
+<span class="err">输入</span><span class="o">:</span>
+<span class="nt">matrix</span> <span class="o">=</span> <span class="cp">[</span>
+  <span class="err">[</span><span class="mi">1</span><span class="p">,</span>   <span class="mi">3</span><span class="p">,</span>  <span class="mi">5</span><span class="p">,</span>  <span class="mi">7</span><span class="cp">]</span><span class="o">,</span>
+  <span class="cp">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">20</span><span class="cp">]</span><span class="o">,</span>
+  <span class="cp">[</span><span class="mi">23</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">50</span><span class="cp">]</span>
+<span class="o">]</span>
+<span class="nt">target</span> <span class="o">=</span> <span class="nt">3</span>
+<span class="err">输出</span><span class="o">:</span> <span class="nt">true</span>
+<span class="err">示例 </span><span class="nt">2</span><span class="o">:</span>
+
+<span class="err">输入</span><span class="o">:</span>
+<span class="nt">matrix</span> <span class="o">=</span> <span class="cp">[</span>
+  <span class="err">[</span><span class="mi">1</span><span class="p">,</span>   <span class="mi">3</span><span class="p">,</span>  <span class="mi">5</span><span class="p">,</span>  <span class="mi">7</span><span class="cp">]</span><span class="o">,</span>
+  <span class="cp">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">20</span><span class="cp">]</span><span class="o">,</span>
+  <span class="cp">[</span><span class="mi">23</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">50</span><span class="cp">]</span>
+<span class="o">]</span>
+<span class="nt">target</span> <span class="o">=</span> <span class="nt">13</span>
+<span class="err">输出</span><span class="o">:</span> <span class="nt">false</span>
+
+<span class="err">来源：力扣（</span><span class="nt">LeetCode</span><span class="err">）</span>
+<span class="err">链接：</span><span class="nt">https</span><span class="o">://</span><span class="nt">leetcode-cn</span><span class="nc">.com</span><span class="o">/</span><span class="nt">problems</span><span class="o">/</span><span class="nt">search-a-2d-matrix</span>
+<span class="err">著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</span>
+</pre></div>
+
+
+<p>自己题解:</p>
+<div class="hlcode"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">searchMatrix</span><span class="o">(</span><span class="kt">int</span><span class="o">[][]</span> <span class="n">matrix</span><span class="o">,</span> <span class="kt">int</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">matrix</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="n">matrix</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="mi">1</span><span class="o">||</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">0</span> <span class="o">||</span> <span class="n">j</span><span class="o">&gt;</span><span class="n">matrix</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">length</span> <span class="o">-</span><span class="mi">1</span> <span class="o">||</span> <span class="n">j</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="o">}</span>
+
+            <span class="kt">int</span> <span class="n">num</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">];</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">num</span> <span class="o">==</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">num</span> <span class="o">&lt;</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">j</span><span class="o">++;</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="n">i</span><span class="o">--;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>分析: </p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-07-18 20:24:35</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>
