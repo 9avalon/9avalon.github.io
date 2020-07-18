@@ -91,6 +91,79 @@ class Solution {
 }
 ```
 
+二刷，fail了两次，代码有点冗余，但是逻辑应该是比较清晰的。
+
+```java
+class Solution {
+    public int myAtoi(String str) {
+        boolean plus = true;
+        boolean start = false;
+        int ret = 0;
+        for (int i=0; i<str.length(); i++) {
+            // 处理负号
+            if (str.charAt(i) == '-') {
+                if (start) {
+                    return plus ? ret : -ret;
+                } else {
+                    plus = false;
+                    start = true;
+                    continue;
+                }
+            }
+
+            // 处理正号
+            if (str.charAt(i) == '+') {
+                if (start) {
+                    return plus ? ret : -ret;
+                } else {
+                    start = true;
+                    continue;
+                }
+            }
+
+            // 处理空格
+            if (str.charAt(i) == ' ') {
+                if (!start) {
+                    continue;
+                } else {
+                    return plus ? ret : -ret;
+                }
+            }
+
+            // 处理非数字字符
+            if (str.charAt(i) < '0' || str.charAt(i) > '9') {
+                if (start) {
+                    return plus ? ret : -ret;
+                } else {
+                    return 0;
+                }
+            } 
+
+            start = true;
+
+            // 处理数字
+            int num = str.charAt(i) - '0';
+            // 防溢出
+            if (plus) {
+                // 正数
+                if ((ret > Integer.MAX_VALUE / 10) || ((ret * 10 == Integer.MAX_VALUE - 7) && num > 7)) {
+                    return Integer.MAX_VALUE;
+                }
+            } else {
+                // 负数
+                if ((-ret < Integer.MIN_VALUE / 10) || ((-ret * 10 == Integer.MIN_VALUE + 8) && num > 8)) {
+                    return Integer.MIN_VALUE;
+                }
+            }
+            ret = ret*10 + num;
+        }
+        return plus ? ret : -ret;
+    }
+}
+```
+
 分析:
 
 1. 苦力题，各种异常情况的判断。
+
+2020-07-18 10:41:48, 二刷：其实挺好的一道题，不考验智力，考验编程功底。
