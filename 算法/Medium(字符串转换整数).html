@@ -112,16 +112,87 @@
 </pre></div>
 
 
+<p>二刷，fail了两次，代码有点冗余，但是逻辑应该是比较清晰的。</p>
+<div class="hlcode"><pre><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">myAtoi</span><span class="o">(</span><span class="n">String</span> <span class="n">str</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">boolean</span> <span class="n">plus</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="kt">boolean</span> <span class="n">start</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">str</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="c1">// 处理负号</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">str</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="sc">&#39;-&#39;</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">start</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">return</span> <span class="n">plus</span> <span class="o">?</span> <span class="n">ret</span> <span class="o">:</span> <span class="o">-</span><span class="n">ret</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="n">plus</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                    <span class="n">start</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                    <span class="k">continue</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+
+            <span class="c1">// 处理正号</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">str</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="sc">&#39;+&#39;</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">start</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">return</span> <span class="n">plus</span> <span class="o">?</span> <span class="n">ret</span> <span class="o">:</span> <span class="o">-</span><span class="n">ret</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="n">start</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                    <span class="k">continue</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+
+            <span class="c1">// 处理空格</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">str</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="sc">&#39; &#39;</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(!</span><span class="n">start</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">continue</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="k">return</span> <span class="n">plus</span> <span class="o">?</span> <span class="n">ret</span> <span class="o">:</span> <span class="o">-</span><span class="n">ret</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+
+            <span class="c1">// 处理非数字字符</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">str</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">&lt;</span> <span class="sc">&#39;0&#39;</span> <span class="o">||</span> <span class="n">str</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">&gt;</span> <span class="sc">&#39;9&#39;</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">start</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">return</span> <span class="n">plus</span> <span class="o">?</span> <span class="n">ret</span> <span class="o">:</span> <span class="o">-</span><span class="n">ret</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span> 
+
+            <span class="n">start</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+
+            <span class="c1">// 处理数字</span>
+            <span class="kt">int</span> <span class="n">num</span> <span class="o">=</span> <span class="n">str</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-</span> <span class="sc">&#39;0&#39;</span><span class="o">;</span>
+            <span class="c1">// 防溢出</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">plus</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// 正数</span>
+                <span class="k">if</span> <span class="o">((</span><span class="n">ret</span> <span class="o">&gt;</span> <span class="n">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span> <span class="o">/</span> <span class="mi">10</span><span class="o">)</span> <span class="o">||</span> <span class="o">((</span><span class="n">ret</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">==</span> <span class="n">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span> <span class="o">-</span> <span class="mi">7</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">7</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="k">return</span> <span class="n">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="c1">// 负数</span>
+                <span class="k">if</span> <span class="o">((-</span><span class="n">ret</span> <span class="o">&lt;</span> <span class="n">Integer</span><span class="o">.</span><span class="na">MIN_VALUE</span> <span class="o">/</span> <span class="mi">10</span><span class="o">)</span> <span class="o">||</span> <span class="o">((-</span><span class="n">ret</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">==</span> <span class="n">Integer</span><span class="o">.</span><span class="na">MIN_VALUE</span> <span class="o">+</span> <span class="mi">8</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">8</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="k">return</span> <span class="n">Integer</span><span class="o">.</span><span class="na">MIN_VALUE</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="n">ret</span><span class="o">*</span><span class="mi">10</span> <span class="o">+</span> <span class="n">num</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">plus</span> <span class="o">?</span> <span class="n">ret</span> <span class="o">:</span> <span class="o">-</span><span class="n">ret</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
 <p>分析:</p>
 <ol>
 <li>苦力题，各种异常情况的判断。</li>
 </ol>
+<p>2020-07-18 10:41:48, 二刷：其实挺好的一道题，不考验智力，考验编程功底。</p>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-07-18 10:00:44</p>
+        <p>Site Generated 2020-07-18 10:42:07</p>
       </span>
     </div>
 
