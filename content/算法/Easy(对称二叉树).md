@@ -65,3 +65,40 @@ class Solution {
 一开始我的思路是复制一棵树出来，然后做反转这颗二叉树，然后对这两棵树做遍历，看看是不是所有节点都是一致的。后面看了别人的作业，发现很巧妙的递归。
 
 关于迭代的方式，思路是解析每一层的数据，然后判断是不是回文。
+
+
+2020-07-18 09:27:51，二刷，直接就写出来了。。并且两种思路都能想出来，棒
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        return check(root.left, root.right);
+    }
+
+    private boolean check(TreeNode left, TreeNode right) {
+        if (left == null && right == null) {
+            return true;
+        }
+        if (left == null || right == null) {
+            return false;
+        }
+        if (left.val != right.val) {
+            return false;
+        }
+
+        return check(left.left, right.right) && check(left.right, right.left);
+    }
+}
+```
