@@ -1,7 +1,7 @@
 ---
 title: (Medium)课程表
 date: 2020-06-24 01:14:47
-collection: 图
+collection: 图论
 ---
 
 ```txt
