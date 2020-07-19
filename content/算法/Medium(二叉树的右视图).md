@@ -1,7 +1,7 @@
 ---
 title: (Medium)二叉树的右视图
 date: 2020-05-21 22:58:05
-collection: 二叉树
+collection: 树
 ---
 
 ```txt

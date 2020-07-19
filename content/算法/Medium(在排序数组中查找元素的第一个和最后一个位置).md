@@ -1,7 +1,7 @@
 ---
 title: (Medium)在排序数组中查找元素的第一个和最后一个位置
 date: 2020-06-21 11:28:26
-collection: 二分搜索
+collection: 二分查找
 ---
 
 ```txt

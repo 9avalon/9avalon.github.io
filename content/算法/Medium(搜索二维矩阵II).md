@@ -1,7 +1,7 @@
 ---
 title: (Medium*) 搜索二维矩阵 II
 date: 2020-03-06 00:59:37
-collection: 二维数组
+collection: 数组
 ---
 
 ```txt

@@ -1,7 +1,7 @@
 ---
 title: (Easy)二叉树的直径
 date: 2020-07-18 11:42:59
-collection: 二叉树的直径
+collection: 树
 ---
 
 ```txt

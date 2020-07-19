@@ -1,7 +1,7 @@
 ---
 title: (Medium)二分查找
 date: 2020-06-05 01:32:28
-collection: 查询
+collection: 二分查找
 ---
 
 ```txt

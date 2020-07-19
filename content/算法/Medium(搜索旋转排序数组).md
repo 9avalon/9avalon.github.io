@@ -1,7 +1,7 @@
 ---
 title: (Medium)搜索旋转排序数组
 date: 2020-06-21 01:51:57
-collection: 二分搜索
+collection: 二分查找
 ---
 
 ```txt

@@ -1,7 +1,7 @@
 ---
 title: (Medium)寻找峰值
 date: 2020-03-20 15:55:35
-collection: 二分搜索
+collection: 二分查找
 ---
 
 ```txt
