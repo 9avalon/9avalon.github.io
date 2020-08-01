@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/style.css">
+    <link rel="Stylesheet" type="text/css" href="/wiki/static/css/tango.css">
+    <link rel="shortcut icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/wiki/favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="Atom feed">
+    <title>(Medium)堆排序 - Miguel's Wiki</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="Miguel个人wiki"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="no-referrer" />
+  </head>
+
+  <body>
+    <div id="container">
+      
+<div id="header">
+  <div class="post-nav"><a href="/wiki/">Home</a>&nbsp;&#187;&nbsp;<a href="/wiki/#算法">算法</a>&nbsp;&#187;&nbsp;(Medium)堆排序
+    <span class="updated">Page Updated&nbsp;
+      2020-08-01 17:49:30
+    </span></div>
+</div>
+<div class="clearfix"></div>
+
+<div class="page_title">(Medium)堆排序</div>
+
+  <div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Soluction</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Soluction</span> <span class="n">soluction</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Soluction</span><span class="o">();</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">tree</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[]{</span><span class="mi">5</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">1</span><span class="o">,</span><span class="mi">6</span><span class="o">,</span><span class="mi">8</span><span class="o">,</span><span class="mi">9</span><span class="o">,</span><span class="mi">0</span><span class="o">};</span>
+        <span class="n">soluction</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">tree</span><span class="o">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">tree</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">sort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">tree</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 构建最大堆</span>
+        <span class="n">buildHeap</span><span class="o">(</span><span class="n">tree</span><span class="o">);</span>
+
+
+        <span class="c1">// 排序输出</span>
+        <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">index</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">tree</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+            <span class="n">tree</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">tree</span><span class="o">[</span><span class="n">index</span><span class="o">];</span>
+            <span class="n">tree</span><span class="o">[</span><span class="n">index</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">;</span>
+
+            <span class="n">heapify</span><span class="o">(</span><span class="n">tree</span><span class="o">,</span> <span class="n">index</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+            <span class="n">index</span> <span class="o">--;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * 构造堆</span>
+<span class="cm">     * @param tree</span>
+<span class="cm">     */</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">buildHeap</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">tree</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 从最后一个非叶子节点开始heapify</span>
+        <span class="kt">int</span> <span class="n">lastParent</span> <span class="o">=</span> <span class="o">(</span><span class="n">tree</span><span class="o">.</span><span class="na">length</span> <span class="o">/</span> <span class="mi">2</span><span class="o">)</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">lastParent</span><span class="o">;</span> <span class="n">i</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="o">;</span> <span class="n">i</span><span class="o">--)</span> <span class="o">{</span>
+            <span class="n">heapify</span><span class="o">(</span><span class="n">tree</span><span class="o">,</span> <span class="n">tree</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="mi">1</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * 堆化，将i节点以及底下的构建堆</span>
+<span class="cm">     * @param tree</span>
+<span class="cm">     * @param n</span>
+<span class="cm">     * @param i</span>
+<span class="cm">     */</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">heapify</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">tree</span><span class="o">,</span> <span class="kt">int</span> <span class="n">n</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">max</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">left</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">&amp;&amp;</span> <span class="n">tree</span><span class="o">[</span><span class="n">left</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">tree</span><span class="o">[</span><span class="n">max</span><span class="o">])</span> <span class="o">{</span>
+            <span class="n">max</span> <span class="o">=</span> <span class="n">left</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">right</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">&amp;&amp;</span> <span class="n">tree</span><span class="o">[</span><span class="n">right</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">tree</span><span class="o">[</span><span class="n">max</span><span class="o">])</span> <span class="o">{</span>
+            <span class="n">max</span> <span class="o">=</span> <span class="n">right</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">max</span> <span class="o">!=</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// swap</span>
+            <span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">tree</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+            <span class="n">tree</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">tree</span><span class="o">[</span><span class="n">max</span><span class="o">];</span>
+            <span class="n">tree</span><span class="o">[</span><span class="n">max</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">;</span>
+
+            <span class="c1">// 递归</span>
+            <span class="n">heapify</span><span class="o">(</span><span class="n">tree</span><span class="o">,</span> <span class="n">n</span><span class="o">,</span> <span class="n">max</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>这个视频讲得很透彻 <a href="https://www.bilibili.com/video/BV1Eb41147dK">B站视频</a></p>
+    </div>
+    <div id="footer">
+      <span>
+        <p>Copyright © 2020 Miguel.
+        Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
+        <p>Site Generated 2020-08-01 17:51:56</p>
+      </span>
+    </div>
+
+    
+    
+  </body>
+</html>

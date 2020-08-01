@@ -57,12 +57,30 @@
     <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
+
+
+<div class="hlcode"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AspectUtils</span> <span class="o">{</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * 获取切点的方法</span>
+<span class="cm">     * @param joinPoint</span>
+<span class="cm">     * @return</span>
+<span class="cm">     * @throws NoSuchMethodException</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Method</span> <span class="nf">getAspectMethod</span><span class="o">(</span><span class="n">ProceedingJoinPoint</span> <span class="n">joinPoint</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">NoSuchMethodException</span> <span class="o">{</span>
+        <span class="c1">//方法签名</span>
+        <span class="n">Signature</span> <span class="n">signature</span> <span class="o">=</span>  <span class="n">joinPoint</span><span class="o">.</span><span class="na">getSignature</span><span class="o">();</span>
+        <span class="n">Method</span> <span class="n">method</span> <span class="o">=</span> <span class="o">(</span> <span class="o">(</span><span class="n">MethodSignature</span><span class="o">)</span><span class="n">signature</span> <span class="o">).</span><span class="na">getMethod</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">joinPoint</span><span class="o">.</span><span class="na">getTarget</span><span class="o">().</span><span class="na">getClass</span><span class="o">().</span><span class="na">getDeclaredMethod</span><span class="o">(</span><span class="n">signature</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">method</span><span class="o">.</span><span class="na">getParameterTypes</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
     </div>
     <div id="footer">
       <span>
         <p>Copyright © 2020 Miguel.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2020-07-19 21:48:17</p>
+        <p>Site Generated 2020-08-01 17:51:56</p>
       </span>
     </div>
 
