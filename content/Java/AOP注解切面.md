@@ -38,3 +38,23 @@ public class LogCollectAspectA {
     }
 }
 ```
+
+```java
+public class AspectUtils {
+
+    /**
+     * 获取切点的方法
+     * @param joinPoint
+     * @return
+     * @throws NoSuchMethodException
+     */
+    public static Method getAspectMethod(ProceedingJoinPoint joinPoint) throws NoSuchMethodException {
+        //方法签名
+        Signature signature =  joinPoint.getSignature();
+        Method method = ( (MethodSignature)signature ).getMethod();
+        return joinPoint.getTarget().getClass().getDeclaredMethod(signature.getName(), method.getParameterTypes());
+    }
+}
+```
+
+

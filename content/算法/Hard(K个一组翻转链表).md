@@ -72,7 +72,7 @@ class Solution {
 
             // 头结点连到尾结点
             pre.next = tail;
-            // 反转链表
+            // 
             reverse(slow, tail);
             // 反转的尾结点指向下一个结点
             slow.next = temp;
